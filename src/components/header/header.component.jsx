@@ -5,7 +5,6 @@ import { ReactComponent as Logo } from "../../assets/crown.svg"
 import { auth } from "../../firebase/firebase.util"
 import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
-import { selectCartHidden } from "../../redux/cart/cart.selectors"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
 import {
   HeaderContainer,
@@ -21,10 +20,10 @@ const Header = ({ currentUser, hidden }) => (
       <Logo className="logo" />
     </LogoContainer>
     <OptionsContainer>
-      <OptionLink as="div" onClick={() => null}>
+      <OptionLink as="div" onClick={() => alert()}>
         SETTINGS
       </OptionLink>
-      <OptionLink as="div" onClick={() => null}>
+      <OptionLink as="div" onClick={() => alert()}>
         PROFILE
       </OptionLink>
       {currentUser ? (
@@ -41,7 +40,6 @@ const Header = ({ currentUser, hidden }) => (
 // question: why does selector know state? oO
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
-  hidden: selectCartHidden,
 })
 
 export default connect(mapStateToProps)(Header)

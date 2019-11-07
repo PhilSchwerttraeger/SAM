@@ -1,6 +1,5 @@
 import { combineReducers } from "redux"
 import userReducer from "./user/user.reducer"
-import cartReducer from "./cart/cart.reducer"
 import { persistReducer } from "redux-persist"
 // tell redux to use localstorage
 import storage from "redux-persist/lib/storage"
@@ -17,7 +16,6 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user: userReducer,
-  cart: cartReducer,
   table: tableReducer,
   shop: shopReducer,
 })

@@ -1,40 +1,78 @@
 import firebase from "firebase/app"
 import "firebase/firestore"
 import "firebase/auth"
+import defaultColumns from "./defaultColumns"
+import defaultEntries from "./defaultEntries"
 
 const config = {
-  apiKey: "AIzaSyDxjBTFuIqOGUzSPqnbFjNOrbtBp-2IJDI",
-  authDomain: "generic-webshop.firebaseapp.com",
-  databaseURL: "https://generic-webshop.firebaseio.com",
-  projectId: "generic-webshop",
-  storageBucket: "generic-webshop.appspot.com",
-  messagingSenderId: "1067906298216",
-  appId: "1:1067906298216:web:554df97f518bea793ba6dd",
-  measurementId: "G-QQFR9SW5VZ",
+  apiKey: "AIzaSyAxXzuM3l6_AzNkGj5Zf4aEyEw0qqXf_Is",
+  authDomain: "sam2-1337.firebaseapp.com",
+  databaseURL: "https://sam2-1337.firebaseio.com",
+  projectId: "sam2-1337",
+  storageBucket: "sam2-1337.appspot.com",
+  messagingSenderId: "462200892207",
+  appId: "1:462200892207:web:4e2c7142a3cbd44896cfda",
+  measurementId: "G-BNG1817REQ",
 }
 
 firebase.initializeApp(config)
 
-export const createUserProfileDocument = async (userAuth, additionalData) => {
+export const createUserProfileDocument = async userAuth => {
   if (!userAuth) return
 
   const userRef = firestore.doc(`users/${userAuth.uid}`)
   const snapShot = await userRef.get()
 
-  // when user not in database: create it
+  // when user not in database yet: create it + default database values (default template)
   if (!snapShot.exists) {
     const { displayName, email } = userAuth
     const createdAt = new Date()
+    const accountType = "premium" // free
+    const language = "english" // german
+    const currency = "euro" // dollar
+    const analysisActiveSections = ["sum", "average", "minimum", "maximum"]
+    const analysisActiveColumn = "value"
 
+    // Create default user properties
     try {
       await userRef.set({
         displayName,
         email,
         createdAt,
-        ...additionalData,
+        accountType,
+        language,
+        currency,
+        analysisActiveSections,
+        analysisActiveColumn,
       })
     } catch (error) {
       console.log("error creating user", error.message)
+    }
+
+    // Collect all further op in this batch action
+    const batch = firestore.batch()
+
+    // Create default columns
+    const columnsRef = firestore.collection(`users/${userAuth.uid}/columns`)
+    defaultColumns.forEach(column => {
+      const newDocRef = columnsRef.doc()
+      batch.set(newDocRef, column)
+      //console.log(column)
+    })
+
+    // Create default entries
+    const entriesRef = firestore.collection(`users/${userAuth.uid}/entries`)
+    defaultEntries.forEach(entries => {
+      const newDocRef = entriesRef.doc()
+      batch.set(newDocRef, entries)
+      console.log(entries)
+    })
+
+    // Fire batch actions
+    try {
+      await batch.commit()
+    } catch (error) {
+      console.log("error creating default columns and entries", error.message)
     }
   }
 

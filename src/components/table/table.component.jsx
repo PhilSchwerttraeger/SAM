@@ -8,9 +8,9 @@ const Table = ({ sections }) => (
   <div className="table">
     {sections.map(({ id, url, title }) => (
       <div className="row" key={id}>
-        <div>{title} </div>
-        <div>{id} </div>
-        <div>{url} </div>
+        <div>{title}</div>
+        <div>{id}</div>
+        <div>{url}</div>
       </div>
     ))}
   </div>
