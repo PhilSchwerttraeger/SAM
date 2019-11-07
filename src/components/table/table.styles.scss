@@ -1,6 +1,8 @@
-.directory-menu {
+.table {
   width: 100%;
+}
+
+.row {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-between;
 }
