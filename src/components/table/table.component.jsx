@@ -1,23 +1,36 @@
 import React from "react"
 import "./table.styles.scss"
 import { connect } from "react-redux"
-import { selectTableSections } from "../../redux/table/table.selectors"
 import { createStructuredSelector } from "reselect"
 
-const Table = ({ sections }) => (
+const entries = [
+  {
+    id: 0,
+    title: "title0",
+    url: "url0",
+  },
+  {
+    id: 1,
+    title: "title1",
+    url: "url1",
+  },
+  {
+    id: 2,
+    title: "title2",
+    url: "url2",
+  },
+]
+
+const Table = () => (
   <div className="table">
-    {sections.map(({ id, url, title }) => (
+    {entries.map(({ id, url, title }) => (
       <div className="row" key={id}>
-        <div>{title}</div>
         <div>{id}</div>
+        <div>{title}</div>
         <div>{url}</div>
       </div>
     ))}
   </div>
 )
 
-const mapStateToProps = createStructuredSelector({
-  sections: selectTableSections,
-})
-
-export default connect(mapStateToProps)(Table)
+export default Table
