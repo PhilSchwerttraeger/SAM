@@ -1,8 +1,10 @@
+import { store } from "../store"
 import { EntriesActionTypes } from "./entries.types"
 import {
   firestore,
   convertEntriesSnapshotToMap,
 } from "../../firebase/firebase.util"
+import { selectCurrentUser } from "../user/user.selectors"
 
 // RETURNS OBJECT OF TYPE AND PAYLOAD
 export const fetchEntriesStart = () => ({
@@ -19,16 +21,13 @@ export const fetchEntriesFailure = errorMessage => ({
   payload: errorMessage,
 })
 
-export const fetchEntriesStartAsync = currentUser => {
-  console.log(currentUser)
+export const fetchEntriesStartAsync = () => {
   return dispatch => {
-    const collectionRef = firestore.collection(
-      `users/${currentUser.id}/entries`,
-    )
-    //const collectionRef = firestore.collection(`entries`)
+    const user = store.getState().user.currentUser
+    const entriesRef = firestore.collection(`users/${user.id}/entries`)
     dispatch(fetchEntriesStart())
 
-    collectionRef
+    entriesRef
       .get()
       .then(snapshot => {
         const entriesMap = convertEntriesSnapshotToMap(snapshot)
