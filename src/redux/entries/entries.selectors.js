@@ -7,7 +7,7 @@ const selectEntries = state => state.entries
 
 // CART ITEMS
 // output selector: input selector + createSelector
-export const selectEntries = createSelector(
+export const selectEntriesMap = createSelector(
   [selectEntries],
   entries => entries.entries,
 )
