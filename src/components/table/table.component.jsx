@@ -1,7 +1,9 @@
 import React from "react"
 import "./table.styles.scss"
 import { connect } from "react-redux"
+import { fetchEntriesStartAsync } from "../../redux/entries/entries.actions"
 import { createStructuredSelector } from "reselect"
+import { selectCurrentUser } from "../../redux/user/user.selectors"
 
 const entries = [
   {
@@ -21,16 +23,37 @@ const entries = [
   },
 ]
 
-const Table = () => (
-  <div className="table">
-    {entries.map(({ id, url, title }) => (
-      <div className="row" key={id}>
-        <div>{id}</div>
-        <div>{title}</div>
-        <div>{url}</div>
-      </div>
-    ))}
-  </div>
-)
+class Table extends React.Component {
+  componentDidMount() {
+    const { fetchEntriesStartAsync, currentUser } = this.props
+    fetchEntriesStartAsync(currentUser)
+  }
 
-export default Table
+  render() {
+    return (
+      <div className="table">
+        {entries.map(({ id, url, title }) => (
+          <div className="row" key={id}>
+            <div>{id}</div>
+            <div>{title}</div>
+            <div>{url}</div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+}
+
+const mapStateToProps = createStructuredSelector({
+  currentUser: selectCurrentUser,
+})
+
+const mapDispatchToProps = dispatch => ({
+  fetchEntriesStartAsync: currentUser =>
+    dispatch(fetchEntriesStartAsync(currentUser)),
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Table)

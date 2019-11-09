@@ -3,6 +3,7 @@ import { persistReducer } from "redux-persist"
 // tell redux to use localstorage
 import storage from "redux-persist/lib/storage"
 import userReducer from "./user/user.reducer"
+import entriesReducer from "./entries/entries.reducer"
 
 // json config for redux-persist to use
 const persistConfig = {
@@ -14,6 +15,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   user: userReducer,
+  entries: entriesReducer,
 })
 
 export default persistReducer(persistConfig, rootReducer)
