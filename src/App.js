@@ -12,6 +12,7 @@ import {
 import { connect } from "react-redux"
 import { setCurrentUser } from "./redux/user/user.actions"
 import { selectCurrentUser } from "./redux/user/user.selectors"
+import { clearEntries } from "./redux/entries/entries.actions"
 import { createStructuredSelector } from "reselect"
 
 class App extends React.Component {
@@ -36,12 +37,14 @@ class App extends React.Component {
           )
         })
       } else {
+        clearEntries()
         setCurrentUser(userAuth)
       }
     })
   }
 
   componentWillUnmount() {
+    clearEntries()
     this.unsubscribeFromAuth()
   }
 

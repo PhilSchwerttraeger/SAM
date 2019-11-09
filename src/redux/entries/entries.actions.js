@@ -37,3 +37,8 @@ export const fetchEntriesStartAsync = currentUser => {
       .catch(error => dispatch(fetchEntriesFailure(error.message)))
   }
 }
+
+export const clearEntries = () => ({
+  type: EntriesActionTypes.CLEAR_ENTRIES,
+})
+

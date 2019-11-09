@@ -25,6 +25,9 @@ const entriesReducer = (state = INITIAL_STATE, action) => {
         isFetching: false,
         errorMessage: action.payload,
       }
+    case EntriesActionTypes.CLEAR_ENTRIES:
+      return INITIAL_STATE
+
     default:
       return state
   }
