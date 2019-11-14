@@ -23,9 +23,13 @@ const HeaderLogo = (
 )
 
 const Header = ({ currentUser }) => {
-  const userName = currentUser.displayName
-    ? currentUser.displayName
-    : currentUser.email
+  let userName = ""
+  if (currentUser) {
+    userName =
+      currentUser && currentUser.displayName
+        ? currentUser.displayName
+        : currentUser.email
+  }
   return (
     <HeaderContainer>
       <h1>SIMPLE ACCOUNT MANAGER</h1>
