@@ -73,3 +73,37 @@ export const createEntryStartAsync = entry => {
       .catch(error => dispatch(createEntryFailure(error.message)))
   }
 }
+
+// Updating entry
+
+export const updateEntryStart = () => ({
+  type: EntriesActionTypes.UPDATE_ENTRY_START,
+})
+
+export const updateEntrySuccess = updatedEntry => ({
+  type: EntriesActionTypes.UPDATE_ENTRY_SUCCESS,
+  payload: updatedEntry,
+})
+
+export const updateEntryFailure = errorMessage => ({
+  type: EntriesActionTypes.UPDATE_ENTRY_FAILURE,
+  payload: errorMessage,
+})
+
+export const updateEntryStartAsync = updatedEntry => {
+  return dispatch => {
+    const user = store.getState().user.currentUser
+    const EntryDoc = firestore
+      .collection(`users/${user.id}/entries`)
+      .doc(updatedEntry.id)
+
+    dispatch(updateEntryStart())
+
+    // TODO
+    EntryDoc.set(updatedEntry)
+      .then(() => {
+        dispatch(updateEntrySuccess(updatedEntry))
+      })
+      .catch(error => dispatch(updateEntryFailure(error.message)))
+  }
+}

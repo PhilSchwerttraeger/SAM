@@ -8,13 +8,6 @@ import {
 import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
 import { selectEntriesMap } from "../../redux/entries/entries.selectors"
-import { firestore } from "../../firebase/firebase.util"
-
-function toDateTime(secs) {
-  var t = new Date(1970, 0, 1) // Epoch
-  t.setSeconds(secs)
-  return t
-}
 
 class Table extends React.Component {
   componentDidMount() {
@@ -73,8 +66,7 @@ class Table extends React.Component {
         <thead>
           <tr className="row">{headRow}</tr>
         </thead>
-        {tableData}
-        <tbody></tbody>
+        <tbody>{tableData}</tbody>
       </table>
     )
   }
