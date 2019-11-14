@@ -4,9 +4,9 @@ import {
   firestore,
   convertEntriesSnapshotToMap,
 } from "../../firebase/firebase.util"
-import { selectCurrentUser } from "../user/user.selectors"
 
-// RETURNS OBJECT OF TYPE AND PAYLOAD
+// Fetching entries
+
 export const fetchEntriesStart = () => ({
   type: EntriesActionTypes.FETCH_ENTRIES_START,
 })
@@ -41,3 +41,35 @@ export const clearEntries = () => ({
   type: EntriesActionTypes.CLEAR_ENTRIES,
 })
 
+// Creating entry
+
+export const createEntryStart = () => ({
+  type: EntriesActionTypes.CREATE_ENTRY_START,
+})
+
+export const createEntrySuccess = entry => ({
+  type: EntriesActionTypes.CREATE_ENTRY_SUCCESS,
+  payload: entry,
+})
+
+export const createEntryFailure = errorMessage => ({
+  type: EntriesActionTypes.CREATE_ENTRY_FAILURE,
+  payload: errorMessage,
+})
+
+export const createEntryStartAsync = entry => {
+  return dispatch => {
+    const user = store.getState().user.currentUser
+    const EntryDoc = firestore.collection(`users/${user.id}/entries`).doc()
+    dispatch(createEntryStart())
+
+    entry.id = EntryDoc.id
+
+    // TODO
+    EntryDoc.set(entry)
+      .then(() => {
+        dispatch(createEntrySuccess(entry))
+      })
+      .catch(error => dispatch(createEntryFailure(error.message)))
+  }
+}

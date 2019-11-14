@@ -1,14 +1,14 @@
 import React from "react"
 //import { Link } from "react-router-dom"
 import "./header.styles.scss"
-import { ReactComponent as Logo } from "../../assets/crown.svg"
+//import { ReactComponent as Logo } from "../../assets/crown.svg"
 import { auth } from "../../firebase/firebase.util"
 import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
 import {
   HeaderContainer,
-  LogoContainer,
+  //LogoContainer,
   OptionsContainer,
   //OptionDiv,
   OptionLink,
@@ -16,11 +16,13 @@ import {
 import { clearEntries } from "../../redux/entries/entries.actions"
 
 // To use, use { HeaderLogo } in HeaderContainer below
+/*
 const HeaderLogo = (
   <LogoContainer to="/">
     <Logo className="logo" />
   </LogoContainer>
 )
+*/
 
 const Header = ({ currentUser }) => {
   let userName = ""
