@@ -16,6 +16,7 @@ import {
   //deleteColumnStartAsync,
   fetchColumnsStartAsync,
 } from "../../redux/columns/columns.actions"
+import Settings from "../../components/settings/settings.component"
 
 const hardcodedCreateEntry = {
   createdAt: new Date(),
@@ -89,6 +90,8 @@ class Dashboard extends React.Component {
             create column
           </button>
         </div>
+
+        <Settings />
       </DashboardPageContainer>
     )
   }
