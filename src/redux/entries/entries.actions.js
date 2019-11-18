@@ -69,6 +69,7 @@ export const createEntryStartAsync = entry => {
     EntryDoc.set(entry)
       .then(() => {
         dispatch(createEntrySuccess(entry))
+        dispatch(fetchEntriesStartAsync())
       })
       .catch(error => dispatch(createEntryFailure(error.message)))
   }

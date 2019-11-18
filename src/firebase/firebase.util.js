@@ -114,6 +114,24 @@ export const convertEntriesSnapshotToMap = entries => {
   }, {})
 }
 
+// Array to object
+export const convertColumnsSnapshotToMap = columns => {
+  const transformedColumns = columns.docs.map(doc => {
+    const { ...rest } = doc.data()
+    return {
+      id: doc.id,
+      ...rest,
+    }
+  })
+
+  //console.log(transformedCollection)
+
+  return transformedColumns.reduce((accumulator, column) => {
+    accumulator[column.id] = column
+    return accumulator
+  }, {})
+}
+
 export const auth = firebase.auth()
 export const firestore = firebase.firestore()
 

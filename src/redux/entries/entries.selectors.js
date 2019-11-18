@@ -5,7 +5,6 @@ import { createSelector } from "reselect"
 // input selector (nested property of state)
 const selectEntries = state => state.entries
 
-// CART ITEMS
 // output selector: input selector + createSelector
 export const selectEntriesMap = createSelector(
   [selectEntries],

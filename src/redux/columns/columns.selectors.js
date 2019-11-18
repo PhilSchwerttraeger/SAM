@@ -3,10 +3,10 @@ import { createSelector } from "reselect"
 // BUILDS MEMOIZED SELECTORS
 
 // input selector (nested property of state)
-const selectUser = state => state.user
+const selectColumns = state => state.columns
 
 // output selector: input selector + createSelector
-export const selectCurrentUser = createSelector(
-  [selectUser],
-  user => user.currentUser,
+export const selectColumnsMap = createSelector(
+  [selectColumns],
+  columns => columns.columns,
 )

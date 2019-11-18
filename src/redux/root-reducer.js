@@ -4,6 +4,7 @@ import { persistReducer } from "redux-persist"
 import storage from "redux-persist/lib/storage"
 import userReducer from "./user/user.reducer"
 import entriesReducer from "./entries/entries.reducer"
+import columnsReducer from "./columns/columns.reducer"
 
 // json config for redux-persist to use
 const persistConfig = {
@@ -16,6 +17,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   user: userReducer,
   entries: entriesReducer,
+  columns: columnsReducer,
 })
 
 export default persistReducer(persistConfig, rootReducer)
