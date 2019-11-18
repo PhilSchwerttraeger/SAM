@@ -65,7 +65,7 @@ export const createColumnStartAsync = column => {
     ColumnDoc.set(column)
       .then(() => {
         dispatch(createColumnSuccess(column))
-        dispatch(fetchColumnsStartAsync())
+        //dispatch(fetchColumnsStartAsync())
       })
       .catch(error => dispatch(createColumnFailure(error.message)))
   }

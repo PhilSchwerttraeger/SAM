@@ -1,7 +1,8 @@
 import React from "react"
 import { connect } from "react-redux"
 import "./dashboard.styles.scss"
-import Table from "../../components/table/table.component"
+import TableEntries from "../../components/tableEntries/tableEntries.component"
+import TableColumns from "../../components/tableColumns/tableColumns.component"
 import { DashboardPageContainer } from "./dashboard.styles"
 import {
   createEntryStartAsync,
@@ -61,7 +62,8 @@ class Dashboard extends React.Component {
 
     return (
       <DashboardPageContainer>
-        <Table />
+        <TableEntries />
+        <TableColumns />
         <h1>Entries</h1>
         <div>
           <button onClick={() => fetchEntriesStartAsync()}>

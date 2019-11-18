@@ -1,5 +1,5 @@
 import React from "react"
-import "./table.styles.scss"
+import "./tableEntries.styles.scss"
 import { connect } from "react-redux"
 import {
   fetchEntriesStartAsync,
@@ -70,10 +70,8 @@ class Table extends React.Component {
     const columnsIds = columns ? Object.keys(columns).map(e => e) : null
     const columnsArray = columnsIds ? columnsIds.map(id => columns[id]) : null
 
-    let columnsPropertiesArray = null
     if (columnsArray) {
       columnsArray.sort(compareColumns)
-      columnsPropertiesArray = Object.keys(columnsArray[0]).map(e => e)
     }
 
     const headRow = columnsArray
@@ -82,75 +80,53 @@ class Table extends React.Component {
         ))
       : null
 
-    const tableDataEntries = entriesArray
-      ? // Row
-        entriesArray.map(entry => (
-          <tr key={entry.id} className="row">
-            {// Cell
-            columnsArray.map(property => {
-              // Skip entry's empty propertys (property that are defined in columns, but are actually not present in entry document)
-              if (entry[property.name] === undefined) return null
+    const tableDataEntries =
+      entriesArray && columnsArray
+        ? // Row
+          entriesArray.map(entry => (
+            <tr key={entry.id} className="row">
+              <td key="id">{entry.id}</td>
 
-              // Custom formatting depending on property type
-              switch (property.type) {
-                case "date":
-                  const dateFormatted = formatDateToString(entry, property.name)
-                  return <td key={property.name}>{dateFormatted}</td>
+              {// Cell
+              columnsArray.map(property => {
+                // Skip entry's empty propertys (property that are defined in columns, but are actually not present in entry document)
+                if (entry[property.name] === undefined) return null
 
-                case "currency":
-                  const currencyFormatted = formatCurrencyToString(
-                    entry[property.name],
-                    currentUser.currency,
-                  )
-                  return <td key={property.name}>{currencyFormatted}</td>
+                // Custom formatting depending on property type
+                switch (property.type) {
+                  case "date":
+                    const dateFormatted = formatDateToString(
+                      entry,
+                      property.name,
+                    )
+                    return <td key={property.name}>{dateFormatted}</td>
 
-                default:
-                  return <td key={property.name}>{entry[property.name]}</td>
-              }
-            })}
-          </tr>
-        ))
-      : null
+                  case "currency":
+                    const currencyFormatted = formatCurrencyToString(
+                      entry[property.name],
+                      currentUser.currency,
+                    )
+                    return <td key={property.name}>{currencyFormatted}</td>
 
-    const headRowFromColumns = columnsPropertiesArray
-      ? columnsPropertiesArray.map(property => (
-          <th key={property}>{property}</th>
-        ))
-      : null
-
-    const tableDataColumns = columnsArray
-      ? // Row
-        columnsArray.map(column => (
-          <tr key={column.id} className="row">
-            {// Cell
-            columnsPropertiesArray.map(property => {
-              let columnValue = column[property]
-
-              if (typeof column[property] === "boolean") {
-                columnValue = column[property] ? "true" : "false"
-              }
-
-              return <td key={property}>{columnValue}</td>
-            })}
-          </tr>
-        ))
-      : null
+                  default:
+                    return <td key={property.name}>{entry[property.name]}</td>
+                }
+              })}
+            </tr>
+          ))
+        : null
 
     //console.log(entries)
     return (
       <>
         <table className="table">
           <thead>
-            <tr className="row">{headRow}</tr>
+            <tr className="row">
+              <th key="id">Id</th>
+              {headRow}
+            </tr>
           </thead>
           <tbody>{tableDataEntries}</tbody>
-        </table>
-
-        <table className="table">
-          <thead>
-            <tr className="row">{headRowFromColumns}</tr>
-          </thead>
-          <tbody>{tableDataColumns}</tbody>
         </table>
       </>
     )
