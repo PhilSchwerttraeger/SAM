@@ -6,6 +6,7 @@ import { DashboardPageContainer } from "./dashboard.styles"
 import {
   createEntryStartAsync,
   updateEntryStartAsync,
+  deleteEntryStartAsync,
 } from "../../redux/entries/entries.actions"
 
 const hardcodedCreateEntry = {
@@ -29,9 +30,15 @@ const hardcodedUpdateEntry = {
   id: "ttlqHI6qwbZqZldEp1cv",
 }
 
+const hardcodedEntryID = "hwfcgUhWAELUUhfXF5Yr"
+
 class Dashboard extends React.Component {
   render() {
-    const { createEntryStartAsync, updateEntryStartAsync } = this.props
+    const {
+      createEntryStartAsync,
+      updateEntryStartAsync,
+      deleteEntryStartAsync,
+    } = this.props
 
     return (
       <DashboardPageContainer>
@@ -42,6 +49,9 @@ class Dashboard extends React.Component {
           </button>
           <button onClick={() => updateEntryStartAsync(hardcodedUpdateEntry)}>
             Update entry
+          </button>
+          <button onClick={() => deleteEntryStartAsync(hardcodedEntryID)}>
+            Delete entry with id {hardcodedEntryID}
           </button>
         </div>
       </DashboardPageContainer>
@@ -54,6 +64,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(createEntryStartAsync(entryToCreate)),
   updateEntryStartAsync: entryToUpdate =>
     dispatch(updateEntryStartAsync(entryToUpdate)),
+  deleteEntryStartAsync: entryToDelete =>
+    dispatch(deleteEntryStartAsync(entryToDelete)),
 })
 
 export default connect(null, mapDispatchToProps)(Dashboard)

@@ -28,6 +28,9 @@ const entriesReducer = (state = INITIAL_STATE, action) => {
         isFetching: false,
         errorMessage: action.payload,
       }
+
+    // Clearing entries (restore default state)
+
     case EntriesActionTypes.CLEAR_ENTRIES:
       return INITIAL_STATE
 
@@ -62,15 +65,41 @@ const entriesReducer = (state = INITIAL_STATE, action) => {
       }
     case EntriesActionTypes.UPDATE_ENTRY_SUCCESS:
       const updatedEntry = action.payload
-      const filteredState = state.entries
-      filteredState[updatedEntry.id] = action.payload
+      const updatedState = state.entries
+      updatedState[updatedEntry.id] = action.payload
 
       return {
         ...state,
         isStoring: false,
-        entries: { ...filteredState },
+        entries: { ...updatedState },
       }
     case EntriesActionTypes.UPDATE_ENTRY_FAILURE:
+      return {
+        ...state,
+        isStoring: false,
+        errorMessage: action.payload,
+      }
+
+    // Deleting Entry
+
+    case EntriesActionTypes.DELETE_ENTRY_START:
+      return {
+        ...state,
+        isStoring: true,
+      }
+    case EntriesActionTypes.DELETE_ENTRY_SUCCESS:
+      const deletedEntry = action.payload
+      const reducedState = state.entries
+      console.log(reducedState[deletedEntry])
+      delete reducedState[deletedEntry]
+      console.log(state)
+
+      return {
+        ...state,
+        isStoring: false,
+        entries: { ...reducedState },
+      }
+    case EntriesActionTypes.DELETE_ENTRY_FAILURE:
       return {
         ...state,
         isStoring: false,

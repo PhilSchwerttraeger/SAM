@@ -107,3 +107,37 @@ export const updateEntryStartAsync = updatedEntry => {
       .catch(error => dispatch(updateEntryFailure(error.message)))
   }
 }
+
+// Deleting entry
+
+export const deleteEntryStart = () => ({
+  type: EntriesActionTypes.DELETE_ENTRY_START,
+})
+
+export const deleteEntrySuccess = deleteEntryId => ({
+  type: EntriesActionTypes.DELETE_ENTRY_SUCCESS,
+  payload: deleteEntryId,
+})
+
+export const deleteEntryFailure = errorMessage => ({
+  type: EntriesActionTypes.DELETE_ENTRY_FAILURE,
+  payload: errorMessage,
+})
+
+export const deleteEntryStartAsync = deleteEntryId => {
+  return dispatch => {
+    const user = store.getState().user.currentUser
+    const EntryDoc = firestore
+      .collection(`users/${user.id}/entries`)
+      .doc(deleteEntryId)
+
+    dispatch(deleteEntryStart())
+
+    // TODO
+    EntryDoc.delete()
+      .then(() => {
+        dispatch(deleteEntrySuccess(deleteEntryId))
+      })
+      .catch(error => dispatch(deleteEntryFailure(error.message)))
+  }
+}
