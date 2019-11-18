@@ -12,6 +12,36 @@ import { selectEntriesMap } from "../../redux/entries/entries.selectors"
 import { selectColumnsMap } from "../../redux/columns/columns.selectors"
 import { compareColumns } from "../../redux/columns/columns.util"
 
+const formatDateToString = (entry, propertyName) => {
+  const options = {
+    //weekday: "short",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }
+  const seconds = entry[propertyName].seconds
+  const date = new Date(seconds * 1000)
+  return date.toLocaleDateString("de-DE", options)
+}
+
+const formatCurrencyToString = (value, currency) => {
+  switch (currency) {
+    case "euro":
+      return new Intl.NumberFormat("de-DE", {
+        style: "currency",
+        currency: "EUR",
+      }).format(value)
+
+    case "dollar":
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(value)
+
+    default:
+      break
+  }
+}
 
 class Table extends React.Component {
   componentDidMount() {
@@ -55,21 +85,25 @@ class Table extends React.Component {
         entriesArray.map(entry => (
           <tr key={entry.id} className="row">
             {// Cell
-            entriesPropertiesArray.map(property => {
-              if (property === "createdAt") {
-                const options = {
-                  weekday: "short",
-                  year: "numeric",
-                  month: "short",
-                  day: "2-digit",
-                }
-                const seconds = entry[property].seconds
-                const date = new Date(seconds * 1000)
-                const localString = date.toLocaleDateString("de-DE", options)
+            columnsArray.map(property => {
+              // Skip entry's empty propertys (property that are defined in columns, but are actually not present in entry document)
+              if (entry[property.name] === undefined) return null
 
-                return <td key={property}>{localString}</td>
-              } else {
-                return <td key={property}>{entry[property]}</td>
+              // Custom formatting depending on property type
+              switch (property.type) {
+                case "date":
+                  const dateFormatted = formatDateToString(entry, property.name)
+                  return <td key={property.name}>{dateFormatted}</td>
+
+                case "currency":
+                  const currencyFormatted = formatCurrencyToString(
+                    entry[property.name],
+                    currentUser.currency,
+                  )
+                  return <td key={property.name}>{currencyFormatted}</td>
+
+                default:
+                  return <td key={property.name}>{entry[property.name]}</td>
               }
             })}
           </tr>
