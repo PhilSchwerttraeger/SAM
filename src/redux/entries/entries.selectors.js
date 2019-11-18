@@ -10,3 +10,10 @@ export const selectEntriesMap = createSelector(
   [selectEntries],
   entries => entries.entries,
 )
+
+// output selector: input selector + createSelector
+export const selectEntriesArray = createSelector([selectEntries], entries => {
+  const entr = entries.entries
+  const entriesIds = entr ? Object.keys(entr).map(e => e) : null
+  return entriesIds ? entriesIds.map(id => entr[id]) : null
+})

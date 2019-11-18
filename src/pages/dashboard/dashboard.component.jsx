@@ -39,10 +39,10 @@ const hardcodedUpdateEntry = {
 const hardcodedEntryID = "hwfcgUhWAELUUhfXF5Yr"
 
 const hardcodedCreateColumn = {
-  order: 5,
-  name: "specialdate",
-  displayName: "Special Date",
-  type: "date",
+  order: 6,
+  name: "sometext",
+  displayName: "Some Text",
+  type: "text",
   isEditable: true,
   isVisible: true,
   isBaseForAnalysis: false,
@@ -62,9 +62,8 @@ class Dashboard extends React.Component {
 
     return (
       <DashboardPageContainer>
-        <TableEntries />
-        <TableColumns />
         <h1>Entries</h1>
+        <TableEntries />
         <div>
           <button onClick={() => fetchEntriesStartAsync()}>
             fetch entries
@@ -79,7 +78,9 @@ class Dashboard extends React.Component {
             Delete entry with id {hardcodedEntryID}
           </button>
         </div>
+
         <h1>Columns</h1>
+        <TableColumns />
         <div>
           <button onClick={() => fetchColumnsStartAsync()}>
             fetch columns
