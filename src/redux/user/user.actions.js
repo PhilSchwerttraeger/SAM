@@ -8,7 +8,7 @@ export const setCurrentUser = user => ({
 })
 
 export const updateCurrentUserStart = () => ({
-  type: UserActionTypes.UPDATE_CURRENT_USER_SUCCESS,
+  type: UserActionTypes.UPDATE_CURRENT_USER_START,
 })
 
 export const updateCurrentUserSuccess = user => ({
