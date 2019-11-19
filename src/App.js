@@ -13,13 +13,14 @@ import { connect } from "react-redux"
 import { setCurrentUser } from "./redux/user/user.actions"
 import { selectCurrentUser } from "./redux/user/user.selectors"
 import { clearEntries } from "./redux/entries/entries.actions"
+import { clearColumns } from "./redux/columns/columns.actions"
 import { createStructuredSelector } from "reselect"
 
 class App extends React.Component {
   unsubscribeFromAuth = null
 
   componentDidMount() {
-    const { setCurrentUser } = this.props
+    const { setCurrentUser, clearEntries, clearColumns } = this.props
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       // userAuth can be null when signed out
       if (userAuth) {
@@ -38,6 +39,7 @@ class App extends React.Component {
         })
       } else {
         clearEntries()
+        clearColumns()
         setCurrentUser(userAuth)
       }
     })
@@ -79,9 +81,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
+  clearColumns: () => dispatch(clearColumns()),
 })
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

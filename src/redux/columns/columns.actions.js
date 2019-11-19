@@ -37,6 +37,12 @@ export const fetchColumnsStartAsync = () => {
   }
 }
 
+// Clearing columns
+
+export const clearColumns = () => ({
+  type: ColumnsActionTypes.CLEAR_COLUMNS,
+})
+
 // Creating columns
 
 export const createColumnStart = () => ({

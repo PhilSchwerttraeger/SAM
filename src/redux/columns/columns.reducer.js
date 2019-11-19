@@ -29,6 +29,11 @@ const columnsReducer = (state = INITIAL_STATE, action) => {
         errorMessage: action.payload,
       }
 
+    // Clearing columns
+
+    case ColumnsActionTypes.CLEAR_COLUMNS:
+      return INITIAL_STATE
+
     default:
       return state
   }
