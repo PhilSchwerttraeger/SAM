@@ -37,6 +37,8 @@ export const fetchEntriesStartAsync = () => {
   }
 }
 
+// Clearing all entries (from state), set to default initial state
+
 export const clearEntries = () => ({
   type: EntriesActionTypes.CLEAR_ENTRIES,
 })

@@ -46,7 +46,6 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
-    clearEntries()
     this.unsubscribeFromAuth()
   }
 
@@ -81,6 +80,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)),
+  clearEntries: () => dispatch(clearEntries()),
   clearColumns: () => dispatch(clearColumns()),
 })
 
