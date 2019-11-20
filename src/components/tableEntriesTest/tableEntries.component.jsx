@@ -1,4 +1,5 @@
 import React from "react"
+import "./tableEntries.styles.scss"
 import { connect } from "react-redux"
 import {
   fetchEntriesStartAsync,
@@ -10,17 +11,16 @@ import { selectEntriesMap } from "../../redux/entries/entries.selectors"
 import { selectColumnsArray } from "../../redux/columns/columns.selectors"
 import { compareColumns } from "../../redux/columns/columns.util"
 
-import MUIDataTable from "mui-datatables"
-
-const formatDateToString = date => {
+const formatDateToString = (entry, propertyName) => {
   const options = {
     //weekday: "short",
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
   }
-  const formattedDate = new Date(date.seconds * 1000)
-  return formattedDate.toLocaleDateString("de-DE", options)
+  const seconds = entry[propertyName].seconds
+  const date = new Date(seconds * 1000)
+  return date.toLocaleDateString("de-DE", options)
 }
 
 const formatCurrencyToString = (value, currency) => {
@@ -61,84 +61,58 @@ class Table extends React.Component {
 
     if (columns) columns.sort(compareColumns)
 
-    // Build MUIDataTable's Columns
-    const MUIcolumns = []
-    if (columns) {
-      columns.forEach(column => {
-        if (column.isVisible) {
-          MUIcolumns.push({
-            name: column.name,
-            label: column.displayName,
-            options: {
-              filter: true,
-              sort: true,
-            },
-          })
-        }
-      })
-    }
-    //console.log(MUIcolumns)
+    const headerRow = columns
+      ? columns.map(column => <th key={column.name}>{column.displayName}</th>)
+      : null
 
-    // Build MUIDataTable's Columns
-    const MUIdata =
+    const tableDataEntries =
       entriesArray && columns
         ? // Row
-          entriesArray.map(entry => {
-            // For every entry create a new object and fill with properties
-            let entryObject = {}
+          entriesArray.map(entry => (
+            <tr key={entry.id} className="row">
+              <td key="id">{entry.id}</td>
 
-            // Enable Id displaying (debugging purpose)
-            //entryObject[id] = entry.id,
+              {// Cell
+              columns.map(property => {
+                // Skip entry's empty propertys (property that are defined in columns, but are actually not present in entry document)
+                if (entry[property.name] === undefined) return null
 
-            columns.forEach(property => {
-              // Skip entry's empty propertys (property that are defined in columns, but are actually not present in entry document)
-              if (entry[property.name] === undefined) {
-                entryObject[property.name] = null
-              } else {
                 // Custom formatting depending on property type
                 switch (property.type) {
                   case "date":
                     const dateFormatted = formatDateToString(
-                      entry[property.name],
+                      entry,
+                      property.name,
                     )
-                    entryObject[property.name] = dateFormatted
-                    break
+                    return <td key={property.name}>{dateFormatted}</td>
 
                   case "currency":
                     const currencyFormatted = formatCurrencyToString(
                       entry[property.name],
                       currentUser.currency,
                     )
-                    entryObject[property.name] = currencyFormatted
-                    break
+                    return <td key={property.name}>{currencyFormatted}</td>
 
                   default:
-                    entryObject[property.name] = entry[property.name]
+                    return <td key={property.name}>{entry[property.name]}</td>
                 }
-              }
-            })
-
-            return entryObject
-          })
+              })}
+            </tr>
+          ))
         : null
-    //console.log(MUIdata)
 
-    const MUIoptions = {
-      filterType: "multiselect",
-      responsive: "scroll",
-      selectableRows: "multiple",
-      selectableRowsOnClick: true,
-      pagination: false,
-    }
-
+    //console.log(entries)
     return (
       <>
-        <MUIDataTable
-          title={"Entries"}
-          data={MUIdata}
-          columns={MUIcolumns}
-          options={MUIoptions}
-        />
+        <table className="table">
+          <thead>
+            <tr className="row">
+              <th key="id">Id</th>
+              {headerRow}
+            </tr>
+          </thead>
+          <tbody>{tableDataEntries}</tbody>
+        </table>
       </>
     )
   }
