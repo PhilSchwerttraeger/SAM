@@ -6,9 +6,8 @@ import {
 } from "../../redux/entries/entries.actions"
 import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
-import { selectEntriesMap } from "../../redux/entries/entries.selectors"
+import { selectEntriesArray } from "../../redux/entries/entries.selectors"
 import { selectColumnsArray } from "../../redux/columns/columns.selectors"
-import { compareColumns } from "../../redux/columns/columns.util"
 
 import MUIDataTable from "mui-datatables"
 
@@ -54,12 +53,6 @@ class Table extends React.Component {
 
   render() {
     const { entries, columns, currentUser } = this.props
-
-    // Convert entry object to properties array
-    const entryIds = entries ? Object.keys(entries).map(e => e) : null
-    const entriesArray = entryIds ? entryIds.map(id => entries[id]) : null
-
-    if (columns) columns.sort(compareColumns)
 
     // Build MUIDataTable's Columns
     const MUIcolumns = []
@@ -146,7 +139,7 @@ class Table extends React.Component {
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
-  entries: selectEntriesMap,
+  entries: selectEntriesArray,
   columns: selectColumnsArray,
 })
 

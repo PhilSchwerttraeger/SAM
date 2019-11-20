@@ -1,4 +1,5 @@
 import { createSelector } from "reselect"
+import { compareColumns } from "../../redux/columns/columns.util"
 
 // BUILDS MEMOIZED SELECTORS
 
@@ -14,5 +15,6 @@ export const selectColumnsMap = createSelector(
 export const selectColumnsArray = createSelector([selectColumns], columns => {
   const col = columns.columns
   const columnsIds = col ? Object.keys(col).map(e => e) : null
-  return columnsIds ? columnsIds.map(id => col[id]) : null
+  const columnsArray = columnsIds ? columnsIds.map(id => col[id]) : null
+  return columnsArray ? columnsArray.sort(compareColumns) : null
 })
