@@ -75,13 +75,19 @@ const users = {
     },
     entries: {
       randomEntryID: {
-        createdAt: "15. August 2019 um 17:18:42 UTC+2",
+        createdAt: {
+          seconds: 123456789,
+          nanoseconds: 123456789,
+        },
         direction: "in",
-        interval: "weekly",
+        interval: 7,
         value: 9514.54,
 
-        start: "19.12.2017",
-        description: "A super cool description",
+        start: {
+          seconds: 123456789,
+          nanoseconds: 123456789,
+        },
+        description: "Description text",
       },
     },
   },

@@ -1,27 +1,24 @@
 const defaultEntries = [
   {
     direction: "in",
-    interval: "weekly",
+    interval: 7,
     value: 9514.54,
-
     start: new Date(),
-    description: "If this'd be real, I'll be broke af.",
+    description: "Description text",
   },
   {
     direction: "in",
-    interval: "weekly",
-    value: 120.0,
-
+    interval: 360,
+    value: 120,
     start: new Date(),
-    description: "Whoa, that's expensive; what's that?",
+    description: "Description text",
   },
   {
     direction: "out",
-    interval: "monthly",
+    interval: 30,
     value: 199.99,
-
     start: new Date(),
-    description: "Some insurance I guess",
+    description: "Description text",
   },
 ]
 
