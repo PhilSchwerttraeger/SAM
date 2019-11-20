@@ -208,7 +208,7 @@ export const buildMUIdata = (entriesArray, columns) => {
   } else return null
 }
 
-export const buildMUIoptions = () => {
+export const buildMUIoptions = (MUIdata, deleteEntryStartAsync) => {
   return {
     filterType: "multiselect",
     responsive: "scrollFullHeight",
@@ -252,12 +252,19 @@ export const buildMUIoptions = () => {
         deleteAria: "Delete selected entry",
       },
     },
-    customToolbarSelect: (selectedRows, displayData) => {
-      console.log("selectedRows", selectedRows[0].dataIndex)
+    customToolbarSelect: selectedRows => {
+      const selectedId = MUIdata[selectedRows.data[0].dataIndex].id
+      console.log("Selected ID", selectedId)
       return (
         <div style={{ paddingRight: "24px" }}>
           <Tooltip title={"Delete selected entry"}>
-            <IconButton onClick={() => alert("Delete")}>
+            <IconButton
+              onClick={() =>
+                window.confirm("Delete entry " + selectedId + "?")
+                  ? deleteEntryStartAsync(selectedId)
+                  : null
+              }
+            >
               <DeleteIcon />
             </IconButton>
           </Tooltip>

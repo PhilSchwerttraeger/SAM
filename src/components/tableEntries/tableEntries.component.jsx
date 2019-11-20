@@ -2,6 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import {
   fetchEntriesStartAsync,
+  deleteEntryStartAsync,
   clearEntries,
 } from "../../redux/entries/entries.actions"
 import { createStructuredSelector } from "reselect"
@@ -28,11 +29,11 @@ class Table extends React.Component {
   }
 
   render() {
-    const { entries, columns, currentUser } = this.props
+    const { entries, columns, currentUser, deleteEntryStartAsync } = this.props
 
     const MUIcolumns = buildMUIcolumns(columns, currentUser.currency)
     const MUIdata = buildMUIdata(entries, columns)
-    const MUIoptions = buildMUIoptions()
+    const MUIoptions = buildMUIoptions(MUIdata, deleteEntryStartAsync)
 
     // Customize MUI Theme to rearrange action buttons (integrate "add"-button)
     const getMuiTheme = () =>
@@ -83,6 +84,8 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   fetchEntriesStartAsync: currentUser =>
     dispatch(fetchEntriesStartAsync(currentUser)),
+  deleteEntryStartAsync: entryToDelete =>
+    dispatch(deleteEntryStartAsync(entryToDelete)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table)
