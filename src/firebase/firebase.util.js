@@ -139,4 +139,10 @@ const provider = new firebase.auth.GoogleAuthProvider()
 provider.setCustomParameters({ prompt: "select_account" })
 export const signInWithGoogle = () => auth.signInWithPopup(provider)
 
+export const createFirestoreDate = jsDate => {
+  const newDate = new firebase.firestore.Timestamp.fromDate(jsDate)
+  console.log("newDate", newDate)
+  return newDate
+}
+
 export default firebase

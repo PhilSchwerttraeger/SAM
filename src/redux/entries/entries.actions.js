@@ -49,9 +49,9 @@ export const createEntryStart = () => ({
   type: EntriesActionTypes.CREATE_ENTRY_START,
 })
 
-export const createEntrySuccess = entry => ({
+export const createEntrySuccess = entryWithId => ({
   type: EntriesActionTypes.CREATE_ENTRY_SUCCESS,
-  payload: entry,
+  payload: entryWithId,
 })
 
 export const createEntryFailure = errorMessage => ({
@@ -71,7 +71,6 @@ export const createEntryStartAsync = entry => {
     EntryDoc.set(entry)
       .then(() => {
         dispatch(createEntrySuccess(entry))
-        dispatch(fetchEntriesStartAsync())
       })
       .catch(error => dispatch(createEntryFailure(error.message)))
   }

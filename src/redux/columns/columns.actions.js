@@ -76,3 +76,6 @@ export const createColumnStartAsync = column => {
       .catch(error => dispatch(createColumnFailure(error.message)))
   }
 }
+
+// REMEMBER:
+// DELETE REMAINING PROPERTIES INSIDE ENTRIES WHEN DELETING WHOLE COLUMNS

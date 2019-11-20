@@ -17,23 +17,24 @@ import {
   fetchColumnsStartAsync,
 } from "../../redux/columns/columns.actions"
 import Settings from "../../components/settings/settings.component"
+import { createFirestoreDate } from "../../firebase/firebase.util"
 
 const hardcodedCreateEntry = {
-  createdAt: new Date(),
+  createdAt: createFirestoreDate(new Date()),
   direction: "in",
-  interval: "weekly",
+  interval: 7,
   value: 13.37,
-  start: new Date(),
-  description: "Normal description",
+  start: createFirestoreDate(new Date()),
+  description: "fresh text",
 }
 
 const hardcodedUpdateEntry = {
-  createdAt: new Date(),
-  direction: "in",
-  interval: "weekly",
-  value: 13.37,
-  start: new Date(),
-  description: "normal UPDATE, bitch!",
+  createdAt: createFirestoreDate(new Date()),
+  direction: "out",
+  interval: 7,
+  value: 1337,
+  start: createFirestoreDate(new Date()),
+  description: "updated text",
   id: "ttlqHI6qwbZqZldEp1cv",
 }
 
@@ -63,7 +64,6 @@ class Dashboard extends React.Component {
 
     return (
       <DashboardPageContainer>
-        <h1>Entries</h1>
         <TableEntries />
         <div>
           <button onClick={() => fetchEntriesStartAsync()}>
