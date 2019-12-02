@@ -3,6 +3,7 @@ import "firebase/firestore"
 import "firebase/auth"
 import defaultColumns from "./defaultColumns"
 import defaultEntries from "./defaultEntries"
+import defaultUserData from "./defaultUserData"
 
 const config = {
   apiKey: "AIzaSyAxXzuM3l6_AzNkGj5Zf4aEyEw0qqXf_Is",
@@ -27,11 +28,6 @@ export const createUserProfileDocument = async userAuth => {
   if (!snapShot.exists) {
     const { displayName, email } = userAuth
     const createdAt = new Date()
-    const accountType = "premium" // free
-    const language = "english" // german
-    const currency = "euro" // dollar
-    const analysisActiveSections = ["sum", "average", "minimum", "maximum"]
-    const analysisActiveColumn = "value"
 
     // Create default user properties
     try {
@@ -39,11 +35,7 @@ export const createUserProfileDocument = async userAuth => {
         displayName,
         email,
         createdAt,
-        accountType,
-        language,
-        currency,
-        analysisActiveSections,
-        analysisActiveColumn,
+        ...defaultUserData,
       })
     } catch (error) {
       console.log("error creating user", error.message)
@@ -57,7 +49,7 @@ export const createUserProfileDocument = async userAuth => {
     defaultColumns.forEach(column => {
       const newDocRef = columnsRef.doc()
       batch.set(newDocRef, column)
-      //console.log(column)
+      console.log(column)
     })
 
     // Create default entries
@@ -141,7 +133,6 @@ export const signInWithGoogle = () => auth.signInWithPopup(provider)
 
 export const createFirestoreDate = jsDate => {
   const newDate = new firebase.firestore.Timestamp.fromDate(jsDate)
-  console.log("newDate", newDate)
   return newDate
 }
 

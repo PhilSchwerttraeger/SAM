@@ -208,78 +208,86 @@ export const buildMUIdata = (entriesArray, columns) => {
   } else return null
 }
 
-export const buildMUIoptions = (MUIdata, deleteEntryStartAsync) => {
-  return {
-    filterType: "multiselect",
-    responsive: "scrollFullHeight",
-    selectableRows: "single",
-    selectableRowsOnClick: true,
-    pagination: false,
-    downloadOptions: { filename: "SAM-Download.csv", separator: "," },
-    onRowsDelete: () => alert("DELETED!"),
-    customToolbar: () => (
-      <Tooltip title={"Add new entry"}>
-        <IconButton onClick={() => alert("Add new entry")}>
-          <Add />
-        </IconButton>
-      </Tooltip>
-    ),
-    textLabels: {
-      body: {
-        noMatch: "No matching entries",
-        toolTip: "Sort",
-        columnHeaderTooltip: column => `Sort for ${column.label}`,
-      },
-      toolbar: {
-        search: "Search",
-        downloadCsv: "Download CSV",
-        print: "Print",
-        viewColumns: "Columns",
-        filterTable: "Filter",
-      },
-      filter: {
-        all: "All",
-        title: "FILTERS",
-        reset: "RESET",
-      },
-      viewColumns: {
-        title: "Visible Columns",
-        titleAria: "Show/Hide Table Columns",
-      },
-      selectedRows: {
-        text: "entry selected",
-        delete: "Delete",
-        deleteAria: "Delete selected entry",
-      },
-    },
-    customToolbarSelect: selectedRows => {
-      const selectedId = MUIdata[selectedRows.data[0].dataIndex].id
-      console.log("Selected ID", selectedId)
-      return (
-        <div style={{ paddingRight: "24px" }}>
-          <Tooltip title={"Delete selected entry"}>
-            <IconButton
-              onClick={() =>
-                window.confirm("Delete entry " + selectedId + "?")
-                  ? deleteEntryStartAsync(selectedId)
-                  : null
-              }
-            >
-              <DeleteIcon />
+export const buildMUIoptions = (
+  MUIdata,
+  deleteEntryStartAsync,
+  addEntryClicked,
+) => {
+  return MUIdata
+    ? {
+        filterType: "multiselect",
+        responsive: "scrollFullHeight",
+        selectableRows: "single",
+        selectableRowsOnClick: true,
+        pagination: false,
+        downloadOptions: { filename: "SAM-Download.csv", separator: "," },
+        onRowsDelete: () => alert("DELETED!"),
+        customToolbar: () => (
+          <Tooltip title={"Add new entry"}>
+            <IconButton onClick={() => addEntryClicked()}>
+              <Add />
             </IconButton>
           </Tooltip>
-          <Tooltip title={"Edit selected entry"}>
-            <IconButton onClick={() => alert("Edit")}>
-              <EditIcon />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title={"Duplicate selected entry"}>
-            <IconButton onClick={() => alert("Duplicate")}>
-              <FileCopyIcon />
-            </IconButton>
-          </Tooltip>
-        </div>
-      )
-    },
-  }
+        ),
+        textLabels: {
+          body: {
+            noMatch: "No matching entries",
+            toolTip: "Sort",
+            columnHeaderTooltip: column => `Sort for ${column.label}`,
+          },
+          toolbar: {
+            search: "Search",
+            downloadCsv: "Download CSV",
+            print: "Print",
+            viewColumns: "Columns",
+            filterTable: "Filter",
+          },
+          filter: {
+            all: "All",
+            title: "FILTERS",
+            reset: "RESET",
+          },
+          viewColumns: {
+            title: "Visible Columns",
+            titleAria: "Show/Hide Table Columns",
+          },
+          selectedRows: {
+            text: "entry selected",
+            delete: "Delete",
+            deleteAria: "Delete selected entry",
+          },
+        },
+        customToolbarSelect: selectedRows => {
+          //const selectedId = MUIdata[selectedRows.data[0].dataIndex].id
+          //console.log("Selected ID", selectedId)
+          return (
+            <div style={{ paddingRight: "24px" }}>
+              <Tooltip title={"Delete selected entry"}>
+                <IconButton
+                  onClick={() => {
+                    const selectedId =
+                      MUIdata[selectedRows.data[0].dataIndex].id
+                    return window.confirm("Delete entry " + selectedId + "?")
+                      ? deleteEntryStartAsync(selectedId)
+                      : null
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={"Edit selected entry"}>
+                <IconButton onClick={() => alert("Edit")}>
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={"Duplicate selected entry"}>
+                <IconButton onClick={() => alert("Duplicate")}>
+                  <FileCopyIcon />
+                </IconButton>
+              </Tooltip>
+            </div>
+          )
+        },
+      }
+    : null
 }

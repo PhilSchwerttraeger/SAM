@@ -22,8 +22,8 @@ class Table extends React.Component {
     const columnsIds = columns ? Object.keys(columns).map(e => e) : null
     const columnsArray = columnsIds ? columnsIds.map(id => columns[id]) : null
 
-    let columnsPropertiesArray = null
-    if (columnsArray) {
+    let columnsPropertiesArray = []
+    if (columnsArray && typeof columnsArray.id !== "undefined") {
       columnsArray.sort(compareColumns)
       columnsPropertiesArray = Object.keys(columnsArray[0]).map(e => e)
     }

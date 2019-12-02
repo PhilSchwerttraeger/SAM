@@ -5,6 +5,7 @@ import {
   deleteEntryStartAsync,
   clearEntries,
 } from "../../redux/entries/entries.actions"
+import { clearColumns } from "../../redux/columns/columns.actions"
 import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
 import { selectEntriesArray } from "../../redux/entries/entries.selectors"
@@ -14,7 +15,6 @@ import {
   buildMUIcolumns,
   buildMUIoptions,
 } from "./tableEntries.utils"
-
 import MUIDataTable from "mui-datatables"
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core"
 import EditEntryModal from "../editModal/editModal.component"
@@ -34,14 +34,28 @@ class Table extends React.Component {
 
   componentWillUnmount() {
     clearEntries()
+    clearColumns()
   }
 
   render() {
     const { entries, columns, currentUser, deleteEntryStartAsync } = this.props
 
-    const MUIcolumns = buildMUIcolumns(columns, currentUser.currency)
-    const MUIdata = buildMUIdata(entries, columns)
-    const MUIoptions = buildMUIoptions(MUIdata, deleteEntryStartAsync)
+    const addEntryClicked = () => {
+      this.setState({
+        editEntryModalIsOpen: true,
+      })
+    }
+
+    const MUIcolumns =
+      columns && currentUser.currency
+        ? buildMUIcolumns(columns, currentUser.currency)
+        : []
+
+    const MUIdata = entries && columns ? buildMUIdata(entries, columns) : []
+
+    const MUIoptions = (MUIdata, deleteEntryStartAsync)
+      ? buildMUIoptions(MUIdata, deleteEntryStartAsync, addEntryClicked)
+      : []
 
     // Customize MUI Theme to rearrange action buttons (integrate "add"-button)
     const getMuiTheme = () =>
