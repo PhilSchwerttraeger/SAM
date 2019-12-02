@@ -17,8 +17,16 @@ import {
 
 import MUIDataTable from "mui-datatables"
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core"
+import EditEntryModal from "../editModal/editModal.component"
 
 class Table extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      editEntryModalIsOpen: false,
+    }
+  }
+
   componentDidMount() {
     const { fetchEntriesStartAsync, currentUser } = this.props
     fetchEntriesStartAsync(currentUser)
@@ -62,6 +70,14 @@ class Table extends React.Component {
 
     return (
       <div style={{ width: "100%" }}>
+        <EditEntryModal
+          isOpen={this.state.editEntryModalIsOpen}
+          closeModal={() =>
+            this.setState({
+              editEntryModalIsOpen: false,
+            })
+          }
+        />
         <MuiThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
             title={"Entries"}
