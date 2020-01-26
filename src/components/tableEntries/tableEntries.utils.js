@@ -88,6 +88,16 @@ export const buildMUIcolumns = (columns, userCurrency) => {
       }
       columnObject.options.sort = true
       columnObject.options.display = column.isVisible
+      columnObject.options.setCellProps = value => {
+        return {
+          style: {
+            whiteSpace: "normal",
+            height: "auto",
+            overflow: "hidden",
+            wordWrap: "break-word",
+          },
+        }
+      }
 
       // For all columns typed "currency"
       if (column.type === "currency")
@@ -216,7 +226,7 @@ export const buildMUIoptions = (
   return MUIdata
     ? {
         filterType: "multiselect",
-        responsive: "scrollFullHeight",
+        responsive: "stacked",
         selectableRows: "single",
         selectableRowsOnClick: true,
         pagination: false,

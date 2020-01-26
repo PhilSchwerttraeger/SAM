@@ -79,6 +79,16 @@ class Table extends React.Component {
               },
             },
           },
+          MuiTableCell: {
+            root: {
+              borderBottom: "0px",
+            },
+          },
+          MUIDataTableBodyCell: {
+            stackedCommon: {
+              height: "auto !important",
+            },
+          },
         },
       })
 
