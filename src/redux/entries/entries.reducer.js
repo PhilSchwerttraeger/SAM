@@ -42,7 +42,6 @@ const entriesReducer = (state = INITIAL_STATE, action) => {
         isStoring: true,
       }
     case EntriesActionTypes.CREATE_ENTRY_SUCCESS:
-      //console.log(action.payload)
       return {
         ...state,
         isStoring: false,
@@ -63,14 +62,10 @@ const entriesReducer = (state = INITIAL_STATE, action) => {
         isStoring: true,
       }
     case EntriesActionTypes.UPDATE_ENTRY_SUCCESS:
-      const updatedEntry = action.payload
-      const updatedState = state.entries
-      updatedState[updatedEntry.id] = action.payload
-
       return {
         ...state,
         isStoring: false,
-        entries: { ...updatedState },
+        entries: { ...state.entries, [action.payload.id]: action.payload },
       }
     case EntriesActionTypes.UPDATE_ENTRY_FAILURE:
       return {
