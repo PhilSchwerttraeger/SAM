@@ -26,7 +26,8 @@ class Table extends React.Component {
     super(props)
     this.state = {
       editEntryModalIsOpen: false,
-      selectedEntryId: "Dh6ydJ3m80YwIga93owL",
+      selectedEntryId: null,
+      selectedEntryIndex: null,
     }
   }
 
@@ -43,9 +44,31 @@ class Table extends React.Component {
   render() {
     const { entries, columns, currentUser, deleteEntryStartAsync } = this.props
 
+    const setSelectedEntry = (id, index) => {
+      if (id === this.state.selectedEntryId) {
+        console.log(
+          "already selected, now deselecting entry with id " +
+            id +
+            " and index " +
+            index,
+        )
+        this.setState({
+          ...this.state,
+          selectedEntryId: null,
+          selectedEntryIndex: null,
+        })
+      } else {
+        console.log("set selected entry to id " + id + " and index " + index)
+        this.setState({ selectedEntryId: id })
+        this.setState({ selectedEntryIndex: index })
+      }
+    }
+
     const addEntryClicked = () => {
       this.setState({
         ...this.state,
+        selectedEntryId: null,
+        selectedEntryIndex: null,
         editEntryModalIsOpen: true,
       })
     }
@@ -58,7 +81,13 @@ class Table extends React.Component {
     const MUIdata = entries && columns ? buildMUIdata(entries, columns) : []
 
     const MUIoptions = (MUIdata, deleteEntryStartAsync)
-      ? buildMUIoptions(MUIdata, deleteEntryStartAsync, addEntryClicked)
+      ? buildMUIoptions(
+          MUIdata,
+          deleteEntryStartAsync,
+          addEntryClicked,
+          setSelectedEntry,
+          this.state.selectedEntryIndex,
+        )
       : []
 
     // Customize MUI Theme to rearrange action buttons (integrate "add"-button)

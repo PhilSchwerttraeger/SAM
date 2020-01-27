@@ -235,7 +235,13 @@ export const buildMUIoptions = (
   MUIdata,
   deleteEntryStartAsync,
   addEntryClicked,
+  setSelectedEntry,
+  selectedEntryIndex,
 ) => {
+  // convert currently selected entry index to array (MUI datatables format), if no entry is selected (null) insert no array at all into MUI datatables
+  let selectedEntryIndexArray =
+    selectedEntryIndex === null ? null : [selectedEntryIndex]
+
   return MUIdata
     ? {
         filterType: "multiselect",
@@ -244,7 +250,20 @@ export const buildMUIoptions = (
         selectableRowsOnClick: true,
         pagination: false,
         downloadOptions: { filename: "SAM-Download.csv", separator: "," },
+        rowsSelected: selectedEntryIndexArray,
         onRowsDelete: () => alert("DELETED!"),
+
+        onRowsSelect: currentRowsSelected => {
+          setSelectedEntry(
+            MUIdata[currentRowsSelected[0].dataIndex].id,
+            currentRowsSelected[0].dataIndex,
+          )
+
+          console.log(currentRowsSelected[0])
+          console.log(currentRowsSelected[0].dataIndex)
+          console.log(MUIdata[currentRowsSelected[0].dataIndex])
+          console.log(MUIdata[currentRowsSelected[0].dataIndex].id)
+        },
         customToolbar: () => (
           <Tooltip title={"Add new entry"}>
             <IconButton onClick={() => addEntryClicked()}>

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { connect } from "react-redux"
 import {
   fetchEntriesStartAsync,
@@ -27,15 +27,43 @@ function EditEntryModal({
   selectedEntryId,
   entries,
   columns,
+  updateEntryStartAsync,
 }) {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"))
+
+  // Create current entry object
+  // (new if empty entry prop, from store if prop available)
+  const columnNames = columns.reduce((o, key) => ({ ...o, [key.name]: "" }), {})
+  var entry = selectedEntryId ? entries[selectedEntryId] : columnNames
+
+  // Leere Felder ergänzen (optional?)
+  //entry = { ...columnNames, ...entry }
+
+  const [currentEntry, setCurrentEntry] = React.useState(entry)
+
+  // Monitoring changes
+  useEffect(() => {
+    console.log(currentEntry)
+    console.log(entry)
+  })
 
   const handleClose = () => {
     closeModal()
   }
 
-  var entry = selectedEntryId ? entries[selectedEntryId] : {}
+  const handleChangeText = event => {
+    setCurrentEntry({
+      ...currentEntry,
+      [event.target.id]: event.target.value,
+    })
+  }
+
+  const handleSave = () => {
+    //convertAllDatesToFirebaseDateFormat();
+    updateEntryStartAsync(currentEntry)
+    handleClose()
+  }
 
   const form = columns.map(column => {
     switch (column.type) {
@@ -45,7 +73,8 @@ function EditEntryModal({
             id={column.name}
             key={column.name}
             label={column.displayName}
-            value={entry ? entry[column.name] : null}
+            value={currentEntry ? currentEntry[column.name] : ""}
+            onChange={handleChangeText}
             type="text"
             margin="dense"
             autoFocus
@@ -124,7 +153,7 @@ function EditEntryModal({
               <Button autoFocus onClick={handleClose} color="secondary">
                 Delete
               </Button>
-              <Button onClick={handleClose} color="primary" autoFocus>
+              <Button onClick={handleSave} color="primary" autoFocus>
                 Save
               </Button>
             </>
