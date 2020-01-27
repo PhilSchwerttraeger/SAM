@@ -1,12 +1,14 @@
 import React from "react"
 import { connect } from "react-redux"
+import { createStructuredSelector } from "reselect"
 import {
   fetchEntriesStartAsync,
+  createEntryStartAsync,
+  updateEntryStartAsync,
   deleteEntryStartAsync,
   clearEntries,
 } from "../../redux/entries/entries.actions"
 import { clearColumns } from "../../redux/columns/columns.actions"
-import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
 import { selectEntriesArray } from "../../redux/entries/entries.selectors"
 import { selectColumnsArray } from "../../redux/columns/columns.selectors"
@@ -24,6 +26,7 @@ class Table extends React.Component {
     super(props)
     this.state = {
       editEntryModalIsOpen: false,
+      selectedEntryId: "Dh6ydJ3m80YwIga93owL",
     }
   }
 
@@ -42,6 +45,7 @@ class Table extends React.Component {
 
     const addEntryClicked = () => {
       this.setState({
+        ...this.state,
         editEntryModalIsOpen: true,
       })
     }
@@ -98,9 +102,11 @@ class Table extends React.Component {
           isOpen={this.state.editEntryModalIsOpen}
           closeModal={() =>
             this.setState({
+              ...this.state,
               editEntryModalIsOpen: false,
             })
           }
+          selectedEntryId={this.state.selectedEntryId}
         />
         <MuiThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
@@ -124,6 +130,10 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   fetchEntriesStartAsync: currentUser =>
     dispatch(fetchEntriesStartAsync(currentUser)),
+  createEntryStartAsync: entryToCreate =>
+    dispatch(createEntryStartAsync(entryToCreate)),
+  updateEntryStartAsync: entryToUpdate =>
+    dispatch(updateEntryStartAsync(entryToUpdate)),
   deleteEntryStartAsync: entryToDelete =>
     dispatch(deleteEntryStartAsync(entryToDelete)),
 })

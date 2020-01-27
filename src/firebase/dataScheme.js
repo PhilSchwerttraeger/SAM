@@ -12,8 +12,8 @@ const users = {
 
     columns: {
       randomColumnID: {
-        order: 0,
-        name: "direction",
+        order: 0, // unique
+        name: "direction", // unique
         displayName: "Type",
         type: "select",
         isEditable: false,
