@@ -19,6 +19,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
 import { useTheme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
+import { createFirestoreDate } from "../../firebase/firebase.util"
 
 function EditEntryModal({
   isOpen,

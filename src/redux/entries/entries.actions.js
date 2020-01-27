@@ -3,6 +3,7 @@ import { EntriesActionTypes } from "./entries.types"
 import {
   firestore,
   convertEntriesSnapshotToMap,
+  convertFirestoreDatesToJsDates,
 } from "../../firebase/firebase.util"
 
 // Fetching entries
@@ -70,6 +71,7 @@ export const createEntryStartAsync = entry => {
     // TODO
     EntryDoc.set(entry)
       .then(() => {
+        entry = convertFirestoreDatesToJsDates(entry)
         dispatch(createEntrySuccess(entry))
       })
       .catch(error => dispatch(createEntryFailure(error.message)))

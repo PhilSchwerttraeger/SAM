@@ -88,17 +88,34 @@ export const addCollectionAndDocuments = async (
   return await batch.commit()
 }
 
+const toDateTime = secs => {
+  var t = new Date()
+  t.setTime(secs * 1000)
+  return t
+}
+
+export const convertFirestoreDatesToJsDates = properties => {
+  for (var subProperty in properties) {
+    if (properties[subProperty].seconds) {
+      properties[subProperty] = toDateTime(properties[subProperty].seconds)
+    }
+  }
+  return properties
+}
+
 // Array to object
 export const convertEntriesSnapshotToMap = entries => {
   const transformedEntries = entries.docs.map(doc => {
-    const { ...rest } = doc.data()
+    var docProperties = doc.data()
+
+    // convert all properties of "date" type (has property "seconds") to JS date format
+    docProperties = convertFirestoreDatesToJsDates(docProperties)
+
     return {
       id: doc.id,
-      ...rest,
+      ...docProperties,
     }
   })
-
-  //console.log(transformedCollection)
 
   return transformedEntries.reduce((accumulator, entry) => {
     accumulator[entry.id] = entry

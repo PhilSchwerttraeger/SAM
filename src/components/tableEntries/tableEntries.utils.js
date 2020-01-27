@@ -19,6 +19,17 @@ const formatSecondsToString = seconds => {
   return formattedDate.toLocaleDateString("de-DE", options)
 }
 
+const formatDateToString = date => {
+  date = new Date(date)
+  const options = {
+    //weekday: "short",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }
+  return date.toLocaleDateString("de-DE", options)
+}
+
 const formatCurrencyToString = (value, currency) => {
   switch (currency) {
     case "euro":
@@ -160,7 +171,7 @@ export const buildMUIcolumns = (columns, userCurrency) => {
       if (column.type === "date")
         columnObject.options = {
           filter: false,
-          customBodyRender: value => formatSecondsToString(value),
+          customBodyRender: date => formatDateToString(date),
         }
 
       // For the specific column named "interval"
@@ -203,9 +214,11 @@ export const buildMUIdata = (entriesArray, columns) => {
         } else {
           // Custom formatting depending on property type
           switch (property.type) {
-            case "date":
+            /*
+              case "date":
               entryObject[property.name] = entry[property.name].seconds
               break
+            */
 
             default:
               entryObject[property.name] = entry[property.name]
