@@ -63,6 +63,7 @@ function EditEntryModal({
   }
 
   const handleChangeText = event => {
+    console.log("text changed ", event.target.id, event.target.value)
     setCurrentEntry({
       ...currentEntry,
       [event.target.id]: event.target.value,
@@ -98,15 +99,19 @@ function EditEntryModal({
   const form = columns.map(column => {
     switch (column.type) {
       case "text":
+        //console.log(currentEntry[column.name])
         return (
           <TextField
             id={column.name}
             key={column.name}
             label={column.displayName}
-            value={currentEntry ? currentEntry[column.name] : ""}
+            value={
+              currentEntry && currentEntry[column.name]
+                ? currentEntry[column.name]
+                : "xxx"
+            }
             onChange={handleChangeText}
             type="text"
-            margin="dense"
             autoFocus
             fullWidth
           />
