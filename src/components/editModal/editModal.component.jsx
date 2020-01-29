@@ -91,6 +91,7 @@ function EditEntryModal({
             value={entry ? entry[column.name] : null}
             type="text"
             margin="dense"
+            prefix={currentUser.currency}
             autoFocus
             fullWidth
           />

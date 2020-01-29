@@ -1,7 +1,7 @@
 const defaultUserData = {
   accountType: "premium", // free
   language: "english", // german
-  currency: "euro", // dollar
+  currency: "€", // dollar
   analysisActiveSections: ["sum", "average", "minimum", "maximum"],
   analysisActiveColumn: "value",
 }
