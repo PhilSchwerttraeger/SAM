@@ -21,10 +21,14 @@ import { useTheme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import { createFirestoreDate } from "../../firebase/firebase.util"
 
+import CurrencyFormat from "react-currency-format"
+
+
 function EditEntryModal({
   isOpen,
   closeModal,
   selectedEntryId,
+  currentUser,
   entries,
   columns,
   updateEntryStartAsync,
@@ -63,6 +67,14 @@ function EditEntryModal({
     })
   }
 
+  const handleChangeCurrency = (values, propertyName) => {
+    console.log("currency value changed ", propertyName, values)
+    setCurrentEntry({
+      ...currentEntry,
+      [propertyName]: values.floatValue,
+    })
+  }
+
   const handleSave = () => {
     //convertAllDatesToFirebaseDateFormat();
     updateEntryStartAsync(currentEntry)
@@ -87,14 +99,22 @@ function EditEntryModal({
         )
 
       case "currency":
+        //console.log(currentEntry[column.name])
         return (
-          <TextField
+          <CurrencyFormat
+            customInput={TextField}
+            thousandSeparator="."
+            decimalSeparator=","
+            allowNegative={false}
             id={column.name}
             key={column.name}
             label={column.displayName}
-            value={entry ? entry[column.name] : null}
-            type="text"
-            margin="dense"
+            value={
+              currentEntry && currentEntry[column.name]
+                ? currentEntry[column.name]
+                : 0
+            }
+            onValueChange={values => handleChangeCurrency(values, column.name)}
             prefix={currentUser.currency}
             autoFocus
             fullWidth
