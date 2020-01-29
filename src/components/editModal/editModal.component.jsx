@@ -23,6 +23,8 @@ import { createFirestoreDate } from "../../firebase/firebase.util"
 
 import CurrencyFormat from "react-currency-format"
 
+import DateFnsUtils from "@date-io/date-fns" // choose your lib
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers"
 
 function EditEntryModal({
   isOpen,
@@ -75,6 +77,18 @@ function EditEntryModal({
     })
   }
 
+  const handleChangeDate = (date, propertyName) => {
+    console.log("date value changed ", date, propertyName)
+    setCurrentEntry({
+      ...currentEntry,
+      [propertyName]: date,
+    })
+  }
+
+  const handleChangeSelect = event => {
+    console.log(event)
+  }
+
   const handleSave = () => {
     //convertAllDatesToFirebaseDateFormat();
     updateEntryStartAsync(currentEntry)
@@ -123,15 +137,21 @@ function EditEntryModal({
 
       case "date":
         return (
-          <TextField
+          <DatePicker
             id={column.name}
             key={column.name}
             label={column.displayName}
-            value={entry ? entry[column.name] : null}
-            type="text"
-            margin="dense"
-            autoFocus
-            fullWidth
+            value={
+              currentEntry && currentEntry[column.name]
+                ? currentEntry[column.name]
+                : null
+            }
+            onChange={date => handleChangeDate(date, column.name)}
+            format="dd.MM.yyyy"
+            openTo="year"
+            views={["year", "month", "date"]}
+            clearable
+            autoOk
           />
         )
 
@@ -169,7 +189,9 @@ function EditEntryModal({
           <DialogTitle id="modal-title">{"New entry"}</DialogTitle>
         )}
         <DialogContent>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
             {form}
+          </MuiPickersUtilsProvider>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
