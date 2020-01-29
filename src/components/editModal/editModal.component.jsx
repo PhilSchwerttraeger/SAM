@@ -26,6 +26,13 @@ import DateFnsUtils from "@date-io/date-fns" // choose your lib
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers"
 
 function EditEntryModal({
+import InputLabel from "@material-ui/core/InputLabel"
+import MenuItem from "@material-ui/core/MenuItem"
+//import FormHelperText from "@material-ui/core/FormHelperText"
+import FormControl from "@material-ui/core/FormControl"
+import Select from "@material-ui/core/Select"
+
+import { formatIntervalToString } from "../tableEntries/tableEntries.utils"
   isOpen,
   closeModal,
   selectedEntryId,
@@ -86,7 +93,11 @@ function EditEntryModal({
   }
 
   const handleChangeSelect = event => {
-    console.log(event)
+    console.log("select value changed ", event)
+    setCurrentEntry({
+      ...currentEntry,
+      [event.target.name]: event.target.value,
+    })
   }
 
   const handleSave = () => {
@@ -160,7 +171,30 @@ function EditEntryModal({
         )
 
       case "select":
-        return
+        //if (currentEntry) console.log(currentEntry[column.name])
+        console.log(column)
+        return (
+          <FormControl required>
+            <InputLabel id="select-label">{column.displayName}</InputLabel>
+            <Select
+              labelId="select-label"
+              id={column.name}
+              name={column.name}
+              key={column.name}
+              value={
+                currentEntry && currentEntry[column.name]
+                  ? currentEntry[column.name]
+                  : ""
+              }
+              onChange={handleChangeSelect}
+            >
+              {column.values.map(selectValue => (
+                <MenuItem value={selectValue}>{selectValue}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )
+
 
       default:
         return <>Undefined type</>
