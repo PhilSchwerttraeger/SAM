@@ -20,7 +20,11 @@ const formatSecondsToString = seconds => {
 }
 
 const formatDateToString = date => {
-  date = new Date(date)
+  if (date !== null) {
+    date = new Date(date)
+  } else {
+    return null
+  }
   const options = {
     //weekday: "short",
     year: "numeric",
