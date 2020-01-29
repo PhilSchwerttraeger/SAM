@@ -7,6 +7,7 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import EditIcon from "@material-ui/icons/Edit"
 import FileCopyIcon from "@material-ui/icons/FileCopy"
 
+/* 
 const formatSecondsToString = seconds => {
   if (!seconds) return
   const options = {
@@ -18,6 +19,7 @@ const formatSecondsToString = seconds => {
   const formattedDate = new Date(seconds * 1000)
   return formattedDate.toLocaleDateString("de-DE", options)
 }
+*/
 
 const formatDateToString = date => {
   if (date !== null) {
@@ -263,11 +265,6 @@ export const buildMUIoptions = (
             MUIdata[currentRowsSelected[0].dataIndex].id,
             currentRowsSelected[0].dataIndex,
           )
-
-          console.log(currentRowsSelected[0])
-          console.log(currentRowsSelected[0].dataIndex)
-          console.log(MUIdata[currentRowsSelected[0].dataIndex])
-          console.log(MUIdata[currentRowsSelected[0].dataIndex].id)
         },
         customToolbar: () => (
           <Tooltip title={"Add new entry"}>

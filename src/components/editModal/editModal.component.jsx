@@ -19,7 +19,6 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
 import { useTheme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
-import { createFirestoreDate } from "../../firebase/firebase.util"
 
 import CurrencyFormat from "react-currency-format"
 
@@ -161,18 +160,7 @@ function EditEntryModal({
         )
 
       case "select":
-        return (
-          <TextField
-            id={column.name}
-            key={column.name}
-            label={column.displayName}
-            value={entry ? entry[column.name] : null}
-            type="text"
-            margin="dense"
-            autoFocus
-            fullWidth
-          />
-        )
+        return
 
       default:
         return <>Undefined type</>
