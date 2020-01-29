@@ -195,6 +195,33 @@ import { formatIntervalToString } from "../tableEntries/tableEntries.utils"
           </FormControl>
         )
 
+      case "interval":
+        //if (currentEntry) console.log(currentEntry[column.name])
+        console.log(column)
+        return (
+          <FormControl required>
+            <InputLabel id="interval-label">{column.displayName}</InputLabel>
+            <Select
+              labelId="interval-label"
+              id={column.name}
+              name={column.name}
+              key={column.name}
+              value={
+                currentEntry && currentEntry[column.name]
+                  ? currentEntry[column.name]
+                  : ""
+              }
+              onChange={handleChangeSelect}
+            >
+              {column.values.map(selectValue => (
+                <MenuItem value={selectValue}>
+                  {formatIntervalToString(selectValue)}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )
+
 
       default:
         return <>Undefined type</>

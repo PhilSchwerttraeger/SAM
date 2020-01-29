@@ -13,7 +13,7 @@ const columns = [
     order: 1,
     name: "interval",
     displayName: "Interval",
-    type: "select",
+    type: "interval",
     isEditable: false,
     isVisible: true,
     isBaseForAnalysis: false,

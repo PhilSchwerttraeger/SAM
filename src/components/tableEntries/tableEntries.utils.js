@@ -55,7 +55,7 @@ const formatCurrencyToString = (value, currency) => {
   }
 }
 
-const formatIntervalToString = interval => {
+export const formatIntervalToString = interval => {
   switch (interval) {
     case 0:
       return "Once"
