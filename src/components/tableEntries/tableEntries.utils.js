@@ -239,6 +239,7 @@ export const buildMUIoptions = (
   MUIdata,
   deleteEntryStartAsync,
   addEntryClicked,
+  editEntryClicked,
   setSelectedEntry,
   selectedEntryIndex,
 ) => {
@@ -322,7 +323,7 @@ export const buildMUIoptions = (
                 </IconButton>
               </Tooltip>
               <Tooltip title={"Edit selected entry"}>
-                <IconButton onClick={() => alert("Edit")}>
+                <IconButton onClick={editEntryClicked}>
                   <EditIcon />
                 </IconButton>
               </Tooltip>

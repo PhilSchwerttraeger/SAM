@@ -30,23 +30,27 @@ function EditEntryModal({
   updateEntryStartAsync,
 }) {
   const theme = useTheme()
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"))
+  const fullScreen = useMediaQuery(theme.breakpoints.down("xs"))
 
   // Create current entry object
   // (new if empty entry prop, from store if prop available)
   const columnNames = columns.reduce((o, key) => ({ ...o, [key.name]: "" }), {})
-  var entry = selectedEntryId ? entries[selectedEntryId] : columnNames
 
   // Leere Felder ergänzen (optional?)
   //entry = { ...columnNames, ...entry }
 
-  const [currentEntry, setCurrentEntry] = React.useState(entry)
+  const [currentEntry, setCurrentEntry] = React.useState()
 
   // Monitoring changes
   useEffect(() => {
-    console.log(currentEntry)
-    console.log(entry)
+    //console.log("State changed, current entry now following: ", currentEntry)
   })
+
+  const loadEntry = () => {
+    selectedEntryId
+      ? setCurrentEntry(entries[selectedEntryId])
+      : setCurrentEntry(columnNames)
+  }
 
   const handleClose = () => {
     closeModal()
@@ -136,6 +140,7 @@ function EditEntryModal({
         fullScreen={fullScreen}
         open={isOpen}
         onClose={handleClose}
+        onEnter={loadEntry}
         aria-labelledby="Add "
       >
         {selectedEntryId ? (
@@ -143,7 +148,9 @@ function EditEntryModal({
         ) : (
           <DialogTitle id="modal-title">{"New entry"}</DialogTitle>
         )}
-        <DialogContent>{form}</DialogContent>
+        <DialogContent>
+            {form}
+        </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>
             Cancel

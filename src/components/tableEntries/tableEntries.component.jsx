@@ -73,6 +73,13 @@ class Table extends React.Component {
       })
     }
 
+    const editEntryClicked = () => {
+      this.setState({
+        ...this.state,
+        editEntryModalIsOpen: true,
+      })
+    }
+
     const MUIcolumns =
       columns && currentUser.currency
         ? buildMUIcolumns(columns, currentUser.currency)
@@ -85,6 +92,7 @@ class Table extends React.Component {
           MUIdata,
           deleteEntryStartAsync,
           addEntryClicked,
+          editEntryClicked,
           setSelectedEntry,
           this.state.selectedEntryIndex,
         )
