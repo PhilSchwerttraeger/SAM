@@ -25,7 +25,6 @@ import CurrencyFormat from "react-currency-format"
 import DateFnsUtils from "@date-io/date-fns" // choose your lib
 import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers"
 
-function EditEntryModal({
 import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 //import FormHelperText from "@material-ui/core/FormHelperText"
@@ -33,6 +32,8 @@ import FormControl from "@material-ui/core/FormControl"
 import Select from "@material-ui/core/Select"
 
 import { formatIntervalToString } from "../tableEntries/tableEntries.utils"
+
+const EditEntryModal = ({
   isOpen,
   closeModal,
   selectedEntryId,
@@ -40,7 +41,7 @@ import { formatIntervalToString } from "../tableEntries/tableEntries.utils"
   entries,
   columns,
   updateEntryStartAsync,
-}) {
+}) => {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"))
 
@@ -52,11 +53,6 @@ import { formatIntervalToString } from "../tableEntries/tableEntries.utils"
   //entry = { ...columnNames, ...entry }
 
   const [currentEntry, setCurrentEntry] = React.useState()
-
-  // Monitoring changes
-  useEffect(() => {
-    //console.log("State changed, current entry now following: ", currentEntry)
-  })
 
   const loadEntry = () => {
     selectedEntryId
