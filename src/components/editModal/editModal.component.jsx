@@ -222,6 +222,30 @@ import { formatIntervalToString } from "../tableEntries/tableEntries.utils"
           </FormControl>
         )
 
+      case "direction":
+        //if (currentEntry) console.log(currentEntry[column.name])
+        console.log(column)
+        return (
+          <FormControl>
+            <InputLabel id="direction-label">{column.displayName}</InputLabel>
+            <Select
+              labelId="direction-label"
+              id={column.name}
+              name={column.name}
+              key={column.name}
+              value={
+                currentEntry && currentEntry[column.name]
+                  ? currentEntry[column.name]
+                  : ""
+              }
+              onChange={handleChangeSelect}
+            >
+              {column.values.map(selectValue => (
+                <MenuItem value={selectValue}>{selectValue}</MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        )
 
       default:
         return <>Undefined type</>

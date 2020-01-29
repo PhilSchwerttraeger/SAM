@@ -3,7 +3,7 @@ const columns = [
     order: 0,
     name: "direction",
     displayName: "Type",
-    type: "select",
+    type: "direction",
     isEditable: false,
     isVisible: true,
     isBaseForAnalysis: false,
