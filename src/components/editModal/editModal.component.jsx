@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { connect } from "react-redux"
 import {
   fetchEntriesStartAsync,
@@ -32,6 +32,17 @@ import FormControl from "@material-ui/core/FormControl"
 import Select from "@material-ui/core/Select"
 
 import { formatIntervalToString } from "../tableEntries/tableEntries.utils"
+import Grid from "@material-ui/core/Grid"
+
+const useStyles = makeStyles(theme => ({
+  formControl: {
+    margin: theme.spacing(2),
+    //minWidth: 120,
+    size: "medium",
+    variant: "outlined",
+    width: "90%",
+  },
+}))
 
 const EditEntryModal = ({
   isOpen,
@@ -43,6 +54,8 @@ const EditEntryModal = ({
   updateEntryStartAsync,
 }) => {
   const theme = useTheme()
+  const classes = useStyles()
+
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"))
 
   // Create current entry object
@@ -102,7 +115,7 @@ const EditEntryModal = ({
     handleClose()
   }
 
-  const form = columns.map(column => {
+  const field = column => {
     switch (column.type) {
       case "text":
         //console.log(currentEntry[column.name])
@@ -166,36 +179,11 @@ const EditEntryModal = ({
           />
         )
 
-      case "select":
-        //if (currentEntry) console.log(currentEntry[column.name])
-        console.log(column)
-        return (
-          <FormControl required>
-            <InputLabel id="select-label">{column.displayName}</InputLabel>
-            <Select
-              labelId="select-label"
-              id={column.name}
-              name={column.name}
-              key={column.name}
-              value={
-                currentEntry && currentEntry[column.name]
-                  ? currentEntry[column.name]
-                  : ""
-              }
-              onChange={handleChangeSelect}
-            >
-              {column.values.map(selectValue => (
-                <MenuItem value={selectValue}>{selectValue}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        )
-
       case "interval":
         //if (currentEntry) console.log(currentEntry[column.name])
         console.log(column)
         return (
-          <FormControl required>
+          <>
             <InputLabel id="interval-label">{column.displayName}</InputLabel>
             <Select
               labelId="interval-label"
@@ -215,14 +203,14 @@ const EditEntryModal = ({
                 </MenuItem>
               ))}
             </Select>
-          </FormControl>
+          </>
         )
 
       case "direction":
         //if (currentEntry) console.log(currentEntry[column.name])
         console.log(column)
         return (
-          <FormControl>
+          <>
             <InputLabel id="direction-label">{column.displayName}</InputLabel>
             <Select
               labelId="direction-label"
@@ -240,13 +228,44 @@ const EditEntryModal = ({
                 <MenuItem value={selectValue}>{selectValue}</MenuItem>
               ))}
             </Select>
-          </FormControl>
+          </>
+        )
+
+      case "select":
+        //if (currentEntry) console.log(currentEntry[column.name])
+        console.log(column)
+        return (
+          <>
+            <InputLabel id="select-label">{column.displayName}</InputLabel>
+            <Select
+              labelId="select-label"
+              id={column.name}
+              name={column.name}
+              key={column.name}
+              value={
+                currentEntry && currentEntry[column.name]
+                  ? currentEntry[column.name]
+                  : ""
+              }
+              onChange={handleChangeSelect}
+            >
+              {column.values.map(selectValue => (
+                <MenuItem value={selectValue}>{selectValue}</MenuItem>
+              ))}
+            </Select>
+          </>
         )
 
       default:
         return <>Undefined type</>
     }
-  })
+  }
+
+  const fields = columns.map(column => (
+    <Grid item xs={column.order < 4 ? 6 : 12}>
+      <FormControl className={classes.formControl}>{field(column)}</FormControl>
+    </Grid>
+  ))
 
   return (
     <div>
@@ -264,7 +283,9 @@ const EditEntryModal = ({
         )}
         <DialogContent>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            {form}
+            <Grid container spacing={3}>
+              {fields}
+            </Grid>
           </MuiPickersUtilsProvider>
         </DialogContent>
         <DialogActions>
