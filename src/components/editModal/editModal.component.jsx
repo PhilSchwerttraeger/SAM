@@ -19,11 +19,15 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
 import { useTheme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
+import { makeStyles } from "@material-ui/core/styles"
 
 import CurrencyFormat from "react-currency-format"
 
 import DateFnsUtils from "@date-io/date-fns" // choose your lib
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers"
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider,
+} from "@material-ui/pickers"
 
 import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
@@ -161,7 +165,7 @@ const EditEntryModal = ({
 
       case "date":
         return (
-          <DatePicker
+          <KeyboardDatePicker
             id={column.name}
             key={column.name}
             label={column.displayName}
