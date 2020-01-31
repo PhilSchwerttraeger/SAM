@@ -9,7 +9,7 @@ class Settings extends React.Component {
   render() {
     const { updateCurrentUserAsync, currentUser } = this.props
 
-    const newCurrency = currentUser.currency === "euro" ? "dollar" : "euro"
+    const newCurrency = currentUser.currency === "€" ? "$" : "€"
 
     const alteredUser = { ...currentUser, currency: newCurrency }
 
