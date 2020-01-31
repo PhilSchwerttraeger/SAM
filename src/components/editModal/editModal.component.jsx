@@ -22,6 +22,12 @@ import TextField from "@material-ui/core/TextField"
 import { makeStyles } from "@material-ui/core/styles"
 
 import CurrencyFormat from "react-currency-format"
+import {
+  getThousandSeparatorFromCurreny,
+  getDecimalSeparatorFromCurrency,
+  getPrefixFromCurrency,
+  getSuffixFromCurrency,
+} from "./editModal.utils.js"
 
 import DateFnsUtils from "@date-io/date-fns" // choose your lib
 import {
@@ -145,8 +151,12 @@ const EditEntryModal = ({
         return (
           <CurrencyFormat
             customInput={TextField}
-            thousandSeparator="."
-            decimalSeparator=","
+            thousandSeparator={getThousandSeparatorFromCurreny(
+              currentUser.currency,
+            )}
+            decimalSeparator={getDecimalSeparatorFromCurrency(
+              currentUser.currency,
+            )}
             allowNegative={false}
             id={column.name}
             key={column.name}
@@ -157,7 +167,8 @@ const EditEntryModal = ({
                 : 0
             }
             onValueChange={values => handleChangeCurrency(values, column.name)}
-            prefix={currentUser.currency}
+            prefix={getPrefixFromCurrency(currentUser.currency)}
+            suffix={getSuffixFromCurrency(currentUser.currency)}
             autoFocus
             fullWidth
           />
