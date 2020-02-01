@@ -1,4 +1,3 @@
-import React from "react"
 import { connect } from "react-redux"
 import {
   fetchEntriesStartAsync,
@@ -8,7 +7,10 @@ import {
 } from "../../redux/entries/entries.actions"
 import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
-import { selectEntriesMap } from "../../redux/entries/entries.selectors"
+import {
+  selectEntriesMap,
+  selectEntriesArray,
+} from "../../redux/entries/entries.selectors"
 import { selectColumnsArray } from "../../redux/columns/columns.selectors"
 import "./editModal.styles.scss"
 import Button from "@material-ui/core/Button"
@@ -19,6 +21,7 @@ import DialogTitle from "@material-ui/core/DialogTitle"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
 import { useTheme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
+import Autocomplete from "@material-ui/lab/Autocomplete"
 import { makeStyles } from "@material-ui/core/styles"
 
 import CurrencyFormat from "react-currency-format"
@@ -60,6 +63,7 @@ const EditEntryModal = ({
   selectedEntryId,
   currentUser,
   entries,
+  entriesArray,
   columns,
   updateEntryStartAsync,
 }) => {
@@ -87,14 +91,20 @@ const EditEntryModal = ({
     closeModal()
   }
 
-  const handleChangeText = event => {
-    console.log("text changed ", event.target.id, event.target.value)
-    setCurrentEntry({
-      ...currentEntry,
-      [event.target.id]: event.target.value,
-    })
+  // Text
+  const handleChangeText = (columnName, event, value) => {
+    console.log("text changed ", columnName, event, value)
+
+    if (event !== null) {
+      console.log("triggered")
+      setCurrentEntry({
+        ...currentEntry,
+        [columnName]: value,
+      })
+    }
   }
 
+  // Currency
   const handleChangeCurrency = (values, propertyName) => {
     console.log("currency value changed ", propertyName, values)
     setCurrentEntry({
@@ -103,6 +113,7 @@ const EditEntryModal = ({
     })
   }
 
+  // Date
   const handleChangeDate = (date, propertyName) => {
     console.log("date value changed ", date, propertyName)
     setCurrentEntry({
@@ -111,6 +122,7 @@ const EditEntryModal = ({
     })
   }
 
+  // Select
   const handleChangeSelect = event => {
     console.log("select value changed ", event)
     setCurrentEntry({
@@ -128,21 +140,35 @@ const EditEntryModal = ({
   const field = column => {
     switch (column.type) {
       case "text":
-        //console.log(currentEntry[column.name])
         return (
-          <TextField
+          <Autocomplete
+            freeSolo
             id={column.name}
             key={column.name}
-            label={column.displayName}
-            value={
+            options={entriesArray.map(entry => {
+              return {
+                title: entry[column.name] ? entry[column.name] : "",
+              }
+            })}
+            getOptionLabel={option => (option.title ? option.title : option)}
+            inputValue={
               currentEntry && currentEntry[column.name]
                 ? currentEntry[column.name]
-                : "xxx"
+                : ""
             }
-            onChange={handleChangeText}
-            type="text"
-            autoFocus
-            fullWidth
+            onInputChange={(event, value) =>
+              handleChangeText(column.name, event, value)
+            }
+            renderInput={params => (
+              <TextField
+                {...params}
+                label={column.displayName}
+                fullWidth
+                multiline
+                  autoComplete: "new-password",
+                }}
+              />
+            )}
           />
         )
 
@@ -169,7 +195,6 @@ const EditEntryModal = ({
             onValueChange={values => handleChangeCurrency(values, column.name)}
             prefix={getPrefixFromCurrency(currentUser.currency)}
             suffix={getSuffixFromCurrency(currentUser.currency)}
-            autoFocus
             fullWidth
           />
         )
@@ -196,7 +221,6 @@ const EditEntryModal = ({
 
       case "interval":
         //if (currentEntry) console.log(currentEntry[column.name])
-        console.log(column)
         return (
           <>
             <InputLabel id="interval-label">{column.displayName}</InputLabel>
@@ -295,7 +319,6 @@ const EditEntryModal = ({
         fullScreen={fullScreen}
         open={isOpen}
         onClose={handleClose}
-        onEnter={loadEntry}
         aria-labelledby="Add "
       >
         {selectedEntryId ? (
@@ -338,6 +361,7 @@ const EditEntryModal = ({
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   entries: selectEntriesMap,
+  entriesArray: selectEntriesArray,
   columns: selectColumnsArray,
 })
 
