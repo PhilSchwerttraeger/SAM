@@ -143,6 +143,24 @@ const EditEntryModal = ({
     handleClose()
   }
 
+  const makeOptions = column => {
+    // make array of all values
+    let array = entriesArray.map(entry => entry[column.name])
+
+    // create set (delete duplicates)
+    let set = [...new Set(array)]
+
+    // cleanup: remove undefined
+    let sanitizedSet = set.filter(item => item !== undefined)
+
+    // generate and return object with expected structure for autocomplete component to handle
+    return sanitizedSet.map(entry => {
+      return {
+        title: entry ? entry : "",
+      }
+    })
+  }
+
   const field = column => {
     switch (column.type) {
       case "text":
@@ -151,11 +169,7 @@ const EditEntryModal = ({
             freeSolo
             id={column.name}
             key={column.name}
-            options={entriesArray.map(entry => {
-              return {
-                title: entry[column.name] ? entry[column.name] : "",
-              }
-            })}
+            options={makeOptions(column)}
             getOptionLabel={option => (option.title ? option.title : "")}
             inputValue={
               currentEntry && currentEntry[column.name]
