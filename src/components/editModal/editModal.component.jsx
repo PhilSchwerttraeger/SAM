@@ -150,7 +150,7 @@ const EditEntryModal = ({
         //console.log(currentEntry[column.name])
         return (
           <CurrencyFormat
-            customInput={TextField}
+            customInput={props => <TextField {...props} />}
             thousandSeparator={getThousandSeparatorFromCurreny(
               currentUser.currency,
             )}
@@ -213,7 +213,7 @@ const EditEntryModal = ({
               onChange={handleChangeSelect}
             >
               {column.values.map(selectValue => (
-                <MenuItem value={selectValue}>
+                <MenuItem key={selectValue} value={selectValue}>
                   {formatIntervalToString(selectValue)}
                 </MenuItem>
               ))}
@@ -265,7 +265,9 @@ const EditEntryModal = ({
               onChange={handleChangeSelect}
             >
               {column.values.map(selectValue => (
-                <MenuItem value={selectValue}>{selectValue}</MenuItem>
+                <MenuItem key={selectValue} value={selectValue}>
+                  {selectValue}
+                </MenuItem>
               ))}
             </Select>
           </>
@@ -277,7 +279,12 @@ const EditEntryModal = ({
   }
 
   const fields = columns.map(column => (
-    <Grid item xs={column.order < 4 ? 6 : 12}>
+    <Grid
+      key={column.order}
+      item
+      xs={column.order < 4 ? 6 : 12}
+      className={classes.gridItem}
+    >
       <FormControl className={classes.formControl}>{field(column)}</FormControl>
     </Grid>
   ))

@@ -42,6 +42,6 @@ export const getSuffixFromCurrency = currency => {
       return ""
 
     default:
-      return ""
+      return currency
   }
 }
