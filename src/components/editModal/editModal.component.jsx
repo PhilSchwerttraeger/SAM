@@ -56,6 +56,9 @@ const useStyles = makeStyles(theme => ({
     variant: "outlined",
     width: "90%",
   },
+  gridItem: {
+    padding: "0 !important",
+  },
 }))
 
 const EditEntryModal = ({
@@ -252,7 +255,6 @@ const EditEntryModal = ({
 
       case "direction":
         //if (currentEntry) console.log(currentEntry[column.name])
-        console.log(column)
         return (
           <>
             <InputLabel id="direction-label">{column.displayName}</InputLabel>
@@ -269,7 +271,9 @@ const EditEntryModal = ({
               onChange={handleChangeSelect}
             >
               {column.values.map(selectValue => (
-                <MenuItem value={selectValue}>{selectValue}</MenuItem>
+                <MenuItem key={selectValue} value={selectValue}>
+                  {selectValue}
+                </MenuItem>
               ))}
             </Select>
           </>
@@ -277,7 +281,6 @@ const EditEntryModal = ({
 
       case "select":
         //if (currentEntry) console.log(currentEntry[column.name])
-        console.log(column)
         return (
           <>
             <InputLabel id="select-label">{column.displayName}</InputLabel>
@@ -339,21 +342,19 @@ const EditEntryModal = ({
           </MuiPickersUtilsProvider>
         </DialogContent>
         <DialogActions>
-          <Button autoFocus onClick={handleClose}>
-            Cancel
-          </Button>
+          <Button onClick={handleClose}>Cancel</Button>
 
           {selectedEntryId ? (
             <>
-              <Button autoFocus onClick={handleClose} color="secondary">
+              <Button onClick={handleClose} color="secondary">
                 Delete
               </Button>
-              <Button onClick={handleSave} color="primary" autoFocus>
+              <Button onClick={handleSave} color="primary">
                 Save
               </Button>
             </>
           ) : (
-            <Button onClick={handleClose} color="primary" autoFocus>
+            <Button onClick={handleClose} color="primary">
               Create
             </Button>
           )}
