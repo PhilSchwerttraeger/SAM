@@ -156,7 +156,7 @@ const EditEntryModal = ({
                 title: entry[column.name] ? entry[column.name] : "",
               }
             })}
-            getOptionLabel={option => (option.title ? option.title : option)}
+            getOptionLabel={option => (option.title ? option.title : "")}
             inputValue={
               currentEntry && currentEntry[column.name]
                 ? currentEntry[column.name]
@@ -184,14 +184,6 @@ const EditEntryModal = ({
         //console.log(currentEntry[column.name])
         return (
           <CurrencyFormat
-            customInput={props => <TextField {...props} />}
-            thousandSeparator={getThousandSeparatorFromCurreny(
-              currentUser.currency,
-            )}
-            decimalSeparator={getDecimalSeparatorFromCurrency(
-              currentUser.currency,
-            )}
-            allowNegative={false}
             id={column.name}
             key={column.name}
             label={column.displayName}
@@ -201,9 +193,18 @@ const EditEntryModal = ({
                 : 0
             }
             onValueChange={values => handleChangeCurrency(values, column.name)}
+            thousandSeparator={getThousandSeparatorFromCurreny(
+              currentUser.currency,
+            )}
+            decimalSeparator={getDecimalSeparatorFromCurrency(
+              currentUser.currency,
+            )}
             prefix={getPrefixFromCurrency(currentUser.currency)}
             suffix={getSuffixFromCurrency(currentUser.currency)}
+            allowNegative={false}
+            decimalScale={2}
             fullWidth
+            customInput={TextField}
           />
         )
 
