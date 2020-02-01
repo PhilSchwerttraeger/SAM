@@ -1,3 +1,4 @@
+import React, { useEffect } from "react"
 import { connect } from "react-redux"
 import {
   fetchEntriesStartAsync,
@@ -69,23 +70,25 @@ const EditEntryModal = ({
 }) => {
   const theme = useTheme()
   const classes = useStyles()
-
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"))
+
+  // Leere Felder ergänzen (optional?)
+  //entry = { ...columnNames, ...entry }
 
   // Create current entry object
   // (new if empty entry prop, from store if prop available)
   const columnNames = columns.reduce((o, key) => ({ ...o, [key.name]: "" }), {})
 
-  // Leere Felder ergänzen (optional?)
-  //entry = { ...columnNames, ...entry }
+  const [currentEntry, setCurrentEntry] = React.useState(columnNames)
 
-  const [currentEntry, setCurrentEntry] = React.useState()
-
-  const loadEntry = () => {
-    selectedEntryId
-      ? setCurrentEntry(entries[selectedEntryId])
-      : setCurrentEntry(columnNames)
-  }
+  useEffect(() => {
+    setCurrentEntry(entries[selectedEntryId])
+    /* 
+    console.log("selectedEntryId ", selectedEntryId)
+    console.log("currentEntry ", currentEntry)
+    console.log("entries[selectedEntryId] ", entries[selectedEntryId])
+    */
+  }, [entries, selectedEntryId])
 
   const handleClose = () => {
     closeModal()
@@ -165,6 +168,8 @@ const EditEntryModal = ({
                 label={column.displayName}
                 fullWidth
                 multiline
+                inputProps={{
+                  ...params.inputProps,
                   autoComplete: "new-password",
                 }}
               />
