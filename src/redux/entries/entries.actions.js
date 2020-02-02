@@ -25,7 +25,9 @@ export const fetchEntriesFailure = errorMessage => ({
 export const fetchEntriesStartAsync = () => {
   return dispatch => {
     const user = store.getState().user.currentUser
-    const entriesRef = firestore.collection(`users/${user.id}/entries`)
+    const entriesRef = firestore
+      .collection(`users/${user.id}/entries`)
+      .orderBy("createdAt")
     dispatch(fetchEntriesStart())
 
     entriesRef
@@ -67,6 +69,7 @@ export const createEntryStartAsync = entry => {
     dispatch(createEntryStart())
 
     entry.id = EntryDoc.id
+    entry.createdAt = new Date()
 
     EntryDoc.set(entry)
       .then(() => {
@@ -74,6 +77,7 @@ export const createEntryStartAsync = entry => {
         dispatch(createEntrySuccess(entry))
       })
       .catch(error => dispatch(createEntryFailure(error.message)))
+    return entry
   }
 }
 
