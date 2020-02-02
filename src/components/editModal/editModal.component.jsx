@@ -14,16 +14,21 @@ import {
 } from "../../redux/entries/entries.selectors"
 import { selectColumnsArray } from "../../redux/columns/columns.selectors"
 import "./editModal.styles.scss"
+
+import { withStyles } from "@material-ui/core/styles"
 import Button from "@material-ui/core/Button"
 import Dialog from "@material-ui/core/Dialog"
 import DialogActions from "@material-ui/core/DialogActions"
 import DialogContent from "@material-ui/core/DialogContent"
-import DialogTitle from "@material-ui/core/DialogTitle"
+import MuiDialogTitle from "@material-ui/core/DialogTitle"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
 import { useTheme } from "@material-ui/core/styles"
 import TextField from "@material-ui/core/TextField"
 import Autocomplete from "@material-ui/lab/Autocomplete"
 import { makeStyles } from "@material-ui/core/styles"
+import IconButton from "@material-ui/core/IconButton"
+import CloseIcon from "@material-ui/icons/Close"
+import Typography from "@material-ui/core/Typography"
 
 import CurrencyFormat from "react-currency-format"
 import {
@@ -61,6 +66,38 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
+const styles = theme => ({
+  root: {
+    margin: 0,
+    padding: theme.spacing(2),
+    paddingLeft: "26px",
+  },
+  closeButton: {
+    position: "absolute",
+    right: theme.spacing(1),
+    top: theme.spacing(1),
+    color: theme.palette.grey[500],
+  },
+})
+
+const DialogTitle = withStyles(styles)(props => {
+  const { children, classes, onClose, ...other } = props
+  return (
+    <MuiDialogTitle disableTypography className={classes.root} {...other}>
+      <Typography variant="h6">{children}</Typography>
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          className={classes.closeButton}
+          onClick={onClose}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </MuiDialogTitle>
+  )
+})
+
 const EditEntryModal = ({
   isOpen,
   closeModal,
@@ -94,10 +131,6 @@ const EditEntryModal = ({
     console.log("entries[selectedEntryId] ", entries[selectedEntryId])
     */
   }, [entries, selectedEntryId])
-
-  const handleClose = () => {
-    closeModal()
-  }
 
   // Text
   const handleChangeText = (columnName, event, value) => {
@@ -139,6 +172,12 @@ const EditEntryModal = ({
     })
   }
 
+  // Close
+  const handleClose = () => {
+    closeModal()
+  }
+
+  // Save
   const handleSave = () => {
     //convertAllDatesToFirebaseDateFormat();
     updateEntryStartAsync(currentEntry)
@@ -344,16 +383,15 @@ const EditEntryModal = ({
 
   return (
     <div>
-      <Dialog
-        fullScreen={fullScreen}
-        open={isOpen}
-        onClose={handleClose}
-        aria-labelledby="Add "
-      >
+      <Dialog fullScreen={fullScreen} open={isOpen} onClose={handleClose}>
         {selectedEntryId ? (
-          <DialogTitle id="modal-title">{"Edit entry"}</DialogTitle>
+          <DialogTitle id="modal-title" onClose={handleClose}>
+            {"Edit entry"}
+          </DialogTitle>
         ) : (
-          <DialogTitle id="modal-title">{"New entry"}</DialogTitle>
+          <DialogTitle id="modal-title" onClose={handleClose}>
+            {"New entry"}
+          </DialogTitle>
         )}
         <DialogContent>
           <MuiPickersUtilsProvider utils={DateFnsUtils}>
