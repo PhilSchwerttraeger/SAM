@@ -68,7 +68,6 @@ export const createEntryStartAsync = entry => {
 
     entry.id = EntryDoc.id
 
-    // TODO
     EntryDoc.set(entry)
       .then(() => {
         entry = convertFirestoreDatesToJsDates(entry)
@@ -103,7 +102,6 @@ export const updateEntryStartAsync = updatedEntry => {
 
     dispatch(updateEntryStart())
 
-    // TODO
     EntryDoc.set(updatedEntry)
       .then(() => {
         dispatch(updateEntrySuccess(updatedEntry))
@@ -137,7 +135,6 @@ export const deleteEntryStartAsync = deleteEntryId => {
 
     dispatch(deleteEntryStart())
 
-    // TODO
     EntryDoc.delete()
       .then(() => {
         dispatch(deleteEntrySuccess(deleteEntryId))
@@ -145,3 +142,9 @@ export const deleteEntryStartAsync = deleteEntryId => {
       .catch(error => dispatch(deleteEntryFailure(error.message)))
   }
 }
+
+// Set selected Entry (no Firebase, no async action)
+export const setSelectedEntry = entry => ({
+  type: EntriesActionTypes.SET_SELECTED_ENTRY,
+  payload: entry,
+})

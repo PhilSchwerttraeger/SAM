@@ -84,9 +84,9 @@ const entriesReducer = (state = INITIAL_STATE, action) => {
     case EntriesActionTypes.DELETE_ENTRY_SUCCESS:
       const deletedEntry = action.payload
       const reducedState = state.entries
-      console.log(reducedState[deletedEntry])
+      console.log("delete from state: ", reducedState[deletedEntry])
       delete reducedState[deletedEntry]
-      console.log(state)
+      console.log("new state now: ", state)
 
       return {
         ...state,
@@ -98,6 +98,12 @@ const entriesReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isStoring: false,
         errorMessage: action.payload,
+      }
+
+    case EntriesActionTypes.SET_SELECTED_ENTRY:
+      return {
+        ...state,
+        selectedEntry: action.payload,
       }
 
     default:

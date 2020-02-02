@@ -7,10 +7,14 @@ import {
   updateEntryStartAsync,
   deleteEntryStartAsync,
   clearEntries,
+  setSelectedEntry,
 } from "../../redux/entries/entries.actions"
 import { clearColumns } from "../../redux/columns/columns.actions"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
-import { selectEntriesArray } from "../../redux/entries/entries.selectors"
+import {
+  selectEntriesArray,
+  selectSelectedEntry,
+} from "../../redux/entries/entries.selectors"
 import { selectColumnsArray } from "../../redux/columns/columns.selectors"
 import {
   buildMUIdata,
@@ -42,10 +46,17 @@ class Table extends React.Component {
   }
 
   render() {
-    const { entries, columns, currentUser, deleteEntryStartAsync } = this.props
+    const {
+      entries,
+      columns,
+      currentUser,
+      deleteEntryStartAsync,
+      selectedEntry,
+      setSelectedEntry,
+    } = this.props
 
-    const setSelectedEntry = (id, index) => {
-      if (id === this.state.selectedEntryId) {
+    const setSelectedEntryPreprocessing = ({ id, index }) => {
+      if (selectedEntry && id === selectedEntry.id) {
         console.log(
           "already selected, now deselecting entry with id " +
             id +
@@ -53,17 +64,15 @@ class Table extends React.Component {
             index,
         )
 
-        this.setState({
-          ...this.state,
-          selectedEntryId: null,
-          selectedEntryIndex: null,
+        setSelectedEntry({
+          id: null,
+          index: null,
         })
       } else {
         console.log("set selected entry to id " + id + " and index " + index)
-        this.setState({
-          ...this.state,
-          selectedEntryId: id,
-          selectedEntryIndex: index,
+        setSelectedEntry({
+          id: id,
+          index: index,
         })
       }
     }
@@ -97,8 +106,8 @@ class Table extends React.Component {
           deleteEntryStartAsync,
           addEntryClicked,
           editEntryClicked,
-          setSelectedEntry,
-          this.state.selectedEntryIndex,
+          setSelectedEntryPreprocessing,
+          selectedEntry,
         )
       : []
 
@@ -147,7 +156,7 @@ class Table extends React.Component {
               editEntryModalIsOpen: false,
             })
           }
-          selectedEntryId={this.state.selectedEntryId}
+          selectedEntryId={selectedEntry.id}
         />
         <MuiThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
@@ -166,6 +175,7 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   entries: selectEntriesArray,
   columns: selectColumnsArray,
+  selectedEntry: selectSelectedEntry,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -177,6 +187,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateEntryStartAsync(entryToUpdate)),
   deleteEntryStartAsync: entryToDelete =>
     dispatch(deleteEntryStartAsync(entryToDelete)),
+  setSelectedEntry: entryToSetSelected =>
+    dispatch(setSelectedEntry(entryToSetSelected)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table)

@@ -17,3 +17,5 @@ export const selectEntriesArray = createSelector([selectEntries], entries => {
   const entriesIds = entr ? Object.keys(entr).map(e => e) : null
   return entriesIds ? entriesIds.map(id => entr[id]) : null
 })
+
+export const selectSelectedEntry = state => state.entries.selectedEntry

@@ -230,7 +230,7 @@ export const buildMUIoptions = (
   addEntryClicked,
   editEntryClicked,
   setSelectedEntry,
-  selectedEntryIndex,
+  selectedEntry,
 ) => {
   // convert currently selected entry index to array (MUI datatables format), if no entry is selected (null) insert no array at all into MUI datatables
 
@@ -246,12 +246,13 @@ export const buildMUIoptions = (
           separator: ",",
         },
 
-        rowsSelected: selectedEntryIndex === null ? null : [selectedEntryIndex],
+        rowsSelected:
+          selectedEntry && selectedEntry.index ? [selectedEntry.index] : null,
         onRowsSelect: currentRowsSelected => {
-          setSelectedEntry(
-            MUIdata[currentRowsSelected[0].dataIndex].id,
-            currentRowsSelected[0].dataIndex,
-          )
+          setSelectedEntry({
+            id: MUIdata[currentRowsSelected[0].dataIndex].id,
+            index: currentRowsSelected[0].dataIndex,
+          })
         },
 
         customToolbar: () => (
