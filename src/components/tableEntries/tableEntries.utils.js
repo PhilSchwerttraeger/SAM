@@ -96,6 +96,7 @@ export const formatIntervalToString = interval => {
 // Build columns for MUI Data Table depending on column type and name
 export const buildMUIcolumns = (columns, userCurrency) => {
   if (columns) {
+    console.log(columns)
     let MUIcolumns = columns.map(column => {
       // Create default column object and fill it accordingly
       let columnObject = {
@@ -231,6 +232,7 @@ export const buildMUIoptions = (
   editEntryClicked,
   setSelectedEntry,
   selectedEntry,
+  handleTableChange,
 ) => {
   // convert currently selected entry index to array (MUI datatables format), if no entry is selected (null) insert no array at all into MUI datatables
 
@@ -246,8 +248,14 @@ export const buildMUIoptions = (
           separator: ",",
         },
 
+        onTableChange: (action, tableState) => {
+          handleTableChange(action, tableState)
+        },
+
         rowsSelected:
-          selectedEntry && selectedEntry.index ? [selectedEntry.index] : null,
+          selectedEntry && selectedEntry.index !== null
+            ? [selectedEntry.index]
+            : null,
         onRowsSelect: currentRowsSelected => {
           setSelectedEntry({
             id: MUIdata[currentRowsSelected[0].dataIndex].id,

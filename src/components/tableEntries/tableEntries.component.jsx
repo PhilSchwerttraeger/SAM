@@ -32,6 +32,12 @@ class Table extends React.Component {
       editEntryModalIsOpen: false,
       selectedEntryId: null,
       selectedEntryIndex: null,
+      tableStatePersist: {
+        //Dynamic collection of props that are needed between table refreshes.
+        searchText: "",
+        filterList: [],
+        columns: [],
+      },
     }
   }
 
@@ -93,10 +99,60 @@ class Table extends React.Component {
       })
     }
 
+    const handleTableChange = (action, tableState) => {
+      console.log("Table state action: " + JSON.stringify(action))
+      console.log("table state: " + JSON.stringify(tableState))
+      if (action === "propsUpdate") {
+        this.setState({
+          tableStatePersist: {
+            searchText: tableState.searchText,
+            filterList: tableState.filterList,
+            columns: tableState.columns,
+          },
+        })
+      }
+    }
+
+    //Return all columns, their props, and any current state-related changes
     const MUIcolumns =
+      //Define all of the alert table's columns and their default props and options as per the mui-datatables documentation
+
       columns && currentUser.currency
         ? buildMUIcolumns(columns, currentUser.currency)
         : []
+
+    /* 
+      //Loop thru columns and assign all column-specific settings that need to persist thru a data refresh
+      for (let i = 0; i < columns2.length; i++) {
+        //Assign the filter list to persist
+        columns2[
+          i
+        ].options.filterList = this.state.tableStatePersist.filterList[i]
+        if (this.state.tableStatePersist.columns[i] !== undefined) {
+          //If 'display' has a value in tableStatePersist, assign that, or else leave it alone
+          if (this.state.tableStatePersist.columns[i].hasOwnProperty("display"))
+            columns2[i].options.display = this.state.tableStatePersist.columns[
+              i
+            ].display
+          //If 'sortDirection' has a value in tableStatePersist, assign that, or else leave it alone
+          if (
+            this.state.tableStatePersist.columns[i].hasOwnProperty(
+              "sortDirection",
+            )
+          ) {
+            //The sortDirection prop only permits sortDirection for one column at a time
+            if (
+              this.state.tableStatePersist.columns[i].sortDirection !== "none"
+            )
+              columns2[
+                i
+              ].options.sortDirection = this.state.tableStatePersist.columns[
+                i
+              ].sortDirection
+          }
+        }
+      }
+      */
 
     const MUIdata = entries && columns ? buildMUIdata(entries, columns) : []
 
@@ -108,6 +164,7 @@ class Table extends React.Component {
           editEntryClicked,
           setSelectedEntryPreprocessing,
           selectedEntry,
+          handleTableChange,
         )
       : []
 
@@ -156,7 +213,9 @@ class Table extends React.Component {
               editEntryModalIsOpen: false,
             })
           }
-          selectedEntryId={selectedEntry.id}
+          selectedEntryId={
+            selectedEntry && selectedEntry.id ? selectedEntry.id : null
+          }
         />
         <MuiThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
