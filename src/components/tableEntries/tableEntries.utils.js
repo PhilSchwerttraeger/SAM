@@ -230,6 +230,8 @@ export const buildMUIoptions = (
   addEntryClicked,
   editEntryClicked,
   selectedEntry,
+  handleTableChange,
+  tableState,
 ) => {
   // convert currently selected entry index to array (MUI datatables format), if no entry is selected (null) insert no array at all into MUI datatables
 
@@ -243,6 +245,13 @@ export const buildMUIoptions = (
         downloadOptions: {
           filename: "SAM-Download.csv",
           separator: ",",
+        },
+
+        onTableChange: (action, newTableState) => {
+          if (action !== "propsUpdate") {
+            console.log(newTableState, tableState)
+            handleTableChange(action, newTableState)
+          }
         },
 
         rowsSelected:

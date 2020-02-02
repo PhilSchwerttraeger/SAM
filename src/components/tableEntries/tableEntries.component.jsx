@@ -30,7 +30,7 @@ class Table extends React.Component {
     super(props)
     this.state = {
       editEntryModalIsOpen: false,
-      entry: {
+      selectedEntry: {
         id: null,
         index: null,
       },
@@ -53,7 +53,7 @@ class Table extends React.Component {
     const addEntryClicked = () => {
       this.setState({
         ...this.state,
-        entry: {
+        selectedEntry: {
           id: null,
           index: null,
         },
@@ -64,7 +64,7 @@ class Table extends React.Component {
     const editEntryClicked = (id, index) => {
       this.setState({
         ...this.state,
-        entry: {
+        selectedEntry: {
           id: id,
           index: index,
         },
@@ -79,13 +79,26 @@ class Table extends React.Component {
 
     const MUIdata = entries && columns ? buildMUIdata(entries, columns) : []
 
+    const handleTableChange = (action, tableState) => {
+      const visibleRowsIndices = tableState.displayData.map(
+        item => item.dataIndex,
+      )
+      const visibleEntries = visibleRowsIndices.map(index => MUIdata[index])
+      const visibleValues = visibleRowsIndices.map(
+        index => MUIdata[index].value,
+      )
+      console.log(action, tableState, visibleEntries, visibleValues)
+    }
+
     const MUIoptions = (MUIdata, deleteEntryStartAsync)
       ? buildMUIoptions(
           MUIdata,
           deleteEntryStartAsync,
           addEntryClicked,
           editEntryClicked,
-          this.state.entry,
+          this.state.selectedEntry,
+          handleTableChange,
+          this.state.tableState,
         )
       : []
 
@@ -134,7 +147,7 @@ class Table extends React.Component {
               editEntryModalIsOpen: false,
             })
           }
-          selectedEntryId={this.state.entry.id}
+          selectedEntryId={this.state.selectedEntry.id}
         />
         <MuiThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
