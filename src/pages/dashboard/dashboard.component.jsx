@@ -16,7 +16,6 @@ import {
   //deleteColumnStartAsync,
   fetchColumnsStartAsync,
 } from "../../redux/columns/columns.actions"
-import Settings from "../../components/settings/settings.component"
 import { createFirestoreDate } from "../../firebase/firebase.util"
 
 const hardcodedCreateEntry = {
@@ -90,8 +89,6 @@ class Dashboard extends React.Component {
             create column
           </button>
         </div>
-
-        <Settings />
       </DashboardPageContainer>
     )
   }

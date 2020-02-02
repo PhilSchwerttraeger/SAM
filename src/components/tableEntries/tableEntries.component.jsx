@@ -48,7 +48,13 @@ class Table extends React.Component {
   }
 
   render() {
-    const { entries, columns, currentUser, deleteEntryStartAsync } = this.props
+    const {
+      entries,
+      columns,
+      currentUser,
+      deleteEntryStartAsync,
+      //setSelectedEntry,
+    } = this.props
 
     const addEntryClicked = () => {
       this.setState({

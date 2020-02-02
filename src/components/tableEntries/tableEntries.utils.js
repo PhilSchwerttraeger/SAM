@@ -254,6 +254,14 @@ export const buildMUIoptions = (
           }
         },
 
+        /* 
+        onCellClick: (colData, cellMeta) => {
+          const selectedIndex = cellMeta.dataIndex
+          const selectedId = MUIdata[selectedIndex].id
+          editEntryClicked({ id: selectedId, index: selectedIndex })
+        },
+        */
+
         rowsSelected:
           selectedEntry && selectedEntry.index !== null
             ? [selectedEntry.index]

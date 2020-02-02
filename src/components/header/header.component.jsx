@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 //import { Link } from "react-router-dom"
 import "./header.styles.scss"
 //import { ReactComponent as Logo } from "../../assets/crown.svg"
@@ -14,6 +14,7 @@ import {
   OptionLink,
 } from "./header.styles"
 import { clearEntries } from "../../redux/entries/entries.actions"
+import Settings from "../../components/settings/settings.component"
 
 // To use, use { HeaderLogo } in HeaderContainer below
 /*
@@ -25,6 +26,12 @@ const HeaderLogo = (
 */
 
 const Header = ({ currentUser }) => {
+  const [settingsModalIsOpen, setSettingsModalIsOpen] = React.useState(false)
+
+  const closeModal = () => {
+    setSettingsModalIsOpen(false)
+  }
+
   let userName = ""
   if (currentUser) {
     userName =
@@ -36,7 +43,7 @@ const Header = ({ currentUser }) => {
     <HeaderContainer>
       <h1>SIMPLE ACCOUNT MANAGER</h1>
       <OptionsContainer>
-        <OptionLink as="div" onClick={() => alert()}>
+        <OptionLink as="div" onClick={() => setSettingsModalIsOpen(true)}>
           SETTINGS
         </OptionLink>
         <OptionLink as="div" onClick={() => alert()}>
@@ -56,6 +63,8 @@ const Header = ({ currentUser }) => {
           <OptionLink to="/signin">SIGN-IN</OptionLink>
         )}
       </OptionsContainer>
+
+      <Settings isOpen={settingsModalIsOpen} closeModal={closeModal} />
     </HeaderContainer>
   )
 }
