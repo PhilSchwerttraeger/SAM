@@ -108,6 +108,7 @@ const EditEntryModal = ({
   columns,
   updateEntryStartAsync,
   createEntryStartAsync,
+  deleteEntryStartAsync,
 }) => {
   const theme = useTheme()
   const classes = useStyles()
@@ -196,6 +197,13 @@ const EditEntryModal = ({
       createEntryStartAsync(currentEntry)
       handleClose()
     }
+  }
+
+  // Delete
+  const handleDelete = () => {
+    console.log("handleDelete ", currentEntry)
+    deleteEntryStartAsync(currentEntry.id)
+    handleClose()
   }
 
   const makeOptions = column => {
@@ -419,7 +427,7 @@ const EditEntryModal = ({
 
           {selectedEntryId ? (
             <>
-              <Button onClick={handleClose} color="secondary">
+              <Button onClick={handleDelete} color="secondary">
                 Delete
               </Button>
               <Button onClick={handleSave} color="primary">
