@@ -150,7 +150,7 @@ export const buildMUIcolumns = (columns, userCurrency) => {
                 <FormLabel>{column.displayName}</FormLabel>
                 <FormGroup row>
                   <TextField
-                    label="min"
+                    label="Min value"
                     value={filterList[index][0] || ""}
                     onChange={event => {
                       filterList[index][0] = event.target.value
@@ -159,7 +159,7 @@ export const buildMUIcolumns = (columns, userCurrency) => {
                     style={{ width: "45%", marginRight: "5%" }}
                   />
                   <TextField
-                    label="max"
+                    label="Max value"
                     value={filterList[index][1] || ""}
                     onChange={event => {
                       filterList[index][1] = event.target.value
@@ -229,7 +229,6 @@ export const buildMUIoptions = (
   deleteEntryStartAsync,
   addEntryClicked,
   editEntryClicked,
-  setSelectedEntry,
   selectedEntry,
 ) => {
   // convert currently selected entry index to array (MUI datatables format), if no entry is selected (null) insert no array at all into MUI datatables
@@ -250,12 +249,6 @@ export const buildMUIoptions = (
           selectedEntry && selectedEntry.index !== null
             ? [selectedEntry.index]
             : null,
-        onRowsSelect: currentRowsSelected => {
-          setSelectedEntry({
-            id: MUIdata[currentRowsSelected[0].dataIndex].id,
-            index: currentRowsSelected[0].dataIndex,
-          })
-        },
 
         customToolbar: () => (
           <Tooltip title={"Add new entry"}>
@@ -311,7 +304,13 @@ export const buildMUIoptions = (
                 </IconButton>
               </Tooltip>
               <Tooltip title={"Edit selected entry"}>
-                <IconButton onClick={editEntryClicked}>
+                <IconButton
+                  onClick={() => {
+                    const selectedIndex = selectedRows.data[0].dataIndex
+                    const selectedId = MUIdata[selectedIndex].id
+                    editEntryClicked(selectedId, selectedIndex)
+                  }}
+                >
                   <EditIcon />
                 </IconButton>
               </Tooltip>

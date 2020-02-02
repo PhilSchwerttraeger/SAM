@@ -30,8 +30,10 @@ class Table extends React.Component {
     super(props)
     this.state = {
       editEntryModalIsOpen: false,
-      selectedEntryId: null,
-      selectedEntryIndex: null,
+      entry: {
+        id: null,
+        index: null,
+      },
     }
   }
 
@@ -46,49 +48,26 @@ class Table extends React.Component {
   }
 
   render() {
-    const {
-      entries,
-      columns,
-      currentUser,
-      deleteEntryStartAsync,
-      selectedEntry,
-      setSelectedEntry,
-    } = this.props
-
-    const setSelectedEntryPreprocessing = ({ id, index }) => {
-      if (selectedEntry && id === selectedEntry.id) {
-        console.log(
-          "already selected, now deselecting entry with id " +
-            id +
-            " and index " +
-            index,
-        )
-
-        setSelectedEntry({
-          id: null,
-          index: null,
-        })
-      } else {
-        console.log("set selected entry to id " + id + " and index " + index)
-        setSelectedEntry({
-          id: id,
-          index: index,
-        })
-      }
-    }
+    const { entries, columns, currentUser, deleteEntryStartAsync } = this.props
 
     const addEntryClicked = () => {
       this.setState({
         ...this.state,
-        selectedEntryId: null,
-        selectedEntryIndex: null,
+        entry: {
+          id: null,
+          index: null,
+        },
         editEntryModalIsOpen: true,
       })
     }
 
-    const editEntryClicked = () => {
+    const editEntryClicked = (id, index) => {
       this.setState({
         ...this.state,
+        entry: {
+          id: id,
+          index: index,
+        },
         editEntryModalIsOpen: true,
       })
     }
@@ -106,8 +85,7 @@ class Table extends React.Component {
           deleteEntryStartAsync,
           addEntryClicked,
           editEntryClicked,
-          setSelectedEntryPreprocessing,
-          selectedEntry,
+          this.state.entry,
         )
       : []
 
@@ -156,7 +134,7 @@ class Table extends React.Component {
               editEntryModalIsOpen: false,
             })
           }
-          selectedEntryId={selectedEntry ? selectedEntry.id : null}
+          selectedEntryId={this.state.entry.id}
         />
         <MuiThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
