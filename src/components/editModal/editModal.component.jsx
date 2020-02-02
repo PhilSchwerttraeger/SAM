@@ -107,6 +107,7 @@ const EditEntryModal = ({
   entriesArray,
   columns,
   updateEntryStartAsync,
+  createEntryStartAsync,
 }) => {
   const theme = useTheme()
   const classes = useStyles()
@@ -182,6 +183,19 @@ const EditEntryModal = ({
     //convertAllDatesToFirebaseDateFormat();
     updateEntryStartAsync(currentEntry)
     handleClose()
+  }
+
+  // Create
+  const handleCreate = () => {
+    //convertAllDatesToFirebaseDateFormat();
+    console.log(currentEntry)
+    if (currentEntry === undefined) {
+      createEntryStartAsync({})
+      handleClose()
+    } else {
+      createEntryStartAsync(currentEntry)
+      handleClose()
+    }
   }
 
   const makeOptions = column => {
@@ -413,7 +427,7 @@ const EditEntryModal = ({
               </Button>
             </>
           ) : (
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={handleCreate} color="primary">
               Create
             </Button>
           )}
