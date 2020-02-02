@@ -5,6 +5,8 @@ const INITIAL_STATE = {
   isFetching: false,
   isStoring: false,
   errorMessage: undefined,
+  selectedEntry: null,
+  visibleEntries: null,
 }
 
 const entriesReducer = (state = INITIAL_STATE, action) => {
@@ -104,6 +106,12 @@ const entriesReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         selectedEntry: action.payload,
+      }
+
+    case EntriesActionTypes.SET_VISIBLE_ENTRIES:
+      return {
+        ...state,
+        visibleEntries: action.payload,
       }
 
     default:

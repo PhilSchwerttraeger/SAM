@@ -18,4 +18,12 @@ export const selectEntriesArray = createSelector([selectEntries], entries => {
   return entriesIds ? entriesIds.map(id => entr[id]) : null
 })
 
-export const selectSelectedEntry = state => state.entries.selectedEntry
+export const selectSelectedEntry = createSelector(
+  [selectEntries],
+  entries => entries.selectedEntry,
+)
+
+export const selectVisibleEntries = createSelector(
+  [selectEntries],
+  entries => entries.visibleEntries,
+)

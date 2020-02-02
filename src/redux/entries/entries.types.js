@@ -18,6 +18,7 @@ export const EntriesActionTypes = {
   DELETE_ENTRY_FAILURE: "DELETE_ENTRY_FAILURE",
 
   SET_SELECTED_ENTRY: "SET_SELECTED_ENTRY",
+  SET_VISIBLE_ENTRIES: "SET_VISIBLE_ENTRIES",
 }
 
 export default EntriesActionTypes

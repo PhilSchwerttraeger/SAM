@@ -152,3 +152,9 @@ export const setSelectedEntry = entry => ({
   type: EntriesActionTypes.SET_SELECTED_ENTRY,
   payload: entry,
 })
+
+// Set selected Entry (no Firebase, no async action)
+export const setVisibleEntries = entry => ({
+  type: EntriesActionTypes.SET_VISIBLE_ENTRIES,
+  payload: entry,
+})
