@@ -206,6 +206,15 @@ const EditEntryModal = ({
     handleClose()
   }
 
+  // Duplicate
+  const handleDuplicate = () => {
+    const entry = currentEntry
+    delete entry.id
+    console.log("handleDuplicate ", entry, currentEntry)
+    const ret = createEntryStartAsync(currentEntry)
+    setCurrentEntry(ret)
+  }
+
   const makeOptions = column => {
     // make array of all values
     let array = entriesArray.map(entry => entry[column.name])
@@ -430,6 +439,7 @@ const EditEntryModal = ({
               <Button onClick={handleDelete} color="secondary">
                 Delete
               </Button>
+              <Button onClick={handleDuplicate}>Duplicate</Button>
               <Button onClick={handleSave} color="primary">
                 Save
               </Button>
