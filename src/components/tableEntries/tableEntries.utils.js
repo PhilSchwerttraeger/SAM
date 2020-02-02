@@ -247,7 +247,9 @@ export const buildMUIoptions = (
         },
 
         rowsSelected:
-          selectedEntry && selectedEntry.index ? [selectedEntry.index] : null,
+          selectedEntry && selectedEntry.index !== null
+            ? [selectedEntry.index]
+            : null,
         onRowsSelect: currentRowsSelected => {
           setSelectedEntry({
             id: MUIdata[currentRowsSelected[0].dataIndex].id,

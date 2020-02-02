@@ -80,12 +80,14 @@ const EditEntryModal = ({
 
   // Create current entry object
   // (new if empty entry prop, from store if prop available)
-  const columnNames = columns.reduce((o, key) => ({ ...o, [key.name]: "" }), {})
+  const columnNames = columns
+    ? columns.reduce((o, key) => ({ ...o, [key.name]: "" }), {})
+    : null
 
   const [currentEntry, setCurrentEntry] = React.useState(columnNames)
 
   useEffect(() => {
-    setCurrentEntry(entries[selectedEntryId])
+    setCurrentEntry(entries ? entries[selectedEntryId] : null)
     /* 
     console.log("selectedEntryId ", selectedEntryId)
     console.log("currentEntry ", currentEntry)
@@ -325,16 +327,20 @@ const EditEntryModal = ({
     }
   }
 
-  const fields = columns.map(column => (
-    <Grid
-      key={column.order}
-      item
-      xs={column.order < 4 ? 6 : 12}
-      className={classes.gridItem}
-    >
-      <FormControl className={classes.formControl}>{field(column)}</FormControl>
-    </Grid>
-  ))
+  const fields = columns
+    ? columns.map(column => (
+        <Grid
+          key={column.order}
+          item
+          xs={column.order < 4 ? 6 : 12}
+          className={classes.gridItem}
+        >
+          <FormControl className={classes.formControl}>
+            {field(column)}
+          </FormControl>
+        </Grid>
+      ))
+    : null
 
   return (
     <div>

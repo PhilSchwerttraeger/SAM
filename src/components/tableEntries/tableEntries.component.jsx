@@ -156,7 +156,7 @@ class Table extends React.Component {
               editEntryModalIsOpen: false,
             })
           }
-          selectedEntryId={selectedEntry.id}
+          selectedEntryId={selectedEntry ? selectedEntry.id : null}
         />
         <MuiThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
