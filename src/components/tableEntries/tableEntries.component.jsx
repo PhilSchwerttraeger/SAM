@@ -52,6 +52,7 @@ class Table extends React.Component {
             " and index " +
             index,
         )
+
         this.setState({
           ...this.state,
           selectedEntryId: null,
@@ -59,8 +60,11 @@ class Table extends React.Component {
         })
       } else {
         console.log("set selected entry to id " + id + " and index " + index)
-        this.setState({ selectedEntryId: id })
-        this.setState({ selectedEntryIndex: index })
+        this.setState({
+          ...this.state,
+          selectedEntryId: id,
+          selectedEntryIndex: index,
+        })
       }
     }
 

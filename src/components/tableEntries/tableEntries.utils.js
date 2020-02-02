@@ -208,28 +208,15 @@ export const buildMUIdata = (entriesArray, columns) => {
   if (entriesArray && columns) {
     return entriesArray.map(entry => {
       // For every entry create a new object and fill with properties
-      let entryObject = {}
-
-      // Enable Id displaying
-      entryObject.id = entry.id
+      let entryObject = {
+        id: entry.id,
+      }
 
       columns.forEach(property => {
         // Skip entry's empty propertys (property that are defined in columns, but are actually not present in entry document)
         if (entry[property.name] === undefined) {
           entryObject[property.name] = null
-        } else {
-          // Custom formatting depending on property type
-          switch (property.type) {
-            /*
-              case "date":
-              entryObject[property.name] = entry[property.name].seconds
-              break
-            */
-
-            default:
-              entryObject[property.name] = entry[property.name]
-          }
-        }
+        } else entryObject[property.name] = entry[property.name]
       })
 
       return entryObject
@@ -246,8 +233,6 @@ export const buildMUIoptions = (
   selectedEntryIndex,
 ) => {
   // convert currently selected entry index to array (MUI datatables format), if no entry is selected (null) insert no array at all into MUI datatables
-  let selectedEntryIndexArray =
-    selectedEntryIndex === null ? null : [selectedEntryIndex]
 
   return MUIdata
     ? {
@@ -256,16 +241,19 @@ export const buildMUIoptions = (
         selectableRows: "single",
         selectableRowsOnClick: true,
         pagination: false,
-        downloadOptions: { filename: "SAM-Download.csv", separator: "," },
-        rowsSelected: selectedEntryIndexArray,
-        onRowsDelete: () => alert("DELETED!"),
+        downloadOptions: {
+          filename: "SAM-Download.csv",
+          separator: ",",
+        },
 
+        rowsSelected: selectedEntryIndex === null ? null : [selectedEntryIndex],
         onRowsSelect: currentRowsSelected => {
           setSelectedEntry(
             MUIdata[currentRowsSelected[0].dataIndex].id,
             currentRowsSelected[0].dataIndex,
           )
         },
+
         customToolbar: () => (
           <Tooltip title={"Add new entry"}>
             <IconButton onClick={() => addEntryClicked()}>
