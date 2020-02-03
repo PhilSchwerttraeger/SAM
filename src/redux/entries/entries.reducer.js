@@ -6,6 +6,7 @@ const INITIAL_STATE = {
   isStoring: false,
   errorMessage: undefined,
   selectedEntry: null,
+  editEntryModalIsOpen: false,
   visibleEntries: null,
 }
 
@@ -106,6 +107,12 @@ const entriesReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         selectedEntry: action.payload,
+      }
+
+    case EntriesActionTypes.SET_EDIT_ENTRY_MODAL_IS_OPEN:
+      return {
+        ...state,
+        editEntryModalIsOpen: action.payload,
       }
 
     case EntriesActionTypes.SET_VISIBLE_ENTRIES:

@@ -5,12 +5,16 @@ import {
   createEntryStartAsync,
   updateEntryStartAsync,
   deleteEntryStartAsync,
+  setSelectedEntry,
+  setEditEntryModalIsOpen,
 } from "../../redux/entries/entries.actions"
 import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
 import {
   selectEntriesMap,
   selectEntriesArray,
+  selectSelectedEntry,
+  selectEditModalIsOpen,
 } from "../../redux/entries/entries.selectors"
 import { selectColumnsArray } from "../../redux/columns/columns.selectors"
 import "./editModal.styles.scss"
@@ -99,9 +103,6 @@ const DialogTitle = withStyles(styles)(props => {
 })
 
 const EditEntryModal = ({
-  isOpen,
-  closeModal,
-  selectedEntryId,
   currentUser,
   entries,
   entriesArray,
@@ -109,10 +110,15 @@ const EditEntryModal = ({
   updateEntryStartAsync,
   createEntryStartAsync,
   deleteEntryStartAsync,
+  setEditEntryModalIsOpen,
+  selectedEntry,
+  editModalIsOpen,
 }) => {
   const theme = useTheme()
   const classes = useStyles()
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"))
+
+  //console.log("selectedEntry ", selectedEntry)
 
   // Leere Felder ergänzen (optional?)
   //entry = { ...columnNames, ...entry }
@@ -123,16 +129,16 @@ const EditEntryModal = ({
     ? columns.reduce((o, key) => ({ ...o, [key.name]: "" }), {})
     : null
 
-  const [currentEntry, setCurrentEntry] = React.useState(columnNames)
+  const [currentEntry, setCurrentEntry] = React.useState(
+    entries ? entries[selectedEntry.id] : columnNames,
+  )
 
   useEffect(() => {
-    setCurrentEntry(entries ? entries[selectedEntryId] : null)
-    /* 
-    console.log("selectedEntryId ", selectedEntryId)
-    console.log("currentEntry ", currentEntry)
-    console.log("entries[selectedEntryId] ", entries[selectedEntryId])
-    */
-  }, [entries, selectedEntryId])
+    setCurrentEntry(entries ? entries[selectedEntry.id] : null)
+    //console.log("selectedEntry.id ", selectedEntry.id)
+    //console.log("currentEntry ", currentEntry)
+    //console.log("entries[selectedEntry.id] ", entries[selectedEntry.id])
+  }, [entries, selectedEntry.id])
 
   // Text
   const handleChangeText = (columnName, event, value) => {
@@ -176,7 +182,7 @@ const EditEntryModal = ({
 
   // Close
   const handleClose = () => {
-    closeModal()
+    setEditEntryModalIsOpen(false)
   }
 
   // Save
@@ -188,12 +194,12 @@ const EditEntryModal = ({
 
   // Create
   const handleCreate = () => {
-    //convertAllDatesToFirebaseDateFormat();
-    console.log(currentEntry)
     if (currentEntry === undefined) {
+      console.log("handleCreate ", {})
       createEntryStartAsync({})
       handleClose()
     } else {
+      console.log("handleCreate ", currentEntry)
       createEntryStartAsync(currentEntry)
       handleClose()
     }
@@ -414,8 +420,12 @@ const EditEntryModal = ({
 
   return (
     <div>
-      <Dialog fullScreen={fullScreen} open={isOpen} onClose={handleClose}>
-        {selectedEntryId ? (
+      <Dialog
+        fullScreen={fullScreen}
+        open={editModalIsOpen}
+        onClose={handleClose}
+      >
+        {selectedEntry.id ? (
           <DialogTitle id="modal-title" onClose={handleClose}>
             {"Edit entry"}
           </DialogTitle>
@@ -434,7 +444,7 @@ const EditEntryModal = ({
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
 
-          {selectedEntryId ? (
+          {selectedEntry.id ? (
             <>
               <Button onClick={handleDelete} color="secondary">
                 Delete
@@ -460,6 +470,8 @@ const mapStateToProps = createStructuredSelector({
   entries: selectEntriesMap,
   entriesArray: selectEntriesArray,
   columns: selectColumnsArray,
+  selectedEntry: selectSelectedEntry,
+  editModalIsOpen: selectEditModalIsOpen,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -471,6 +483,10 @@ const mapDispatchToProps = dispatch => ({
     dispatch(updateEntryStartAsync(entryToUpdate)),
   deleteEntryStartAsync: entryToDelete =>
     dispatch(deleteEntryStartAsync(entryToDelete)),
+  setSelectedEntry: entryToSetSelected =>
+    dispatch(setSelectedEntry(entryToSetSelected)),
+  setEditEntryModalIsOpen: boolean =>
+    dispatch(setEditEntryModalIsOpen(boolean)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditEntryModal)

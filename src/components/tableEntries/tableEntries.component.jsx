@@ -8,6 +8,7 @@ import {
   deleteEntryStartAsync,
   clearEntries,
   setSelectedEntry,
+  setEditEntryModalIsOpen,
 } from "../../redux/entries/entries.actions"
 import { clearColumns } from "../../redux/columns/columns.actions"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
@@ -29,11 +30,6 @@ class Table extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      editEntryModalIsOpen: false,
-      selectedEntry: {
-        id: null,
-        index: null,
-      },
     }
   }
 
@@ -53,29 +49,24 @@ class Table extends React.Component {
       columns,
       currentUser,
       deleteEntryStartAsync,
-      //setSelectedEntry,
+      setSelectedEntry,
+      setEditEntryModalIsOpen,
     } = this.props
 
     const addEntryClicked = () => {
-      this.setState({
-        ...this.state,
-        selectedEntry: {
-          id: null,
-          index: null,
-        },
-        editEntryModalIsOpen: true,
+      setSelectedEntry({
+        id: null,
+        index: null,
       })
+      setEditEntryModalIsOpen(true)
     }
 
     const editEntryClicked = (id, index) => {
-      this.setState({
-        ...this.state,
-        selectedEntry: {
-          id: id,
-          index: index,
-        },
-        editEntryModalIsOpen: true,
+      setSelectedEntry({
+        id: id,
+        index: index,
       })
+      setEditEntryModalIsOpen(true)
     }
 
     const MUIcolumns =
@@ -102,9 +93,7 @@ class Table extends React.Component {
           deleteEntryStartAsync,
           addEntryClicked,
           editEntryClicked,
-          this.state.selectedEntry,
           handleTableChange,
-          this.state.tableState,
         )
       : []
 
@@ -145,16 +134,7 @@ class Table extends React.Component {
 
     return (
       <div style={{ width: "100%" }}>
-        <EditEntryModal
-          isOpen={this.state.editEntryModalIsOpen}
-          closeModal={() =>
-            this.setState({
-              ...this.state,
-              editEntryModalIsOpen: false,
-            })
-          }
-          selectedEntryId={this.state.selectedEntry.id}
-        />
+        <EditEntryModal />
         <MuiThemeProvider theme={getMuiTheme()}>
           <MUIDataTable
             title={"Entries"}
@@ -186,6 +166,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(deleteEntryStartAsync(entryToDelete)),
   setSelectedEntry: entryToSetSelected =>
     dispatch(setSelectedEntry(entryToSetSelected)),
+  setEditEntryModalIsOpen: boolean =>
+    dispatch(setEditEntryModalIsOpen(boolean)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Table)

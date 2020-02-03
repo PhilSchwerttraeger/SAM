@@ -153,6 +153,11 @@ export const setSelectedEntry = entry => ({
   payload: entry,
 })
 
+export const setEditEntryModalIsOpen = boolean => ({
+  type: EntriesActionTypes.SET_EDIT_ENTRY_MODAL_IS_OPEN,
+  payload: boolean,
+})
+
 // Set selected Entry (no Firebase, no async action)
 export const setVisibleEntries = entry => ({
   type: EntriesActionTypes.SET_VISIBLE_ENTRIES,

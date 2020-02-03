@@ -23,6 +23,11 @@ export const selectSelectedEntry = createSelector(
   entries => entries.selectedEntry,
 )
 
+export const selectEditModalIsOpen = createSelector(
+  [selectEntries],
+  entries => entries.editEntryModalIsOpen,
+)
+
 export const selectVisibleEntries = createSelector(
   [selectEntries],
   entries => entries.visibleEntries,

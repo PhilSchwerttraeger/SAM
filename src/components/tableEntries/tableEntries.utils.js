@@ -229,9 +229,7 @@ export const buildMUIoptions = (
   deleteEntryStartAsync,
   addEntryClicked,
   editEntryClicked,
-  selectedEntry,
   handleTableChange,
-  tableState,
 ) => {
   // convert currently selected entry index to array (MUI datatables format), if no entry is selected (null) insert no array at all into MUI datatables
 
@@ -249,7 +247,6 @@ export const buildMUIoptions = (
 
         onTableChange: (action, newTableState) => {
           if (action !== "propsUpdate") {
-            console.log(newTableState, tableState)
             handleTableChange(action, newTableState)
           }
         },
@@ -260,12 +257,12 @@ export const buildMUIoptions = (
           const selectedId = MUIdata[selectedIndex].id
           editEntryClicked({ id: selectedId, index: selectedIndex })
         },
-        */
 
         rowsSelected:
           selectedEntry && selectedEntry.index !== null
             ? [selectedEntry.index]
             : null,
+        */
 
         customToolbar: () => (
           <Tooltip title={"Add new entry"}>
