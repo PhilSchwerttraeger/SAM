@@ -88,6 +88,12 @@ const Settings = ({
   const classes = useStyles()
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"))
 
+  const [state, setState] = React.useState({ columns })
+
+  useEffect(() => {
+    console.log(state)
+  })
+
   // Close
   const handleClose = () => {
     closeModal()
@@ -98,66 +104,92 @@ const Settings = ({
     handleClose()
   }
 
+  const handleChangeDisplayName = (event, index) => {
+    let newState = state.columns
+    newState[index].displayName = event.target.value
+    setState({ columns: newState })
+  }
+
+  const handleChangeType = (event, index) => {
+    let newState = state.columns
+    newState[index].type = event.target.value
+    setState({ columns: newState })
+  }
+
+  const handleChangeDelete = (event, index) => {
+    let columnId = state.columns[index].id
+    console.log("Deleting column with ID = ", columnId)
+  }
+
   const fields = () => {
     if (columns) {
-      let editableColumns = columns.filter(column => column.isEditable)
-      let jsx = editableColumns.map(column => {
-        return (
-          // Column entry
-          <Grid
-            item
-            key={column.order}
-            xs={12}
-            className={classes.gridColumnItem}
-          >
-            <Grid container spacing={3} className={classes.gridFieldContainer}>
-              <Grid item xs={5} className={classes.gridFieldItem}>
-                <FormControl className={classes.formControl}>
-                  <TextField
-                    id={column.name + "_displayName"}
-                    key={column.name + "_displayName"}
-                    name={"columnDisplayName"}
-                    className={classes.displayNameTextField}
-                    label={"Display name"}
-                    value={column.displayName}
-                    onChange={() => null}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item xs={5} className={classes.gridFieldItem}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="column.name + " _typeInputLabel>
-                    Type
-                  </InputLabel>
-                  <Select
-                    id={column.name + "_type"}
-                    name={"columnType"}
-                    key={column.name}
-                    value={column.type}
-                    onChange={() => null}
-                    autoWidth={false}
-                    className={classes.typeSelect}
+      let jsx = columns.map((column, index) => {
+        if (column.isEditable)
+          return (
+            // Column entry
+            <Grid
+              item
+              key={column.order}
+              xs={12}
+              className={classes.gridColumnItem}
+            >
+              <Grid
+                container
+                spacing={3}
+                className={classes.gridFieldContainer}
+              >
+                <Grid item xs={5} className={classes.gridFieldItem}>
+                  <FormControl className={classes.formControl}>
+                    <TextField
+                      id={column.name + "_displayName"}
+                      key={column.name + "_displayName"}
+                      name={"columnDisplayName"}
+                      className={classes.displayNameTextField}
+                      label={"Column name"}
+                      value={state.columns[index].displayName}
+                      onChange={event => handleChangeDisplayName(event, index)}
+                      autoComplete="new-password"
+                    />
+                  </FormControl>
+                </Grid>
+                <Grid item xs={5} className={classes.gridFieldItem}>
+                  <FormControl className={classes.formControl}>
+                    <InputLabel id={column.name + " _typeInputLabel"}>
+                      Type
+                    </InputLabel>
+                    <Select
+                      id={column.name + "_type"}
+                      name={"columnType"}
+                      key={column.name}
+                      value={state.columns[index].type}
+                      onChange={event => handleChangeType(event, index)}
+                      autoWidth={false}
+                      className={classes.typeSelect}
+                    >
+                      <MenuItem key={"currency"} value={"currency"}>
+                        Currency
+                      </MenuItem>
+                      <MenuItem key={"date"} value={"date"}>
+                        Date
+                      </MenuItem>
+                      <MenuItem key={"text"} value={"text"}>
+                        Text
+                      </MenuItem>
+                    </Select>
+                  </FormControl>
+                </Grid>
+                <Grid item xs={2}>
+                  <IconButton
+                    aria-label="delete"
+                    className={classes.delete}
+                    onClick={event => handleChangeDelete(event, index)}
                   >
-                    <MenuItem key={"currency"} value={"currency"}>
-                      currency
-                    </MenuItem>
-                    <MenuItem key={"date"} value={"date"}>
-                      date
-                    </MenuItem>
-                    <MenuItem key={"text"} value={"text"}>
-                      text
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item xs={2}>
-                <IconButton aria-label="delete" className={classes.delete}>
-                  <DeleteIcon />
-                </IconButton>
+                    <DeleteIcon />
+                  </IconButton>
+                </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        )
+          )
       })
       return jsx
     }
