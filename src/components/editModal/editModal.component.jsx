@@ -196,11 +196,12 @@ const EditEntryModal = ({
   const handleCreate = () => {
     if (currentEntry === undefined) {
       console.log("handleCreate ", {})
-      createEntryStartAsync({})
+      let newEntry = createEntryStartAsync({})
+      setCurrentEntry(newEntry)
       handleClose()
     } else {
       console.log("handleCreate ", currentEntry)
-      createEntryStartAsync(currentEntry)
+      let x = createEntryStartAsync(currentEntry)
       handleClose()
     }
   }
@@ -208,7 +209,7 @@ const EditEntryModal = ({
   // Delete
   const handleDelete = () => {
     console.log("handleDelete ", currentEntry)
-    deleteEntryStartAsync(currentEntry.id)
+    if (currentEntry.id) deleteEntryStartAsync(currentEntry.id)
     handleClose()
   }
 
@@ -217,8 +218,8 @@ const EditEntryModal = ({
     const entry = currentEntry
     delete entry.id
     console.log("handleDuplicate ", entry, currentEntry)
-    const ret = createEntryStartAsync(currentEntry)
-    setCurrentEntry(ret)
+    const newEntry = createEntryStartAsync(currentEntry)
+    setCurrentEntry(newEntry)
   }
 
   const makeOptions = column => {
