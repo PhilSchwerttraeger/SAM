@@ -25,11 +25,12 @@ class Table extends React.Component {
     super(props)
     this.state = {
       tableStatePersist: {
-        searchText: "",
         filterList: [],
         columns: [],
       },
     }
+
+    let searchText = ""
   }
 
   componentDidMount() {
@@ -69,18 +70,20 @@ class Table extends React.Component {
     }
 
     const handleTableChange = (action, tableState) => {
-      //console.log("Table state changed || " + JSON.stringify(action))
+      console.log("Table state changed || " + JSON.stringify(action))
       //console.log("CURRENT STATE: " + JSON.stringify(tableState))
 
       if (action !== "propsUpdate") {
-        //Store new tableStatePersist only if not updating props
-        this.setState({
-          tableStatePersist: {
-            searchText: tableState.searchText,
-            filterList: tableState.filterList, //An array of filters for all columns
-            columns: tableState.columns, //We can pull column-specific options from this array, like display and sortDirection
-          },
-        })
+        if (action !== "search") {
+          this.setState({
+            tableStatePersist: {
+              filterList: tableState.filterList,
+              columns: tableState.columns,
+            },
+          })
+        } else {
+          this.searchText = tableState.searchText
+        }
       }
       /* 
       const visibleRowsIndices = tableState.displayData.map(
@@ -94,7 +97,7 @@ class Table extends React.Component {
       */
     }
 
-    const getSearchText = () => this.state.tableStatePersist.searchText
+    const getSearchText = () => this.searchText
 
     const MUIcolumns =
       columns && currentUser.currency
