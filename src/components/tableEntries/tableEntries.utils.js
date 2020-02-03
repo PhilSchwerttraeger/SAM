@@ -230,6 +230,7 @@ export const buildMUIoptions = (
   addEntryClicked,
   editEntryClicked,
   handleTableChange,
+  getSearchText,
 ) => {
   // convert currently selected entry index to array (MUI datatables format), if no entry is selected (null) insert no array at all into MUI datatables
 
@@ -237,7 +238,7 @@ export const buildMUIoptions = (
     ? {
         filterType: "multiselect",
         responsive: "stacked",
-        selectableRows: "single",
+        selectableRows: "none",
         selectableRowsOnClick: true,
         pagination: false,
         downloadOptions: {
@@ -246,18 +247,18 @@ export const buildMUIoptions = (
         },
 
         onTableChange: (action, newTableState) => {
-          if (action !== "propsUpdate") {
-            handleTableChange(action, newTableState)
-          }
+          handleTableChange(action, newTableState)
         },
 
-        /* 
         onCellClick: (colData, cellMeta) => {
           const selectedIndex = cellMeta.dataIndex
           const selectedId = MUIdata[selectedIndex].id
-          editEntryClicked({ id: selectedId, index: selectedIndex })
+          editEntryClicked(selectedId, selectedIndex)
         },
 
+        searchText: getSearchText(),
+
+        /* 
         rowsSelected:
           selectedEntry && selectedEntry.index !== null
             ? [selectedEntry.index]

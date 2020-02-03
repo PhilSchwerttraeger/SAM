@@ -24,6 +24,11 @@ class Table extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      tableStatePersist: {
+        searchText: "",
+        filterList: [],
+        columns: [],
+      },
     }
   }
 
@@ -63,14 +68,21 @@ class Table extends React.Component {
       setEditEntryModalIsOpen(true)
     }
 
-    const MUIcolumns =
-      columns && currentUser.currency
-        ? buildMUIcolumns(columns, currentUser.currency)
-        : []
-
-    const MUIdata = entries && columns ? buildMUIdata(entries, columns) : []
-
     const handleTableChange = (action, tableState) => {
+      //console.log("Table state changed || " + JSON.stringify(action))
+      //console.log("CURRENT STATE: " + JSON.stringify(tableState))
+
+      if (action !== "propsUpdate") {
+        //Store new tableStatePersist only if not updating props
+        this.setState({
+          tableStatePersist: {
+            searchText: tableState.searchText,
+            filterList: tableState.filterList, //An array of filters for all columns
+            columns: tableState.columns, //We can pull column-specific options from this array, like display and sortDirection
+          },
+        })
+      }
+      /* 
       const visibleRowsIndices = tableState.displayData.map(
         item => item.dataIndex,
       )
@@ -79,7 +91,17 @@ class Table extends React.Component {
         index => MUIdata[index].value,
       )
       console.log(action, tableState, visibleEntries, visibleValues)
+      */
     }
+
+    const getSearchText = () => this.state.tableStatePersist.searchText
+
+    const MUIcolumns =
+      columns && currentUser.currency
+        ? buildMUIcolumns(columns, currentUser.currency)
+        : []
+
+    const MUIdata = entries && columns ? buildMUIdata(entries, columns) : []
 
     const MUIoptions = (MUIdata, deleteEntryStartAsync)
       ? buildMUIoptions(
@@ -88,8 +110,43 @@ class Table extends React.Component {
           addEntryClicked,
           editEntryClicked,
           handleTableChange,
+          getSearchText,
         )
       : []
+
+    const getColumns = () => {
+      //Define all of the alert table's columns and their default props and options as per the mui-datatables documentation
+      let cols = MUIcolumns
+
+      //Loop thru columns and assign all column-specific settings that need to persist thru a data refresh
+      for (let i = 0; i < cols.length; i++) {
+        //Assign the filter list to persist
+        cols[i].options.filterList = this.state.tableStatePersist.filterList[i]
+        if (this.state.tableStatePersist.columns[i] !== undefined) {
+          //If 'display' has a value in tableStatePersist, assign that, or else leave it alone
+          if (this.state.tableStatePersist.columns[i].hasOwnProperty("display"))
+            cols[i].options.display = this.state.tableStatePersist.columns[
+              i
+            ].display
+          //If 'sortDirection' has a value in tableStatePersist, assign that, or else leave it alone
+          if (
+            this.state.tableStatePersist.columns[i].hasOwnProperty(
+              "sortDirection",
+            )
+          ) {
+            //The sortDirection prop only permits sortDirection for one column at a time
+            if (this.state.tableStatePersist.columns[i].sortDirection != "none")
+              cols[
+                i
+              ].options.sortDirection = this.state.tableStatePersist.columns[
+                i
+              ].sortDirection
+          }
+        }
+      }
+
+      return cols
+    }
 
     // Customize MUI Theme to rearrange action buttons (integrate "add"-button)
     const getMuiTheme = () =>
@@ -132,7 +189,7 @@ class Table extends React.Component {
           <MUIDataTable
             title={"Entries"}
             data={MUIdata}
-            columns={MUIcolumns}
+            columns={getColumns()}
             options={MUIoptions}
           />
         </MuiThemeProvider>
