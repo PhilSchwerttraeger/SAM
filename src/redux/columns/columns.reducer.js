@@ -29,6 +29,26 @@ const columnsReducer = (state = INITIAL_STATE, action) => {
         errorMessage: action.payload,
       }
 
+    // Creating Columns
+
+    case ColumnsActionTypes.CREATE_COLUMNS_START:
+      return {
+        ...state,
+        isStoring: true,
+      }
+    case ColumnsActionTypes.CREATE_COLUMNS_SUCCESS:
+      return {
+        ...state,
+        isStoring: false,
+        columns: action.payload,
+      }
+    case ColumnsActionTypes.CREATE_COLUMNS_FAILURE:
+      return {
+        ...state,
+        isStoring: false,
+        errorMessage: action.payload,
+      }
+
     // Deleting column
 
     case ColumnsActionTypes.DELETE_COLUMN_START:

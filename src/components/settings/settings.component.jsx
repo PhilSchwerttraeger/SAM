@@ -28,6 +28,8 @@ import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import TextField from "@material-ui/core/TextField"
 
+import AddNewColumn from "./addNewColumn/addNewColumn.component.jsx"
+
 const useStyles = makeStyles(theme => ({
   formControl: {
     margin: 0,
@@ -208,6 +210,7 @@ const Settings = ({
           <Grid container spacing={4} className={classes.gridColumnContainer}>
             {fields()}
           </Grid>
+          <AddNewColumn />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
