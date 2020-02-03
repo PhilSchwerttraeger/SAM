@@ -29,20 +29,20 @@ import TextField from "@material-ui/core/TextField"
 
 const useStyles = makeStyles(theme => ({
   formControl: {
-    margin: theme.spacing(2),
+    margin: 0,
     variant: "outlined",
-    width: "130px",
+    width: "100%",
   },
-  grid: {
-    flexGrow: 1,
+  gridColumnContainer: {},
+  gridColumnItem: {},
+
+  gridFieldContainer: {
+    alignItems: "center",
+    justifyContent: "space-between",
   },
-  gridItemColumn: {
-    padding: "0 !important",
-  },
-  gridContainerFields: {
-    flexGrow: 1,
-  },
-  gridItemField: {},
+  gridFieldItem: {},
+  displayNameTextField: {},
+  typeSelect: {},
 }))
 
 const styles = theme => ({
@@ -108,43 +108,35 @@ const Settings = ({
             item
             key={column.order}
             xs={12}
-            className={classes.gridItemColumn}
+            className={classes.gridColumnItem}
           >
-            <Grid container className={classes.gridContainerFields}>
-              <Grid item className={classes.gridItemField}>
+            <Grid container spacing={3} className={classes.gridFieldContainer}>
+              <Grid item xs={5} className={classes.gridFieldItem}>
                 <FormControl className={classes.formControl}>
                   <TextField
                     id={column.name + "_displayName"}
                     key={column.name + "_displayName"}
                     name={"columnDisplayName"}
+                    className={classes.displayNameTextField}
                     label={"Display name"}
                     value={column.displayName}
                     onChange={() => null}
                   />
                 </FormControl>
               </Grid>
-              <Grid item className={classes.gridItemField}>
+              <Grid item xs={5} className={classes.gridFieldItem}>
                 <FormControl className={classes.formControl}>
-                  <TextField
-                    id={column.name + "_name"}
-                    key={column.name + "_name"}
-                    name={"columnName"}
-                    label={"Internal name"}
-                    value={column.name}
-                    disabled
-                    onChange={() => null}
-                  />
-                </FormControl>
-              </Grid>
-              <Grid item className={classes.gridItemField}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="select-type">Type</InputLabel>
+                  <InputLabel id="column.name + " _typeInputLabel>
+                    Type
+                  </InputLabel>
                   <Select
                     id={column.name + "_type"}
                     name={"columnType"}
                     key={column.name}
                     value={column.type}
                     onChange={() => null}
+                    autoWidth={false}
+                    className={classes.typeSelect}
                   >
                     <MenuItem key={"currency"} value={"currency"}>
                       currency
@@ -158,9 +150,11 @@ const Settings = ({
                   </Select>
                 </FormControl>
               </Grid>
-              <IconButton aria-label="delete" className={classes.delete}>
-                <DeleteIcon />
-              </IconButton>
+              <Grid item xs={2}>
+                <IconButton aria-label="delete" className={classes.delete}>
+                  <DeleteIcon />
+                </IconButton>
+              </Grid>
             </Grid>
           </Grid>
         )
@@ -176,7 +170,7 @@ const Settings = ({
           {"Settings"}
         </DialogTitle>
         <DialogContent>
-          <Grid container spacing={3}>
+          <Grid container spacing={4} className={classes.gridColumnContainer}>
             {fields()}
           </Grid>
         </DialogContent>
