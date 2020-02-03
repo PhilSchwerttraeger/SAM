@@ -29,6 +29,33 @@ const columnsReducer = (state = INITIAL_STATE, action) => {
         errorMessage: action.payload,
       }
 
+    // Deleting column
+
+    case ColumnsActionTypes.DELETE_COLUMN_START:
+      return {
+        ...state,
+        isStoring: true,
+      }
+
+    case ColumnsActionTypes.DELETE_COLUMN_SUCCESS:
+      const deletedColumn = action.payload
+      const reducedState = state.columns
+      console.log("delete from state: ", reducedState[deletedColumn])
+      delete reducedState[deletedColumn]
+      console.log("new state now: ", state)
+      return {
+        ...state,
+        isStoring: false,
+        columns: { ...reducedState },
+      }
+
+    case ColumnsActionTypes.DELETE_COLUMN_FAILURE:
+      return {
+        ...state,
+        isStoring: false,
+        errorMessage: action.payload,
+      }
+
     // Clearing columns
 
     case ColumnsActionTypes.CLEAR_COLUMNS:

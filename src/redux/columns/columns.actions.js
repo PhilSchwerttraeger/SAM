@@ -79,3 +79,35 @@ export const createColumnStartAsync = column => {
 
 // REMEMBER:
 // DELETE REMAINING PROPERTIES INSIDE ENTRIES WHEN DELETING WHOLE COLUMNS
+
+// Celeting columns
+
+export const deleteColumnStart = () => ({
+  type: ColumnsActionTypes.DELETE_COLUMN_START,
+})
+
+export const deleteColumnSuccess = () => ({
+  type: ColumnsActionTypes.DELETE_COLUMN_SUCCESS,
+})
+
+export const deleteColumnFailure = errorMessage => ({
+  type: ColumnsActionTypes.DELETE_COLUMN_FAILURE,
+  payload: errorMessage,
+})
+
+export const deleteColumnStartAsync = columnId => {
+  return dispatch => {
+    const user = store.getState().user.currentUser
+    const ColumnDoc = firestore
+      .collection(`users/${user.id}/columns`)
+      .doc(columnId)
+
+    dispatch(deleteColumnStart())
+
+    ColumnDoc.delete()
+      .then(() => {
+        dispatch(deleteColumnSuccess(columnId))
+      })
+      .catch(error => dispatch(deleteColumnFailure(error.message)))
+  }
+}

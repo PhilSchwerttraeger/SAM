@@ -1,9 +1,10 @@
-import React from "react"
+import React, { useEffect } from "react"
 import "./settings.styles.scss"
 import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
 import { updateCurrentUserAsync } from "../../redux/user/user.actions"
+import { deleteColumnStartAsync } from "../../redux/columns/columns.actions"
 import { selectColumnsArray } from "../../redux/columns/columns.selectors"
 
 import { withStyles } from "@material-ui/core/styles"
@@ -83,6 +84,7 @@ const Settings = ({
   columns,
   updateCurrentUserAsync,
   currentUser,
+  deleteColumnStartAsync,
 }) => {
   const theme = useTheme()
   const classes = useStyles()
@@ -119,6 +121,7 @@ const Settings = ({
   const handleChangeDelete = (event, index) => {
     let columnId = state.columns[index].id
     console.log("Deleting column with ID = ", columnId)
+    deleteColumnStartAsync(columnId)
   }
 
   const fields = () => {
@@ -225,6 +228,8 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   updateCurrentUserAsync: currentUser =>
     dispatch(updateCurrentUserAsync(currentUser)),
+  deleteColumnStartAsync: columnId =>
+    dispatch(deleteColumnStartAsync(columnId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings)
