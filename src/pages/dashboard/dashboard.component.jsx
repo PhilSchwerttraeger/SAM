@@ -3,6 +3,7 @@ import "./dashboard.styles.scss"
 import TableEntries from "../../components/tableEntries/tableEntries.component"
 import { DashboardPageContainer } from "./dashboard.styles"
 import TestButtons from "../../components/testButtons/testButtons.component"
+import EditEntryModal from "../../components/editModal/editModal.component"
 
 class Dashboard extends React.Component {
   render() {
@@ -10,6 +11,7 @@ class Dashboard extends React.Component {
       <DashboardPageContainer>
         <TableEntries />
         <TestButtons />
+        <EditEntryModal />
       </DashboardPageContainer>
     )
   }
