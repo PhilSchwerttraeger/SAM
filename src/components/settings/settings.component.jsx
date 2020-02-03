@@ -20,23 +20,29 @@ import CloseIcon from "@material-ui/icons/Close"
 import Typography from "@material-ui/core/Typography"
 import Grid from "@material-ui/core/Grid"
 import FormControl from "@material-ui/core/FormControl"
-//import TextField from "@material-ui/core/TextField"
-//import Autocomplete from "@material-ui/lab/Autocomplete"
-//import InputLabel from "@material-ui/core/InputLabel"
-//import MenuItem from "@material-ui/core/MenuItem"
-//import Select from "@material-ui/core/Select"
+import DeleteIcon from "@material-ui/icons/Delete"
+
+import InputLabel from "@material-ui/core/InputLabel"
+import MenuItem from "@material-ui/core/MenuItem"
+import Select from "@material-ui/core/Select"
+import TextField from "@material-ui/core/TextField"
 
 const useStyles = makeStyles(theme => ({
   formControl: {
     margin: theme.spacing(2),
-    //minWidth: 120,
-    size: "medium",
     variant: "outlined",
-    width: "90%",
+    width: "130px",
   },
-  gridItem: {
+  grid: {
+    flexGrow: 1,
+  },
+  gridItemColumn: {
     padding: "0 !important",
   },
+  gridContainerFields: {
+    flexGrow: 1,
+  },
+  gridItemField: {},
 }))
 
 const styles = theme => ({
@@ -92,28 +98,86 @@ const Settings = ({
     handleClose()
   }
 
-  const fields = columns
-    ? columns.map(column => (
-        <Grid
-          key={column.order}
-          item
-          xs={column.order < 4 ? 6 : 12}
-          className={classes.gridItem}
-        >
-          <FormControl className={classes.formControl}>{column.id}</FormControl>
-        </Grid>
-      ))
-    : null
+  const fields = () => {
+    if (columns) {
+      let editableColumns = columns.filter(column => column.isEditable)
+      let jsx = editableColumns.map(column => {
+        return (
+          // Column entry
+          <Grid
+            item
+            key={column.order}
+            xs={12}
+            className={classes.gridItemColumn}
+          >
+            <Grid container className={classes.gridContainerFields}>
+              <Grid item className={classes.gridItemField}>
+                <FormControl className={classes.formControl}>
+                  <TextField
+                    id={column.name + "_displayName"}
+                    key={column.name + "_displayName"}
+                    name={"columnDisplayName"}
+                    label={"Display name"}
+                    value={column.displayName}
+                    onChange={() => null}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item className={classes.gridItemField}>
+                <FormControl className={classes.formControl}>
+                  <TextField
+                    id={column.name + "_name"}
+                    key={column.name + "_name"}
+                    name={"columnName"}
+                    label={"Internal name"}
+                    value={column.name}
+                    disabled
+                    onChange={() => null}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item className={classes.gridItemField}>
+                <FormControl className={classes.formControl}>
+                  <InputLabel id="select-type">Type</InputLabel>
+                  <Select
+                    id={column.name + "_type"}
+                    name={"columnType"}
+                    key={column.name}
+                    value={column.type}
+                    onChange={() => null}
+                  >
+                    <MenuItem key={"currency"} value={"currency"}>
+                      currency
+                    </MenuItem>
+                    <MenuItem key={"date"} value={"date"}>
+                      date
+                    </MenuItem>
+                    <MenuItem key={"text"} value={"text"}>
+                      text
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <IconButton aria-label="delete" className={classes.delete}>
+                <DeleteIcon />
+              </IconButton>
+            </Grid>
+          </Grid>
+        )
+      })
+      return jsx
+    }
+  }
 
   return (
     <div>
       <Dialog fullScreen={fullScreen} open={isOpen} onClose={handleClose}>
         <DialogTitle id="modal-title" onClose={handleClose}>
-          {"Edit entry"}
+          {"Settings"}
         </DialogTitle>
         <DialogContent>
           <Grid container spacing={3}>
-            {fields}
+            {fields()}
           </Grid>
         </DialogContent>
         <DialogActions>

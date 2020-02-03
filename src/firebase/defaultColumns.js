@@ -15,8 +15,8 @@ const columns = [
     displayName: "Value",
     type: "currency",
     isEditable: false,
-    isVisible: true,
-    isBaseForAnalysis: true,
+    isVisible: true, // depricated, stored in table
+    isBaseForAnalysis: true, // depricated, can be selected in analysis itself
   },
   {
     order: 2,
