@@ -103,7 +103,10 @@ const Settings = ({
 
   const [state, setState] = React.useState([...columns])
 
-  useEffect(() => {})
+  useEffect(() => {
+    console.log("columns prop changed")
+    setState([...columns])
+  }, [columns])
 
   // Close
   const handleClose = () => {
@@ -112,6 +115,7 @@ const Settings = ({
 
   const reset = () => {
     console.log("onenter")
+    fetchColumnsStartAsync()
     setState([...columns]) // reset all inputs (for fresh next opening)
   }
 
@@ -142,9 +146,10 @@ const Settings = ({
   }
 
   const handleChangeDelete = (event, index) => {
+    console.log(state)
     let columnId = state[index].id
     console.log("Deleting column with ID = ", columnId)
-    deleteColumnStartAsync(columnId)
+    deleteColumnStartAsync(columnId).then(() => reset())
   }
 
   const fields = () => {

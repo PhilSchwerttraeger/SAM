@@ -135,9 +135,19 @@ export const deleteColumnStartAsync = columnId => {
 
     dispatch(deleteColumnStart())
 
-    ColumnDoc.delete()
+    return ColumnDoc.delete()
       .then(() => {
         dispatch(deleteColumnSuccess(columnId))
+      })
+      .then(() => {
+        return new Promise((resolve, reject) => {
+          dispatch({
+            type: "myaction",
+            something: true,
+          })
+
+          resolve()
+        })
       })
       .catch(error => dispatch(deleteColumnFailure(error.message)))
   }
