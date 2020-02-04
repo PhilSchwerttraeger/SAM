@@ -4,7 +4,11 @@ import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
 import { updateCurrentUserAsync } from "../../redux/user/user.actions"
-import { deleteColumnStartAsync } from "../../redux/columns/columns.actions"
+import {
+  fetchColumnsStartAsync,
+  updateColumnStartAsync,
+  deleteColumnStartAsync,
+} from "../../redux/columns/columns.actions"
 import { selectColumnsArray } from "../../redux/columns/columns.selectors"
 
 import { withStyles } from "@material-ui/core/styles"
@@ -89,42 +93,56 @@ const Settings = ({
   columns,
   updateCurrentUserAsync,
   currentUser,
+  fetchColumnsStartAsync,
+  updateColumnStartAsync,
   deleteColumnStartAsync,
 }) => {
   const theme = useTheme()
   const classes = useStyles()
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"))
 
-  const [state, setState] = React.useState({ columns })
+  const [state, setState] = React.useState([...columns])
 
-  useEffect(() => {
-    console.log(state)
-  })
+  useEffect(() => {})
 
   // Close
   const handleClose = () => {
     closeModal()
   }
 
+  const reset = () => {
+    console.log("onenter")
+    setState([...columns]) // reset all inputs (for fresh next opening)
+  }
+
   // Save
   const handleSave = () => {
+    state.forEach((column, index) => {
+      if (column.hasChanged) {
+        delete column.hasChanged
+        console.log(column)
+        updateColumnStartAsync(column)
+      }
+    })
     handleClose()
   }
 
   const handleChangeDisplayName = (event, index) => {
-    let newState = state.columns
-    newState[index].displayName = event.target.value
-    setState({ columns: newState })
+    let newColumns = [...state]
+    newColumns[index].displayName = event.target.value
+    newColumns[index].hasChanged = true
+    setState([...newColumns])
   }
 
   const handleChangeType = (event, index) => {
-    let newState = state.columns
-    newState[index].type = event.target.value
-    setState({ columns: newState })
+    let newColumns = [...state]
+    newColumns[index].type = event.target.value
+    newColumns[index].hasChanged = true
+    setState([...newColumns])
   }
 
   const handleChangeDelete = (event, index) => {
-    let columnId = state.columns[index].id
+    let columnId = state[index].id
     console.log("Deleting column with ID = ", columnId)
     deleteColumnStartAsync(columnId)
   }
@@ -155,7 +173,7 @@ const Settings = ({
                       className={classes.displayNameTextField}
                       label={"Column name"}
                       value={
-                        state.columns ? state.columns[index].displayName : ""
+                        state && state[index] ? state[index].displayName : ""
                       }
                       onChange={event => handleChangeDisplayName(event, index)}
                       autoComplete="new-password"
@@ -171,10 +189,11 @@ const Settings = ({
                       id={column.name + "_type"}
                       name={"columnType"}
                       key={column.name}
-                      value={state.columns ? state.columns[index].type : null}
+                      value={state && state[index] ? state[index].type : null}
                       onChange={event => handleChangeType(event, index)}
                       autoWidth={false}
                       className={classes.typeSelect}
+                      disabled
                     >
                       <MenuItem key={"currency"} value={"currency"}>
                         Currency
@@ -207,7 +226,12 @@ const Settings = ({
 
   return (
     <div>
-      <Dialog fullScreen={fullScreen} open={isOpen} onClose={handleClose}>
+      <Dialog
+        fullScreen={fullScreen}
+        open={isOpen}
+        onClose={handleClose}
+        onEnter={reset}
+      >
         <DialogTitle id="modal-title" onClose={handleClose}>
           {"Settings"}
         </DialogTitle>
@@ -236,6 +260,8 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   updateCurrentUserAsync: currentUser =>
     dispatch(updateCurrentUserAsync(currentUser)),
+  fetchColumnsStartAsync: () => dispatch(fetchColumnsStartAsync()),
+  updateColumnStartAsync: column => dispatch(updateColumnStartAsync(column)),
   deleteColumnStartAsync: columnId =>
     dispatch(deleteColumnStartAsync(columnId)),
 })

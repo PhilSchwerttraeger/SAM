@@ -3,7 +3,11 @@ import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "../../../redux/user/user.selectors"
 import { updateCurrentUserAsync } from "../../../redux/user/user.actions"
-import { deleteColumnStartAsync } from "../../../redux/columns/columns.actions"
+import {
+  fetchColumnsStartAsync,
+  createColumnStartAsync,
+  deleteColumnStartAsync,
+} from "../../../redux/columns/columns.actions"
 import { selectColumnsArray } from "../../../redux/columns/columns.selectors"
 
 import { makeStyles } from "@material-ui/core/styles"
@@ -37,15 +41,20 @@ const useStyles = makeStyles(theme => ({
   },
 }))
 
-const AddNewColumn = ({}) => {
+const AddNewColumn = ({
+  fetchColumnsStartAsync,
+  createColumnStartAsync,
+  columns,
+}) => {
   const classes = useStyles()
 
   const [state, setState] = React.useState({
-    order: null,
+    order: Math.max(...columns.map(column => column.order)) + 1,
     name: "",
     displayName: "",
     type: "text",
     isEditable: true,
+    isVisible: true,
   })
 
   useEffect(() => {
@@ -69,7 +78,8 @@ const AddNewColumn = ({}) => {
   }
 
   const handleAdd = event => {
-    console.log(event)
+    console.log("Add action", state)
+    createColumnStartAsync(state)
   }
 
   return (
@@ -131,8 +141,11 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   updateCurrentUserAsync: currentUser =>
     dispatch(updateCurrentUserAsync(currentUser)),
+
+  fetchColumnsStartAsync: () => dispatch(fetchColumnsStartAsync()),
   deleteColumnStartAsync: columnId =>
     dispatch(deleteColumnStartAsync(columnId)),
+  createColumnStartAsync: column => dispatch(createColumnStartAsync(column)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddNewColumn)
