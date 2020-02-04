@@ -130,15 +130,15 @@ const EditEntryModal = ({
     : null
 
   const [currentEntry, setCurrentEntry] = React.useState(
-    entries ? entries[selectedEntry.id] : columnNames,
+    entries && selectedEntry ? entries[selectedEntry.id] : columnNames,
   )
 
   useEffect(() => {
-    setCurrentEntry(entries ? entries[selectedEntry.id] : null)
+    setCurrentEntry(entries && selectedEntry ? entries[selectedEntry.id] : null)
     //console.log("selectedEntry.id ", selectedEntry.id)
     //console.log("currentEntry ", currentEntry)
     //console.log("entries[selectedEntry.id] ", entries[selectedEntry.id])
-  }, [entries, selectedEntry.id])
+  }, [entries, selectedEntry])
 
   // Text
   const handleChangeText = (columnName, event, value) => {
@@ -224,7 +224,7 @@ const EditEntryModal = ({
 
   const makeOptions = column => {
     // make array of all values
-    let array = entriesArray.map(entry => entry[column.name])
+    let array = entriesArray ? entriesArray.map(entry => entry[column.name]) : null
 
     // create set (delete duplicates)
     let set = [...new Set(array)]
@@ -426,7 +426,7 @@ const EditEntryModal = ({
         open={editModalIsOpen}
         onClose={handleClose}
       >
-        {selectedEntry.id ? (
+        {selectedEntry && selectedEntry.id ? (
           <DialogTitle id="modal-title" onClose={handleClose}>
             {"Edit entry"}
           </DialogTitle>
@@ -445,7 +445,7 @@ const EditEntryModal = ({
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
 
-          {selectedEntry.id ? (
+          {selectedEntry && selectedEntry.id ? (
             <>
               <Button onClick={handleDelete} color="secondary">
                 Delete

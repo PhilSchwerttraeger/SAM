@@ -46,6 +46,9 @@ const useStyles = makeStyles(theme => ({
   gridFieldItem: {},
   displayNameTextField: {},
   typeSelect: {},
+  delete: {
+    //color: "red",
+  },
 }))
 
 const styles = theme => ({
@@ -183,7 +186,7 @@ const Settings = ({
                     </Select>
                   </FormControl>
                 </Grid>
-                <Grid item xs={2}>
+                <Grid item xs={2} className={classes.gridFieldItem}>
                   <IconButton
                     aria-label="delete"
                     className={classes.delete}
