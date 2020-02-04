@@ -154,7 +154,9 @@ const Settings = ({
                       name={"columnDisplayName"}
                       className={classes.displayNameTextField}
                       label={"Column name"}
-                      value={state.columns[index].displayName}
+                      value={
+                        state.columns ? state.columns[index].displayName : ""
+                      }
                       onChange={event => handleChangeDisplayName(event, index)}
                       autoComplete="new-password"
                     />
@@ -169,7 +171,7 @@ const Settings = ({
                       id={column.name + "_type"}
                       name={"columnType"}
                       key={column.name}
-                      value={state.columns[index].type}
+                      value={state.columns ? state.columns[index].type : null}
                       onChange={event => handleChangeType(event, index)}
                       autoWidth={false}
                       className={classes.typeSelect}
