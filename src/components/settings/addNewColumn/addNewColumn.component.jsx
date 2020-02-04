@@ -6,7 +6,6 @@ import { updateCurrentUserAsync } from "../../../redux/user/user.actions"
 import { deleteColumnStartAsync } from "../../../redux/columns/columns.actions"
 import { selectColumnsArray } from "../../../redux/columns/columns.selectors"
 
-import { useTheme } from "@material-ui/core/styles"
 import { makeStyles } from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 import FormControl from "@material-ui/core/FormControl"
@@ -15,6 +14,8 @@ import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import TextField from "@material-ui/core/TextField"
+import IconButton from "@material-ui/core/IconButton"
+import AddCircleIcon from "@material-ui/icons/AddCircle"
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -22,25 +23,28 @@ const useStyles = makeStyles(theme => ({
     variant: "outlined",
     width: "100%",
   },
+  gridColumnContainer: {
+    marginTop: "16px",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "4px !important",
+  },
+  gridFieldItem: {
+    padding: "12px !important",
+  },
+  delete: {
+    //color: "red",
+  },
 }))
 
-const styles = theme => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(2),
-    paddingLeft: "26px",
-  },
-})
-
 const AddNewColumn = ({}) => {
-  const theme = useTheme()
   const classes = useStyles()
 
   const [state, setState] = React.useState({
     order: null,
     name: "",
     displayName: "",
-    type: "",
+    type: "text",
     isEditable: true,
   })
 
@@ -48,15 +52,24 @@ const AddNewColumn = ({}) => {
     console.log(state)
   })
 
-  // Save
-  const handleSave = () => {}
-
   const handleChangeDisplayName = event => {
-    setState({ displayName: event.target.value })
+    let displayName = event.target.value
+    let name = displayName
+      .toLowerCase()
+      .replace(" ", "")
+      .replace(" ", "")
+      .replace(" ", "")
+      .replace(" ", "")
+      .replace(" ", "")
+    setState({ ...state, displayName, name })
   }
 
   const handleChangeType = event => {
-    setState({ type: event.target.value })
+    setState({ ...state, type: event.target.value })
+  }
+
+  const handleAdd = event => {
+    console.log(event)
   }
 
   return (
@@ -69,7 +82,7 @@ const AddNewColumn = ({}) => {
             name={"newColumn_displayName"}
             label={"New column name"}
             value={state.displayName}
-            onChange={handleChangeType}
+            onChange={handleChangeDisplayName}
             autoComplete="new-password"
           />
         </FormControl>
@@ -82,20 +95,29 @@ const AddNewColumn = ({}) => {
             name={"newColumn_type"}
             key={"newColumn_type"}
             value={state.type}
-            onChange={handleChangeType}
+            onChange={event => handleChangeType(event)}
             autoWidth={false}
           >
+            <MenuItem selected={true} key={"text"} value={"text"}>
+              Text
+            </MenuItem>
             <MenuItem key={"currency"} value={"currency"}>
-              currency
+              Currency
             </MenuItem>
             <MenuItem key={"date"} value={"date"}>
-              date
-            </MenuItem>
-            <MenuItem key={"text"} value={"text"}>
-              text
+              Date
             </MenuItem>
           </Select>
         </FormControl>
+      </Grid>
+      <Grid item xs={2} className={classes.gridFieldItem}>
+        <IconButton
+          aria-label="delete"
+          className={classes.delete}
+          onClick={event => handleAdd(event)}
+        >
+          <AddCircleIcon />
+        </IconButton>
       </Grid>
     </Grid>
   )
