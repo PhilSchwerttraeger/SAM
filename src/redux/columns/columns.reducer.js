@@ -29,20 +29,40 @@ const columnsReducer = (state = INITIAL_STATE, action) => {
         errorMessage: action.payload,
       }
 
-    // Creating Columns
+    // Creating Column
 
-    case ColumnsActionTypes.CREATE_COLUMNS_START:
+    case ColumnsActionTypes.CREATE_COLUMN_START:
       return {
         ...state,
         isStoring: true,
       }
-    case ColumnsActionTypes.CREATE_COLUMNS_SUCCESS:
+    case ColumnsActionTypes.CREATE_COLUMN_SUCCESS:
       return {
         ...state,
         isStoring: false,
-        columns: action.payload,
+        columns: { ...state.columns, [action.payload.id]: action.payload },
       }
-    case ColumnsActionTypes.CREATE_COLUMNS_FAILURE:
+    case ColumnsActionTypes.CREATE_COLUMN_FAILURE:
+      return {
+        ...state,
+        isStoring: false,
+        errorMessage: action.payload,
+      }
+
+    // Updating Column
+
+    case ColumnsActionTypes.UPDATE_COLUMN_START:
+      return {
+        ...state,
+        isStoring: true,
+      }
+    case ColumnsActionTypes.UPDATE_COLUMN_SUCCESS:
+      return {
+        ...state,
+        isStoring: false,
+        columns: { ...state.columns, [action.payload.id]: action.payload },
+      }
+    case ColumnsActionTypes.UPDATE_COLUMN_FAILURE:
       return {
         ...state,
         isStoring: false,

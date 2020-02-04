@@ -43,7 +43,7 @@ export const clearColumns = () => ({
   type: ColumnsActionTypes.CLEAR_COLUMNS,
 })
 
-// Creating columns
+// Creating column
 
 export const createColumnStart = () => ({
   type: ColumnsActionTypes.CREATE_COLUMN_START,
@@ -67,20 +67,51 @@ export const createColumnStartAsync = column => {
 
     column.id = ColumnDoc.id
 
-    // TODO
     ColumnDoc.set(column)
       .then(() => {
         dispatch(createColumnSuccess(column))
-        //dispatch(fetchColumnsStartAsync())
       })
       .catch(error => dispatch(createColumnFailure(error.message)))
+  }
+}
+
+// Updating column
+
+export const updateColumnStart = () => ({
+  type: ColumnsActionTypes.UPDATE_COLUMN_START,
+})
+
+export const updateColumnSuccess = column => ({
+  type: ColumnsActionTypes.UPDATE_COLUMN_SUCCESS,
+  payload: column,
+})
+
+export const updateColumnFailure = errorMessage => ({
+  type: ColumnsActionTypes.UPDATE_COLUMN_FAILURE,
+  payload: errorMessage,
+})
+
+export const updateColumnStartAsync = column => {
+  return dispatch => {
+    const user = store.getState().user.currentUser
+    const ColumnDoc = firestore
+      .collection(`users/${user.id}/columns`)
+      .doc(column.id)
+
+    dispatch(updateColumnStart())
+
+    ColumnDoc.set(column)
+      .then(() => {
+        dispatch(updateColumnSuccess(column))
+      })
+      .catch(error => dispatch(updateColumnFailure(error.message)))
   }
 }
 
 // REMEMBER:
 // DELETE REMAINING PROPERTIES INSIDE ENTRIES WHEN DELETING WHOLE COLUMNS
 
-// Celeting columns
+// Deleting column
 
 export const deleteColumnStart = () => ({
   type: ColumnsActionTypes.DELETE_COLUMN_START,
