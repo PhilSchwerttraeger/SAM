@@ -101,11 +101,11 @@ const Settings = ({
   const classes = useStyles()
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"))
 
-  const [state, setState] = React.useState([...columns])
+  const [state, setState] = React.useState(columns ? [...columns] : null)
 
   useEffect(() => {
     console.log("columns prop changed")
-    setState([...columns])
+    setState(columns ? [...columns] : null)
   }, [columns])
 
   // Close
@@ -114,9 +114,9 @@ const Settings = ({
   }
 
   const reset = () => {
-    console.log("onenter")
+    console.log("reset")
     fetchColumnsStartAsync()
-    setState([...columns]) // reset all inputs (for fresh next opening)
+    setState(columns ? [...columns] : null) // reset all inputs (for fresh next opening)
   }
 
   // Save

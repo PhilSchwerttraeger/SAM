@@ -60,10 +60,15 @@ class SignIn extends React.Component {
             autoComplete="current-password"
           />
           <div className="buttons">
-            <CustomButton type="submit">Sign In</CustomButton>
+            <CustomButton type="submit">Sign-In</CustomButton>
             <CustomButton onClick={signInWithGoogle} isGoogleSignIn>
-              Sign In With Google
+              Google Sign-In
             </CustomButton>
+          </div>
+          <div className="guest">
+            <h3>Sign-in as guest:</h3>
+            <div>email: test@user.com</div>
+            <div>password: 123456</div>
           </div>
         </form>
       </div>
