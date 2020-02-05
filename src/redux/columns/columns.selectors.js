@@ -18,3 +18,13 @@ export const selectColumnsArray = createSelector([selectColumns], columns => {
   const columnsArray = columnsIds ? columnsIds.map(id => col[id]) : null
   return columnsArray ? columnsArray.sort(compareColumns) : null
 })
+
+export const selectIsColumnsFetching = createSelector(
+  [selectColumns],
+  columns => columns.isFetching,
+)
+
+export const selectIsColumnsStoring = createSelector(
+  [selectColumns],
+  columns => columns.isStoring,
+)
