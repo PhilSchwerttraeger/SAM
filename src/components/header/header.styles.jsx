@@ -42,10 +42,3 @@ export const OptionLink = styled.div`
   padding: 10px 15px;
   cursor: pointer;
 `
-
-export const CurrentMail = styled.div`
-  padding: 0px;
-  font-size: 11px;
-  color: grey;
-  text-align: center;
-`

@@ -12,7 +12,6 @@ import {
   OptionsContainer,
   //OptionDiv,
   OptionLink,
-  CurrentMail,
 } from "./header.styles"
 import { clearEntries } from "../../redux/entries/entries.actions"
 import Settings from "../../components/settings/settings.component"

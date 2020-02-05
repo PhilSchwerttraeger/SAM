@@ -76,8 +76,8 @@ class Table extends React.Component {
     }
 
     const handleTableChange = (action, tableState) => {
-      console.log("Table state changed || " + JSON.stringify(action))
-      console.log("searchtext || " + JSON.stringify(tableState.searchText))
+      //console.log("Table state changed || " + JSON.stringify(action))
+      //console.log("searchtext || " + JSON.stringify(tableState.searchText))
       //console.log("CURRENT STATE: ", tableState)
 
       if (action !== "propsUpdate") {

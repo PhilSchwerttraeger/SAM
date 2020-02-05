@@ -201,7 +201,7 @@ const EditEntryModal = ({
       handleClose()
     } else {
       console.log("handleCreate ", currentEntry)
-      let x = createEntryStartAsync(currentEntry)
+      createEntryStartAsync(currentEntry)
       handleClose()
     }
   }

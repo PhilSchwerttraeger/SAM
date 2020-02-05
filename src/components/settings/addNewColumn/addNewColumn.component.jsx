@@ -75,6 +75,10 @@ const AddNewColumn = ({
   const handleAdd = event => {
     console.log("Add action", state)
     createColumnStartAsync(state)
+    setState({
+      ...state,
+      order: Math.max(...columns.map(column => column.order)) + 1,
+    })
   }
 
   return (
