@@ -1,6 +1,7 @@
 import React from "react"
 import "./tableColumns.styles.scss"
 import { connect } from "react-redux"
+import { fetchColumnsStartAsync } from "../../redux/columns/columns.actions"
 import { createStructuredSelector } from "reselect"
 import { selectColumnsMap } from "../../redux/columns/columns.selectors"
 import { compareColumns } from "../../redux/columns/columns.util"
@@ -14,10 +15,11 @@ class Table extends React.Component {
     const columnsArray = columnsIds ? columnsIds.map(id => columns[id]) : null
 
     let columnsPropertiesArray = []
-    if (columnsArray && typeof columnsArray.id !== "undefined") {
+    if (columnsArray) {
       columnsArray.sort(compareColumns)
       columnsPropertiesArray = Object.keys(columnsArray[0]).map(e => e)
     }
+    console.log(columnsPropertiesArray)
 
     const headRowFromColumns = columnsPropertiesArray
       ? columnsPropertiesArray.map(property => (
@@ -43,7 +45,6 @@ class Table extends React.Component {
         ))
       : null
 
-    //console.log(entries)
     return (
       <>
         <table className="table">
@@ -61,4 +62,9 @@ const mapStateToProps = createStructuredSelector({
   columns: selectColumnsMap,
 })
 
-export default connect(mapStateToProps)(Table)
+const mapDispatchToProps = dispatch => ({
+  fetchColumnsStartAsync: currentUser =>
+    dispatch(fetchColumnsStartAsync(currentUser)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Table)
