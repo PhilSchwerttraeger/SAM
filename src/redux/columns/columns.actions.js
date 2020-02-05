@@ -117,8 +117,9 @@ export const deleteColumnStart = () => ({
   type: ColumnsActionTypes.DELETE_COLUMN_START,
 })
 
-export const deleteColumnSuccess = () => ({
+export const deleteColumnSuccess = columnId => ({
   type: ColumnsActionTypes.DELETE_COLUMN_SUCCESS,
+  payload: columnId,
 })
 
 export const deleteColumnFailure = errorMessage => ({
@@ -142,8 +143,7 @@ export const deleteColumnStartAsync = columnId => {
       .then(() => {
         return new Promise((resolve, reject) => {
           dispatch({
-            type: "myaction",
-            something: true,
+            type: "deleted successfully",
           })
 
           resolve()

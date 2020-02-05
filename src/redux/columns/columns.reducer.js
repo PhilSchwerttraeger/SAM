@@ -80,9 +80,10 @@ const columnsReducer = (state = INITIAL_STATE, action) => {
     case ColumnsActionTypes.DELETE_COLUMN_SUCCESS:
       const deletedColumn = action.payload
       let reducedState = state.columns
+      console.log("reduced state: ", reducedState)
+      console.log("column id to delete: ", deletedColumn)
       console.log("delete from state: ", reducedState[deletedColumn])
       delete reducedState[deletedColumn]
-      console.log("new state now: ", state)
       return {
         ...state,
         isStoring: false,
