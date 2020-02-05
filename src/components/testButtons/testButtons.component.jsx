@@ -58,7 +58,7 @@ const TestButtons = ({
   return (
     <div>
       <div>
-        <h1>Entries</h1>
+        <h1>Dev Testing Section</h1>
         <button onClick={() => fetchEntriesStartAsync()}>fetch entries</button>
         <button onClick={() => createEntryStartAsync(hardcodedCreateEntry)}>
           create entry
@@ -69,10 +69,6 @@ const TestButtons = ({
         <button onClick={() => deleteEntryStartAsync(hardcodedEntryID)}>
           Delete entry with id {hardcodedEntryID}
         </button>
-      </div>
-
-      <div>
-        <h1>Columns</h1>
         <TableColumns />
         <button onClick={() => fetchColumnsStartAsync()}>fetch columns</button>
         <button onClick={() => createColumnStartAsync(hardcodedCreateColumn)}>

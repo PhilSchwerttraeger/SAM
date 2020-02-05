@@ -8,7 +8,10 @@ import {
   setSelectedEntry,
   setEditEntryModalIsOpen,
 } from "../../redux/entries/entries.actions"
-import { clearColumns } from "../../redux/columns/columns.actions"
+import {
+  fetchColumnsStartAsync,
+  clearColumns,
+} from "../../redux/columns/columns.actions"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
 import { selectEntriesArray } from "../../redux/entries/entries.selectors"
 import { selectColumnsArray } from "../../redux/columns/columns.selectors"
@@ -34,8 +37,13 @@ class Table extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchEntriesStartAsync, currentUser } = this.props
+    const {
+      fetchEntriesStartAsync,
+      fetchColumnsStartAsync,
+      currentUser,
+    } = this.props
     fetchEntriesStartAsync(currentUser)
+    fetchColumnsStartAsync(currentUser)
   }
 
   componentWillUnmount() {
@@ -212,8 +220,13 @@ const mapDispatchToProps = dispatch => ({
     dispatch(fetchEntriesStartAsync(currentUser)),
   deleteEntryStartAsync: entryToDelete =>
     dispatch(deleteEntryStartAsync(entryToDelete)),
+
+  fetchColumnsStartAsync: currentUser =>
+    dispatch(fetchColumnsStartAsync(currentUser)),
+
   setSelectedEntry: entryToSetSelected =>
     dispatch(setSelectedEntry(entryToSetSelected)),
+
   setEditEntryModalIsOpen: boolean =>
     dispatch(setEditEntryModalIsOpen(boolean)),
 })

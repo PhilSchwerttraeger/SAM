@@ -1,20 +1,11 @@
 import React from "react"
 import "./tableColumns.styles.scss"
 import { connect } from "react-redux"
-import { fetchColumnsStartAsync } from "../../redux/columns/columns.actions"
 import { createStructuredSelector } from "reselect"
-import { selectCurrentUser } from "../../redux/user/user.selectors"
 import { selectColumnsMap } from "../../redux/columns/columns.selectors"
 import { compareColumns } from "../../redux/columns/columns.util"
 
 class Table extends React.Component {
-  componentDidMount() {
-    const { fetchColumnsStartAsync, currentUser } = this.props
-    fetchColumnsStartAsync(currentUser)
-  }
-
-  componentWillUnmount() {}
-
   render() {
     const { columns } = this.props
 
@@ -67,13 +58,7 @@ class Table extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentUser,
   columns: selectColumnsMap,
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchColumnsStartAsync: currentUser =>
-    dispatch(fetchColumnsStartAsync(currentUser)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Table)
+export default connect(mapStateToProps)(Table)
