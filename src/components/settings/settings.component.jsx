@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import "./settings.styles.scss"
+
 import { connect } from "react-redux"
 import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
@@ -10,6 +10,9 @@ import {
   deleteColumnStartAsync,
 } from "../../redux/columns/columns.actions"
 import { selectColumnsArray } from "../../redux/columns/columns.selectors"
+
+import "./settings.styles.scss"
+import AddNewColumn from "./addNewColumn/addNewColumn.component.jsx"
 
 import Button from "@material-ui/core/Button"
 import Dialog from "@material-ui/core/Dialog"
@@ -28,8 +31,6 @@ import DeleteIcon from "@material-ui/icons/Delete"
 import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import TextField from "@material-ui/core/TextField"
-
-import AddNewColumn from "./addNewColumn/addNewColumn.component.jsx"
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -67,19 +68,18 @@ const Settings = ({
   columns,
   updateCurrentUserAsync,
   currentUser,
-  fetchColumnsStartAsync,
   updateColumnStartAsync,
   deleteColumnStartAsync,
 }) => {
   const theme = useTheme()
   const classes = useStyles()
   const fullScreen = useMediaQuery(theme.breakpoints.down("xs"))
-  console.log(fullScreen ? "fullscreen-mode" : "mobile-mode")
+  //console.log(fullScreen ? "fullscreen-mode" : "mobile-mode")
 
   const [state, setState] = React.useState(columns ? [...columns] : null)
 
   useEffect(() => {
-    console.log("columns prop changed")
+    // console.log("columns prop changed")
     setState(columns ? [...columns] : null)
   }, [columns])
 
@@ -90,7 +90,6 @@ const Settings = ({
 
   const reset = () => {
     console.log("reset")
-    fetchColumnsStartAsync()
     setState(columns ? [...columns] : null) // reset all inputs (for fresh next opening)
   }
 
@@ -196,7 +195,7 @@ const Settings = ({
       fullScreen={fullScreen}
       open={isOpen}
       onClose={handleClose}
-      onEnter={reset}
+      //onEnter={reset}
       className={classes.dialog}
       maxWidth={false}
     >
@@ -241,7 +240,6 @@ const mapStateToProps = createStructuredSelector({
 const mapDispatchToProps = dispatch => ({
   updateCurrentUserAsync: currentUser =>
     dispatch(updateCurrentUserAsync(currentUser)),
-  fetchColumnsStartAsync: () => dispatch(fetchColumnsStartAsync()),
   updateColumnStartAsync: column => dispatch(updateColumnStartAsync(column)),
   deleteColumnStartAsync: columnId =>
     dispatch(deleteColumnStartAsync(columnId)),

@@ -14,7 +14,7 @@ import {
   OptionLink,
 } from "./header.styles"
 import { clearEntries } from "../../redux/entries/entries.actions"
-import Settings from "../../components/settings/settings.component"
+import SettingsContainer from "../../components/settings/settingsContainer.component"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
 import { useTheme } from "@material-ui/core/styles"
 import Tooltip from "@material-ui/core/Tooltip"
@@ -71,7 +71,7 @@ const Header = ({ currentUser }) => {
         )}
       </OptionsContainer>
 
-      <Settings isOpen={settingsModalIsOpen} closeModal={closeModal} />
+      <SettingsContainer isOpen={settingsModalIsOpen} closeModal={closeModal} />
     </HeaderContainer>
   )
 }

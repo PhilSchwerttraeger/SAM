@@ -53,7 +53,7 @@ const AddNewColumn = ({
   })
 
   useEffect(() => {
-    console.log(state)
+    //console.log(state)
   })
 
   const handleChangeDisplayName = event => {
