@@ -13,8 +13,6 @@ import { selectColumnsArray } from "../../../redux/columns/columns.selectors"
 import { makeStyles } from "@material-ui/core/styles"
 import Grid from "@material-ui/core/Grid"
 import FormControl from "@material-ui/core/FormControl"
-
-import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 import Select from "@material-ui/core/Select"
 import TextField from "@material-ui/core/TextField"
@@ -27,15 +25,12 @@ const useStyles = makeStyles(theme => ({
     variant: "outlined",
     width: "100%",
   },
-  gridColumnContainer: {
-    marginTop: "16px",
-    alignItems: "center",
+  fieldsContainer: {
+    alignItems: "flex-end",
     justifyContent: "space-between",
-    padding: "4px !important",
+    padding: "8px 0",
   },
-  gridFieldItem: {
-    padding: "12px !important",
-  },
+  fieldItem: {},
   delete: {
     //color: "red",
   },
@@ -83,23 +78,22 @@ const AddNewColumn = ({
   }
 
   return (
-    <Grid container spacing={4} className={classes.gridColumnContainer}>
-      <Grid item xs={5} className={classes.gridFieldItem}>
+    <Grid container spacing={3} className={classes.fieldsContainer}>
+      <Grid item xs={6} className={classes.fieldItem}>
         <FormControl className={classes.formControl}>
           <TextField
             id={"newColumn_displayName"}
             key={"newColumn_displayName"}
             name={"newColumn_displayName"}
-            label={"New column name"}
+            label={"New column"}
             value={state.displayName}
             onChange={handleChangeDisplayName}
             autoComplete="new-password"
           />
         </FormControl>
       </Grid>
-      <Grid item xs={5} className={classes.gridFieldItem}>
+      <Grid item xs={4} className={classes.fieldItem}>
         <FormControl className={classes.formControl}>
-          <InputLabel id={"newColumn_typeInputLabel"}>Type</InputLabel>
           <Select
             id={"newColumn_type"}
             name={"newColumn_type"}
@@ -120,7 +114,7 @@ const AddNewColumn = ({
           </Select>
         </FormControl>
       </Grid>
-      <Grid item xs={2} className={classes.gridFieldItem}>
+      <Grid item xs={2} className={classes.fieldItem}>
         <IconButton
           aria-label="delete"
           className={classes.delete}
