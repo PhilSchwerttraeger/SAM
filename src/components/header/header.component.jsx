@@ -12,9 +12,13 @@ import {
   OptionsContainer,
   //OptionDiv,
   OptionLink,
+  CurrentMail,
 } from "./header.styles"
 import { clearEntries } from "../../redux/entries/entries.actions"
 import Settings from "../../components/settings/settings.component"
+import useMediaQuery from "@material-ui/core/useMediaQuery"
+import { useTheme } from "@material-ui/core/styles"
+import Tooltip from "@material-ui/core/Tooltip"
 
 // To use, use { HeaderLogo } in HeaderContainer below
 /*
@@ -39,26 +43,30 @@ const Header = ({ currentUser }) => {
         ? currentUser.displayName
         : currentUser.email
   }
+
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down("xs"))
+  const title = fullScreen ? "SAM" : "Simple Account Manager"
+
   return (
     <HeaderContainer>
-      <h1>SIMPLE ACCOUNT MANAGER</h1>
+      <h1>{title}</h1>
       <OptionsContainer>
         <OptionLink as="div" onClick={() => setSettingsModalIsOpen(true)}>
           SETTINGS
         </OptionLink>
-        <OptionLink as="div" onClick={() => alert()}>
-          PROFILE
-        </OptionLink>
         {currentUser ? (
-          <OptionLink
-            as="div"
-            onClick={() => {
-              clearEntries()
-              auth.signOut()
-            }}
-          >
-            SIGN {userName} OUT
-          </OptionLink>
+          <Tooltip title={userName} aria-label="Log-Out" arrow>
+            <OptionLink
+              as="div"
+              onClick={() => {
+                clearEntries()
+                auth.signOut()
+              }}
+            >
+              SIGN OUT
+            </OptionLink>
+          </Tooltip>
         ) : (
           <OptionLink to="/signin">SIGN-IN</OptionLink>
         )}
