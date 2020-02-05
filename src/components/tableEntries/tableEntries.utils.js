@@ -257,6 +257,9 @@ export const buildMUIoptions = (
         },
 
         searchText: getSearchText(),
+        onSearchClose: () => {
+          handleTableChange("search", { searchText: "" })
+        },
 
         /* 
         rowsSelected:

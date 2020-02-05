@@ -32,8 +32,6 @@ class Table extends React.Component {
         columns: [],
       },
     }
-
-    let searchText = ""
   }
 
   componentDidMount() {
@@ -78,7 +76,8 @@ class Table extends React.Component {
     }
 
     const handleTableChange = (action, tableState) => {
-      //console.log("Table state changed || " + JSON.stringify(action))
+      console.log("Table state changed || " + JSON.stringify(action))
+      console.log("searchtext || " + JSON.stringify(tableState.searchText))
       //console.log("CURRENT STATE: ", tableState)
 
       if (action !== "propsUpdate") {
@@ -146,7 +145,9 @@ class Table extends React.Component {
             )
           ) {
             //The sortDirection prop only permits sortDirection for one column at a time
-            if (this.state.tableStatePersist.columns[i].sortDirection != "none")
+            if (
+              this.state.tableStatePersist.columns[i].sortDirection !== "none"
+            )
               cols[
                 i
               ].options.sortDirection = this.state.tableStatePersist.columns[
