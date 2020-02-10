@@ -45,6 +45,9 @@ const Analysis = ({
       visibleEntriesIn.forEach(entry => {
         entry[target + "_weighted"] = entry[target]
       })
+      visibleEntriesOut.forEach(entry => {
+        entry[target + "_weighted"] = entry[target]
+      })
       break
 
     case "time-weighted-year":
@@ -111,13 +114,15 @@ const Analysis = ({
                 onChange={event => setTarget(event.target.value)}
               >
                 {columns ? (
-                  columns
-                    .filter(column => column.type === "currency")
-                    .map(column => (
-                      <MenuItem value={column.name}>
-                        {column.displayName}
-                      </MenuItem>
-                    ))
+                  [
+                    ...columns
+                      .filter(column => column.type === "currency")
+                      .map(column => (
+                        <MenuItem key={column.name} value={column.name}>
+                          {column.displayName}
+                        </MenuItem>
+                      )),
+                  ]
                 ) : (
                   <>/</>
                 )}
@@ -127,6 +132,7 @@ const Analysis = ({
         </div>
         <div>
           <Left>Time</Left>
+          <Left>Calculation</Left>
           <Right>
             <FormControl>
               <Select
