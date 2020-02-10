@@ -35,7 +35,7 @@ const entriesReducer = (state = INITIAL_STATE, action) => {
     // Clearing entries (restore default state)
 
     case EntriesActionTypes.CLEAR_ENTRIES:
-      return INITIAL_STATE
+      return { ...INITIAL_STATE }
 
     // Creating Entry
 

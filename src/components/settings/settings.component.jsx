@@ -134,7 +134,12 @@ const Settings = ({
     if (columns) {
       let jsx = columns.map((column, index) =>
         column.isEditable ? (
-          <Grid container spacing={3} className={classes.fieldsContainer}>
+          <Grid
+            container
+            key={index}
+            spacing={3}
+            className={classes.fieldsContainer}
+          >
             <Grid item xs={6} className={classes.fieldItem}>
               <FormControl className={classes.formControl}>
                 <TextField
