@@ -28,7 +28,14 @@ export const selectEditModalIsOpen = createSelector(
   entries => entries.editEntryModalIsOpen,
 )
 
-export const selectVisibleEntries = createSelector(
+export const selectVisibleEntriesArray = createSelector(
   [selectEntries],
-  entries => entries.visibleEntries,
+  entries =>
+    entries.visibleEntries
+      ? entries.visibleEntries.map(entry => entries.entries[entry.id])
+      : entries.entries
+      ? Object.keys(entries.entries)
+          .map(e => e)
+          .map(id => entries.entries[id])
+      : null,
 )
