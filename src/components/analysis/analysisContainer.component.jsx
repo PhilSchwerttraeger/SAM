@@ -10,12 +10,14 @@ import {
 } from "../../redux/entries/entries.selectors"
 import Analysis from "./analysis.component"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
+import { selectColumnsArray } from "../../redux/columns/columns.selectors"
 
 const mapStateToProps = createStructuredSelector({
   isLoading: selectIsColumnsFetching || selectIsColumnsStoring,
   visibleEntries: selectVisibleEntriesArray,
   currentUser: selectCurrentUser,
   entries: selectEntriesArray,
+  columns: selectColumnsArray,
 })
 
 const AnalysisContainer = connect(mapStateToProps)(Analysis)

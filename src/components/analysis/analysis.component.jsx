@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   AnalysisContainer,
   Card,
@@ -9,12 +9,24 @@ import {
 import { formatCurrencyToString } from "../tableEntries/tableEntries.utils"
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline"
 import Tooltip from "@material-ui/core/Tooltip"
+import InputLabel from "@material-ui/core/InputLabel"
+import MenuItem from "@material-ui/core/MenuItem"
+import FormControl from "@material-ui/core/FormControl"
+import Select from "@material-ui/core/Select"
 
-const Analysis = ({ visibleEntries, currentUser, entries, ...rest }) => {
-  console.log(visibleEntries)
+const Analysis = ({
+  visibleEntries,
+  currentUser,
+  entries,
+  columns,
+  ...rest
+}) => {
+  //console.log(visibleEntries, columns)
+  const [target, setTarget] = useState("value")
+  //console.log(target)
+
   if (visibleEntries === null) return <></>
-  //console.log(visibleEntries)
-  const target = "value"
+
   const visibleEntriesIn = visibleEntries.filter(
     entry => entry.direction === "in",
   )
@@ -56,7 +68,29 @@ const Analysis = ({ visibleEntries, currentUser, entries, ...rest }) => {
         <AnalysisMethodTitle>Config</AnalysisMethodTitle>
         <div>
           <Left>Target</Left>
-          <Right>Value</Right>
+          <Right>
+            <FormControl>
+              <Select
+                labelId="target-select-label"
+                id="target-select"
+                value={target}
+                onChange={event => setTarget(event.target.value)}
+              >
+                {columns ? (
+                  columns
+                    .filter(column => column.type === "currency")
+                    .map(column => (
+                      <MenuItem value={column.name}>
+                        {column.displayName}
+                      </MenuItem>
+                    ))
+                ) : (
+                  <>/</>
+                )}
+              </Select>
+            </FormControl>
+          </Right>
+        </div>
         </div>
       </Card>
       <Card>
