@@ -210,6 +210,11 @@ class Table extends React.Component {
               height: "auto !important",
             },
           },
+          MUIDataTable: {
+            paper: {
+              paddingBottom: "16px",
+            },
+          },
         },
       })
 
