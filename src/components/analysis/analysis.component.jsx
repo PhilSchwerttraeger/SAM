@@ -23,6 +23,7 @@ const Analysis = ({
 }) => {
   //console.log(visibleEntries, columns)
   const [target, setTarget] = useState("value")
+  const [calcType, setCalcType] = useState("simple")
   //console.log(target)
 
   if (visibleEntries === null) return <></>
@@ -39,14 +40,47 @@ const Analysis = ({
   const lengthIn = visibleEntriesIn.length
   const lengthOut = visibleEntriesOut.length
 
+  switch (calcType) {
+    case "simple":
+      visibleEntriesIn.forEach(entry => {
+        entry[target + "_weighted"] = entry[target]
+      })
+      break
+
+    case "time-weighted-year":
+      visibleEntriesIn.forEach(entry => {
+        entry[target + "_weighted"] = (360 / entry.interval) * entry[target]
+      })
+      visibleEntriesOut.forEach(entry => {
+        entry[target + "_weighted"] = (360 / entry.interval) * entry[target]
+      })
+      break
+
+    case "time-weighted-month":
+      visibleEntriesIn.forEach(entry => {
+        entry[target + "_weighted"] = (30 / entry.interval) * entry[target]
+      })
+      visibleEntriesOut.forEach(entry => {
+        entry[target + "_weighted"] = (30 / entry.interval) * entry[target]
+      })
+      break
+
+    default:
+      break
+  }
+
   // SUM
   let sumIn = 0
   visibleEntriesIn.forEach(entry => {
-    sumIn = sumIn + entry[target]
+    sumIn = entry[target + "_weighted"]
+      ? sumIn + entry[target + "_weighted"]
+      : sumIn
   })
   let sumOut = 0
   visibleEntriesOut.forEach(entry => {
-    sumOut = sumOut + entry[target]
+    sumOut = entry[target + "_weighted"]
+      ? sumOut + entry[target + "_weighted"]
+      : sumOut
   })
   let sum = sumIn - sumOut
 
@@ -91,6 +125,26 @@ const Analysis = ({
             </FormControl>
           </Right>
         </div>
+        <div>
+          <Left>Time</Left>
+          <Right>
+            <FormControl>
+              <Select
+                labelId="time-select-label"
+                id="time-select"
+                value={calcType}
+                onChange={event => setCalcType(event.target.value)}
+              >
+                <MenuItem value={"simple"}>Simple</MenuItem>
+                <MenuItem value={"time-weighted-month"}>
+                  Time-weighted (Month)
+                </MenuItem>
+                <MenuItem value={"time-weighted-year"}>
+                  Time-weighted (Year)
+                </MenuItem>
+              </Select>
+            </FormControl>
+          </Right>
         </div>
       </Card>
       <Card>
