@@ -7,6 +7,8 @@ import {
   Right,
 } from "./analysis.styles"
 import { formatCurrencyToString } from "../tableEntries/tableEntries.utils"
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline"
+import Tooltip from "@material-ui/core/Tooltip"
 
 const Analysis = ({ visibleEntries, currentUser, entries, ...rest }) => {
   console.log(visibleEntries)
@@ -77,6 +79,9 @@ const Analysis = ({ visibleEntries, currentUser, entries, ...rest }) => {
         <div>
           <Left>
             All{" "}
+            <Tooltip title="Weighted sum: All in - all out">
+              <HelpOutlineIcon style={{ color: "grey", fontSize: 14 }} />
+            </Tooltip>
           </Left>
           <Right>{sum}</Right>
         </div>
@@ -94,6 +99,9 @@ const Analysis = ({ visibleEntries, currentUser, entries, ...rest }) => {
         <div>
           <Left>
             All{" "}
+            <Tooltip title="Weighted average from weighted sum (Sum all)">
+              <HelpOutlineIcon style={{ color: "grey", fontSize: 14 }} />
+            </Tooltip>
           </Left>
 
           <Right>{avg}</Right>
