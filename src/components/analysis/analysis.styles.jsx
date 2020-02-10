@@ -8,8 +8,11 @@ export const AnalysisContainer = styled.div`
   width: 100%;
   margin-bottom: 24px;
 
-  @media (max-width: 700px) {
+  @media (max-width: 1000px) {
     grid-template-columns: 1fr 1fr;
+  }
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
   }
 `
 
@@ -25,10 +28,10 @@ export const Card = styled.div`
 `
 
 export const AnalysisMethodTitle = styled.div`
-  font-size: 0.875rem;
+  font-size: 1.25rem;
   font-weight: 500;
-  padding: 0;
-  text-align: center;
+  padding: 0 0 8px 0;
+  text-align: left;
 `
 
 export const Row = styled.div`
@@ -45,4 +48,21 @@ export const Left = styled.div`
 export const Right = styled.div`
   text-align: right;
   align-self: center;
+`
+
+export const Column = styled.div`
+  padding: 8px 0 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+`
+
+export const Value = styled.div``
+
+export const ValueDisplay = styled.div``
+
+export const ValueLabel = styled.div`
+  font-family: "Oswald";
+  padding: 8px 0 4px;
+  font-size: 1.1rem;
+  font-weight: 500;
 `

@@ -6,11 +6,14 @@ import {
   Left,
   Right,
   Row,
+  Column,
+  Value,
+  ValueDisplay,
+  ValueLabel,
 } from "./analysis.styles"
 import { formatCurrencyToString } from "../tableEntries/tableEntries.utils"
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline"
 import Tooltip from "@material-ui/core/Tooltip"
-import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
 import FormControl from "@material-ui/core/FormControl"
 import Select from "@material-ui/core/Select"
@@ -168,59 +171,66 @@ const Analysis = ({
       </Card>
       <Card>
         <AnalysisMethodTitle>Visible entries</AnalysisMethodTitle>
-        <Row>
-          <Left>All</Left>
-          <Right>{length ? length : 0}</Right>
-        </Row>
-        <Row>
-          <Left>In</Left>
-          <Right>{lengthIn ? lengthIn : 0}</Right>
-        </Row>
-        <Row>
-          <Left>Out</Left>
-          <Right>{lengthOut ? lengthOut : 0}</Right>
-        </Row>
+        <Column>
+          <Value>
+            <ValueLabel>{length ? length : 0}</ValueLabel>
+            <ValueDisplay>All</ValueDisplay>
+          </Value>
+          <Value>
+            <ValueLabel>{lengthIn ? lengthIn : 0}</ValueLabel>
+            <ValueDisplay>In</ValueDisplay>
+          </Value>
+          <Value>
+            <ValueLabel>{lengthOut ? lengthOut : 0}</ValueLabel>
+            <ValueDisplay>Out</ValueDisplay>
+          </Value>
+        </Column>
       </Card>
       <Card>
         <AnalysisMethodTitle>Sum</AnalysisMethodTitle>
-        <Row>
-          <Left>
-            All{" "}
-            <Tooltip title="Weighted sum: All in - all out">
-              <HelpOutlineIcon style={{ color: "grey", fontSize: "0.75rem" }} />
-            </Tooltip>
-          </Left>
-          <Right>{sum}</Right>
-        </Row>
-        <Row>
-          <Left>In</Left>
-          <Right>{sumIn}</Right>
-        </Row>
-        <Row>
-          <Left>Out</Left>
-          <Right>{sumOut}</Right>
-        </Row>
+        <Column>
+          <Value>
+            <ValueLabel>{sum}</ValueLabel>
+            <ValueDisplay>
+              All{" "}
+              <Tooltip title="Weighted sum: All in - all out">
+                <HelpOutlineIcon
+                  style={{ color: "grey", fontSize: "0.75rem" }}
+                />
+              </Tooltip>
+            </ValueDisplay>
+          </Value>
+          <Value>
+            <ValueLabel>{sumIn}</ValueLabel>
+            <ValueDisplay>In</ValueDisplay>
+          </Value>
+          <Value>
+            <ValueLabel>{sumOut}</ValueLabel>
+            <ValueDisplay>Out</ValueDisplay>
+          </Value>
+        </Column>
       </Card>
       <Card>
         <AnalysisMethodTitle>Average</AnalysisMethodTitle>
-        <Row>
-          <Left>
-            All{" "}
-            <Tooltip title="Weighted average from weighted sum (Sum all)">
-              <HelpOutlineIcon style={{ color: "grey", fontSize: 14 }} />
-            </Tooltip>
-          </Left>
-
-          <Right>{avg}</Right>
-        </Row>
-        <Row>
-          <Left>In</Left>
-          <Right>{avgIn}</Right>
-        </Row>
-        <Row>
-          <Left>Out</Left>
-          <Right>{avgOut}</Right>
-        </Row>
+        <Column>
+          <Value>
+            <ValueLabel>{avg}</ValueLabel>
+            <ValueDisplay>
+              All{" "}
+              <Tooltip title="Weighted average from weighted sum (Sum all)">
+                <HelpOutlineIcon style={{ color: "grey", fontSize: 14 }} />
+              </Tooltip>
+            </ValueDisplay>
+          </Value>
+          <Value>
+            <ValueLabel>{avgIn}</ValueLabel>
+            <ValueDisplay>In</ValueDisplay>
+          </Value>
+          <Value>
+            <ValueLabel>{avgOut}</ValueLabel>
+            <ValueDisplay>Out</ValueDisplay>
+          </Value>
+        </Column>
       </Card>
     </AnalysisContainer>
   )
