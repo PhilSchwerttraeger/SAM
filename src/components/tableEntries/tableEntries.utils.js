@@ -36,7 +36,7 @@ const formatDateToString = date => {
   return date.toLocaleDateString("de-DE", options)
 }
 
-const formatCurrencyToString = (value, currency) => {
+export const formatCurrencyToString = (value, currency) => {
   switch (currency) {
     case "€":
       return new Intl.NumberFormat("de-DE", {
@@ -247,7 +247,7 @@ export const buildMUIoptions = (
         },
 
         onTableChange: (action, newTableState) => {
-          handleTableChange(action, newTableState)
+          handleTableChange(action, newTableState, MUIdata)
         },
 
         onCellClick: (colData, cellMeta) => {

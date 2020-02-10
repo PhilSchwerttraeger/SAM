@@ -5,7 +5,6 @@ import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
 import { updateCurrentUserAsync } from "../../redux/user/user.actions"
 import {
-  fetchColumnsStartAsync,
   updateColumnStartAsync,
   deleteColumnStartAsync,
 } from "../../redux/columns/columns.actions"

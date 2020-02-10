@@ -7,6 +7,7 @@ import {
   clearEntries,
   setSelectedEntry,
   setEditEntryModalIsOpen,
+  setVisibleEntries,
 } from "../../redux/entries/entries.actions"
 import {
   fetchColumnsStartAsync,
@@ -39,9 +40,12 @@ class Table extends React.Component {
       fetchEntriesStartAsync,
       fetchColumnsStartAsync,
       currentUser,
+      entries,
+      setVisibleEntries,
     } = this.props
     fetchEntriesStartAsync(currentUser)
     fetchColumnsStartAsync(currentUser)
+    setVisibleEntries(entries)
   }
 
   componentWillUnmount() {
@@ -57,6 +61,7 @@ class Table extends React.Component {
       deleteEntryStartAsync,
       setSelectedEntry,
       setEditEntryModalIsOpen,
+      setVisibleEntries,
     } = this.props
 
     const addEntryClicked = () => {
@@ -75,10 +80,10 @@ class Table extends React.Component {
       setEditEntryModalIsOpen(true)
     }
 
-    const handleTableChange = (action, tableState) => {
+    const handleTableChange = (action, tableState, MUIdata) => {
       //console.log("Table state changed || " + JSON.stringify(action))
       //console.log("searchtext || " + JSON.stringify(tableState.searchText))
-      //console.log("CURRENT STATE: ", tableState)
+      //console.log("tableState: ", tableState)
 
       if (action !== "propsUpdate") {
         if (action !== "search") {
@@ -91,6 +96,14 @@ class Table extends React.Component {
         } else {
           this.searchText = tableState.searchText
         }
+        const visibleDataIndices = tableState.displayData
+          ? tableState.displayData.map(entry => entry.dataIndex)
+          : null
+        const visibleDataEntries = visibleDataIndices
+          ? visibleDataIndices.map(index => MUIdata[index])
+          : null
+        console.log(visibleDataEntries)
+        setVisibleEntries(visibleDataEntries)
       }
       /* 
       const visibleRowsIndices = tableState.displayData.map(
@@ -227,6 +240,7 @@ const mapDispatchToProps = dispatch => ({
 
   setSelectedEntry: entryToSetSelected =>
     dispatch(setSelectedEntry(entryToSetSelected)),
+  setVisibleEntries: entries => dispatch(setVisibleEntries(entries)),
 
   setEditEntryModalIsOpen: boolean =>
     dispatch(setEditEntryModalIsOpen(boolean)),
