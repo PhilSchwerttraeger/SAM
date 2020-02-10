@@ -178,6 +178,9 @@ class Table extends React.Component {
       createMuiTheme({
         overrides: {
           MUIDataTableToolbar: {
+            root: {
+              paddingLeft: "16px",
+            },
             actions: {
               display: "flex",
               flex: "initial",
@@ -198,6 +201,8 @@ class Table extends React.Component {
           MuiTableCell: {
             root: {
               borderBottom: "0px",
+              paddingTop: "8px",
+              paddingBottom: "8px",
             },
           },
           MUIDataTableBodyCell: {

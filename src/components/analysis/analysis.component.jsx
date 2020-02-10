@@ -5,6 +5,7 @@ import {
   AnalysisMethodTitle,
   Left,
   Right,
+  Row,
 } from "./analysis.styles"
 import { formatCurrencyToString } from "../tableEntries/tableEntries.utils"
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline"
@@ -103,7 +104,7 @@ const Analysis = ({
     <AnalysisContainer>
       <Card>
         <AnalysisMethodTitle>Config</AnalysisMethodTitle>
-        <div>
+        <Row>
           <Left>Target</Left>
           <Right>
             <FormControl>
@@ -112,6 +113,9 @@ const Analysis = ({
                 id="target-select"
                 value={target}
                 onChange={event => setTarget(event.target.value)}
+                style={{
+                  fontSize: "0.875rem",
+                }}
               >
                 {columns ? (
                   [
@@ -129,10 +133,18 @@ const Analysis = ({
               </Select>
             </FormControl>
           </Right>
-        </div>
-        <div>
-          <Left>Time</Left>
-          <Left>Calculation</Left>
+        </Row>
+        <Row>
+          <Left>
+            Method{" "}
+            <Tooltip
+              title={
+                "Simple: Takes currently filtered entries as they are. Weighted: Takes currently filtered entries and weighs them according to their interval."
+              }
+            >
+              <HelpOutlineIcon style={{ color: "grey", fontSize: "0.75rem" }} />
+            </Tooltip>
+          </Left>
           <Right>
             <FormControl>
               <Select
@@ -140,57 +152,58 @@ const Analysis = ({
                 id="time-select"
                 value={calcType}
                 onChange={event => setCalcType(event.target.value)}
+                style={{
+                  fontSize: "0.875rem",
+                }}
               >
                 <MenuItem value={"simple"}>Simple</MenuItem>
                 <MenuItem value={"time-weighted-month"}>
-                  Time-weighted (Month)
+                  Month-weighted
                 </MenuItem>
-                <MenuItem value={"time-weighted-year"}>
-                  Time-weighted (Year)
-                </MenuItem>
+                <MenuItem value={"time-weighted-year"}>Year-weighted</MenuItem>
               </Select>
             </FormControl>
           </Right>
-        </div>
+        </Row>
       </Card>
       <Card>
-        <AnalysisMethodTitle>Stats</AnalysisMethodTitle>
-        <div>
-          <Left>Visible entries</Left>
+        <AnalysisMethodTitle>Visible entries</AnalysisMethodTitle>
+        <Row>
+          <Left>All</Left>
           <Right>{length ? length : 0}</Right>
-        </div>
-        <div>
-          <Left>Visible entries (In)</Left>
+        </Row>
+        <Row>
+          <Left>In</Left>
           <Right>{lengthIn ? lengthIn : 0}</Right>
-        </div>
-        <div>
-          <Left>Visible entries (Out)</Left>
+        </Row>
+        <Row>
+          <Left>Out</Left>
           <Right>{lengthOut ? lengthOut : 0}</Right>
-        </div>
+        </Row>
       </Card>
       <Card>
         <AnalysisMethodTitle>Sum</AnalysisMethodTitle>
-        <div>
+        <Row>
           <Left>
             All{" "}
             <Tooltip title="Weighted sum: All in - all out">
-              <HelpOutlineIcon style={{ color: "grey", fontSize: 14 }} />
+              <HelpOutlineIcon style={{ color: "grey", fontSize: "0.75rem" }} />
             </Tooltip>
           </Left>
           <Right>{sum}</Right>
-        </div>
-        <div>
+        </Row>
+        <Row>
           <Left>In</Left>
           <Right>{sumIn}</Right>
-        </div>
-        <div>
+        </Row>
+        <Row>
           <Left>Out</Left>
           <Right>{sumOut}</Right>
-        </div>
+        </Row>
       </Card>
       <Card>
         <AnalysisMethodTitle>Average</AnalysisMethodTitle>
-        <div>
+        <Row>
           <Left>
             All{" "}
             <Tooltip title="Weighted average from weighted sum (Sum all)">
@@ -199,15 +212,15 @@ const Analysis = ({
           </Left>
 
           <Right>{avg}</Right>
-        </div>
-        <div>
+        </Row>
+        <Row>
           <Left>In</Left>
           <Right>{avgIn}</Right>
-        </div>
-        <div>
+        </Row>
+        <Row>
           <Left>Out</Left>
           <Right>{avgOut}</Right>
-        </div>
+        </Row>
       </Card>
     </AnalysisContainer>
   )
