@@ -52,7 +52,7 @@ const Header = ({ currentUser }) => {
       <h1>{title}</h1>
       <OptionsContainer>
         <OptionLink as="div" onClick={() => setSettingsModalIsOpen(true)}>
-          SETTINGS
+          Settings
         </OptionLink>
         {currentUser ? (
           <Tooltip title={userName} aria-label="Log-Out" arrow>
@@ -63,11 +63,11 @@ const Header = ({ currentUser }) => {
                 auth.signOut()
               }}
             >
-              SIGN OUT
+              Sign out
             </OptionLink>
           </Tooltip>
         ) : (
-          <OptionLink to="/signin">SIGN-IN</OptionLink>
+          <OptionLink to="/signin">Sign out</OptionLink>
         )}
       </OptionsContainer>
 
