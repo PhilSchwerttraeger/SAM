@@ -41,6 +41,12 @@ const Analysis = ({ visibleEntries, currentUser, entries, ...rest }) => {
   let avgIn = lengthIn ? sumIn / lengthIn : "-"
   let avgOut = lengthOut ? sumOut / lengthOut : "-"
 
+  sum = formatCurrencyToString(sum, currentUser.currency)
+  sumIn = formatCurrencyToString(sumIn, currentUser.currency)
+  sumOut = formatCurrencyToString(sumOut, currentUser.currency)
+  avg = formatCurrencyToString(avg, currentUser.currency)
+  avgIn = formatCurrencyToString(avgIn, currentUser.currency)
+  avgOut = formatCurrencyToString(avgOut, currentUser.currency)
 
   return (
     <AnalysisContainer>
