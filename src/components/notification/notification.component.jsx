@@ -8,7 +8,6 @@ function Alert(props) {
 
 const Notification = ({ notification, invokeNotification }) => {
   const { msg, type } = notification
-  const [open, setOpen] = React.useState(notification !== null)
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -18,7 +17,11 @@ const Notification = ({ notification, invokeNotification }) => {
   }
 
   return msg && type ? (
-    <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
+    <Snackbar
+      open={notification !== null}
+      autoHideDuration={3000}
+      onClose={handleClose}
+    >
       <Alert onClose={handleClose} severity={type ? type : ""}>
         {msg ? msg : ""}
       </Alert>
