@@ -39,3 +39,13 @@ export const selectVisibleEntriesArray = createSelector(
           .map(id => entries.entries[id])
       : null,
 )
+
+export const selectIsEntriesFetching = createSelector(
+  [selectEntries],
+  entries => entries.isFetching,
+)
+
+export const selectIsEntriesStoring = createSelector(
+  [selectEntries],
+  entries => entries.isStoring,
+)

@@ -14,10 +14,21 @@ import {
   OptionLink,
 } from "./header.styles"
 import { clearEntries } from "../../redux/entries/entries.actions"
-import SettingsContainer from "../../components/settings/settingsContainer.component"
+import SettingsContainer from "../settings/settingsContainer.component"
 import useMediaQuery from "@material-ui/core/useMediaQuery"
 import { useTheme } from "@material-ui/core/styles"
 import Tooltip from "@material-ui/core/Tooltip"
+import { SpinnerContainer } from "../with-spinner/with-spinner.styles"
+
+import {
+  selectIsColumnsFetching,
+  selectIsColumnsStoring,
+} from "../../redux/columns/columns.selectors"
+
+import {
+  selectIsEntriesFetching,
+  selectIsEntriesStoring,
+} from "../../redux/entries/entries.selectors"
 
 // To use, use { HeaderLogo } in HeaderContainer below
 /*
@@ -28,7 +39,24 @@ const HeaderLogo = (
 )
 */
 
-const Header = ({ currentUser }) => {
+const Header = ({
+  currentUser,
+  selectIsColumnsFetching,
+  selectIsColumnsStoring,
+  selectIsEntriesFetching,
+  selectIsEntriesStoring,
+}) => {
+  //console.log("selectIsColumnsFetching", selectIsColumnsFetching)
+  //console.log("selectIsColumnsStoring", selectIsColumnsStoring)
+  //console.log("selectIsEntriesFetching", selectIsEntriesFetching)
+  //console.log("selectIsEntriesStoring", selectIsEntriesStoring)
+
+  const isLoading =
+    selectIsColumnsFetching ||
+    selectIsColumnsStoring ||
+    selectIsEntriesFetching ||
+    selectIsEntriesStoring
+
   const [settingsModalIsOpen, setSettingsModalIsOpen] = React.useState(false)
 
   const closeModal = () => {
@@ -51,6 +79,7 @@ const Header = ({ currentUser }) => {
     <HeaderContainer>
       <h1>{title}</h1>
       <OptionsContainer>
+        {isLoading ? <SpinnerContainer /> : null}
         <OptionLink as="div" onClick={() => setSettingsModalIsOpen(true)}>
           Settings
         </OptionLink>
@@ -79,6 +108,10 @@ const Header = ({ currentUser }) => {
 // question: why does selector know state? oO
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
+  selectIsColumnsFetching: selectIsColumnsFetching,
+  selectIsColumnsStoring: selectIsColumnsStoring,
+  selectIsEntriesFetching: selectIsEntriesFetching,
+  selectIsEntriesStoring: selectIsEntriesStoring,
 })
 
 export default connect(mapStateToProps)(Header)
