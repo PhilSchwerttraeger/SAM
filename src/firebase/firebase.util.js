@@ -24,8 +24,68 @@ export const createUserProfileDocument = async userAuth => {
   const userRef = firestore.doc(`users/${userAuth.uid}`)
   const snapShot = await userRef.get()
 
-  // when user not in database yet: create it + default database values (default template)
+  /* 
+
+  // Guest Login Refreshing
+  if (snapShot.id === "wtDaqlaKbDgeRdIj2iWI8veVRfV2") {
+    firestore
+      .collection(`users`)
+      .doc("wtDaqlaKbDgeRdIj2iWI8veVRfV2")
+      .get()
+      .then(async UserDoc => {
+        const refreshedAtOld = toDateTime(UserDoc.data().refreshedAt.seconds)
+        const hoursDifference = Math.abs(refreshedAtOld - new Date()) / 36e5
+        if (hoursDifference > 24) {
+          // delete all columns
+          deleteCollection(firestore, "columns", 10)
+
+          // delete all entries
+          deleteCollection(firestore, "entries", 10)
+
+          // Collect all further op in this batch action
+          const batch = firestore.batch()
+
+          // Refresh date
+          batch.set(userRef, {
+            ...UserDoc.data(),
+            refreshedAt: new Date(),
+          })
+
+          // Create default columns
+          const columnsRef = firestore.collection(
+            `users/${snapShot.id}/columns`,
+          )
+          defaultColumns.forEach(column => {
+            const newDocRef = columnsRef.doc()
+            batch.set(newDocRef, column)
+            console.log(column)
+          })
+
+          // Create default entries
+          const entriesRef = firestore.collection(
+            `users/${snapShot.id}/entries`,
+          )
+          defaultEntries.forEach(entries => {
+            const newDocRef = entriesRef.doc()
+            batch.set(newDocRef, entries)
+            console.log(entries)
+          })
+
+          // Fire batch actions
+          try {
+            await batch.commit()
+          } catch (error) {
+            console.log(
+              "error creating default columns and entries",
+              error.message,
+            )
+          }
+        }
+      })
+  }*/
+
   if (!snapShot.exists) {
+    // when user not in database yet: create it + default database values (default template)
     const { displayName, email } = userAuth
     const createdAt = new Date()
 
@@ -70,6 +130,51 @@ export const createUserProfileDocument = async userAuth => {
 
   return userRef
 }
+
+/* 
+const deleteCollection = (db, collectionPath, batchSize) => {
+  let collectionRef = db.collection(collectionPath)
+  let query = collectionRef.orderBy("__name__").limit(batchSize)
+
+  return new Promise((resolve, reject) => {
+    deleteQueryBatch(db, query, batchSize, resolve, reject)
+  })
+}
+
+const deleteQueryBatch = (db, query, batchSize, resolve, reject) => {
+  query
+    .get()
+    .then(snapshot => {
+      // When there are no documents left, we are done
+      if (snapshot.size === 0) {
+        return 0
+      }
+
+      // Delete documents in a batch
+      let batch = db.batch()
+      snapshot.docs.forEach(doc => {
+        batch.delete(doc.ref)
+      })
+
+      return batch.commit().then(() => {
+        return snapshot.size
+      })
+    })
+    .then(numDeleted => {
+      if (numDeleted === 0) {
+        resolve()
+        return
+      }
+
+      // Recurse on the next process tick, to avoid
+      // exploding the stack.
+      process.nextTick(() => {
+        deleteQueryBatch(db, query, batchSize, resolve, reject)
+      })
+    })
+    .catch(reject)
+}
+*/
 
 export const addCollectionAndDocuments = async (
   collectionKey,
