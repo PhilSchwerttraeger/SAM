@@ -33,11 +33,11 @@ const Analysis = ({
   if (visibleEntries === null) return <></>
 
   const visibleEntriesIn = visibleEntries.filter(
-    entry => entry.direction === "in",
+    entry => entry && entry.direction === "in",
   )
 
   const visibleEntriesOut = visibleEntries.filter(
-    entry => entry.direction === "out",
+    entry => entry && entry.direction === "out",
   )
 
   const length = visibleEntries.length
