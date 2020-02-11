@@ -105,9 +105,9 @@ const Analysis = ({
   let sum = sumIn - sumOut
 
   // AVERAGE
-  let avg = length ? sum / length : "-"
-  let avgIn = lengthIn ? sumIn / lengthIn : "-"
-  let avgOut = lengthOut ? sumOut / lengthOut : "-"
+  let avg = length ? sum / length : 0
+  let avgIn = lengthIn ? sumIn / lengthIn : 0
+  let avgOut = lengthOut ? sumOut / lengthOut : 0
 
   sum = formatCurrencyToString(sum, currentUser.currency)
   sumIn = formatCurrencyToString(sumIn, currentUser.currency)

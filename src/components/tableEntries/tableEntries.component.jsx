@@ -14,7 +14,10 @@ import {
   clearColumns,
 } from "../../redux/columns/columns.actions"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
-import { selectEntriesArray } from "../../redux/entries/entries.selectors"
+import {
+  selectEntriesArray,
+  selectVisibleEntriesArray,
+} from "../../redux/entries/entries.selectors"
 import { selectColumnsArray } from "../../redux/columns/columns.selectors"
 import {
   buildMUIdata,
@@ -62,6 +65,7 @@ class Table extends React.Component {
       setSelectedEntry,
       setEditEntryModalIsOpen,
       setVisibleEntries,
+      visibleEntries,
     } = this.props
 
     const addEntryClicked = () => {
@@ -81,7 +85,7 @@ class Table extends React.Component {
     }
 
     const handleTableChange = (action, tableState, MUIdata) => {
-      //console.log("Table state changed || " + JSON.stringify(action))
+      console.log("Table state changed || " + JSON.stringify(action))
       //console.log("searchtext || " + JSON.stringify(tableState.searchText))
       //console.log("tableState: ", tableState)
 
@@ -96,16 +100,18 @@ class Table extends React.Component {
         } else {
           this.searchText = tableState.searchText
         }
-        const visibleDataIndices = tableState.displayData
-          ? tableState.displayData.map(entry => entry.dataIndex)
-          : null
-        const visibleDataEntries = visibleDataIndices
-          ? visibleDataIndices.map(index => MUIdata[index])
-          : null
-        console.log(visibleDataEntries)
-        setVisibleEntries(visibleDataEntries)
       }
-      /* 
+
+      const visibleDataIndices = tableState.displayData
+        ? tableState.displayData.map(entry => entry.dataIndex)
+        : null
+      const visibleDataEntries = visibleDataIndices
+        ? visibleDataIndices.map(index => MUIdata[index])
+        : null
+      if (visibleDataEntries.length !== visibleEntries.length)
+        setVisibleEntries(visibleDataEntries)
+
+      /*
       const visibleRowsIndices = tableState.displayData.map(
         item => item.dataIndex,
       )
@@ -237,6 +243,7 @@ const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
   entries: selectEntriesArray,
   columns: selectColumnsArray,
+  visibleEntries: selectVisibleEntriesArray,
 })
 
 const mapDispatchToProps = dispatch => ({
