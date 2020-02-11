@@ -35,6 +35,17 @@ class Login extends React.Component {
     })
   }
 
+  loginAsGuest = async () => {
+    const email = "test@user.com"
+    const password = "123456"
+
+    try {
+      await auth.signInWithEmailAndPassword(email, password)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   render() {
     return (
       <div className="login">
@@ -66,6 +77,9 @@ class Login extends React.Component {
             </CustomButton>
           </div>
         </form>
+        <CustomButton onClick={this.loginAsGuest} inverted>
+          Guest Login
+        </CustomButton>
         <GoogleButton
           onClick={signInWithGoogle}
           type="light"
