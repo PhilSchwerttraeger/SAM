@@ -10,6 +10,7 @@ import {
   Value,
   ValueDisplay,
   ValueLabel,
+  ValueTotal,
 } from "./analysis.styles"
 import { formatCurrencyToString } from "../tableEntries/tableEntries.utils"
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline"
@@ -30,6 +31,8 @@ const Analysis = ({
   const [calcType, setCalcType] = useState("simple")
   //console.log(target)
 
+  // Visible entries
+
   if (visibleEntries === null) return <></>
 
   const visibleEntriesIn = visibleEntries.filter(
@@ -43,6 +46,16 @@ const Analysis = ({
   const length = visibleEntries.length
   const lengthIn = visibleEntriesIn.length
   const lengthOut = visibleEntriesOut.length
+
+  // Entries Total
+
+  const entriesIn = entries.filter(entry => entry && entry.direction === "in")
+
+  const entriesOut = entries.filter(entry => entry && entry.direction === "out")
+
+  const lengthTotal = entries.length
+  const lengthInTotal = entriesIn.length
+  const lengthOutTotal = entriesOut.length
 
   switch (calcType) {
     case "simple":
@@ -173,15 +186,33 @@ const Analysis = ({
         <AnalysisMethodTitle>Visible entries</AnalysisMethodTitle>
         <Column>
           <Value>
-            <ValueLabel>{length ? length : 0}</ValueLabel>
+            <ValueLabel>
+              {length ? length : 0}
+              <ValueTotal>
+                {" / "}
+                {lengthTotal}
+              </ValueTotal>
+            </ValueLabel>
             <ValueDisplay>All</ValueDisplay>
           </Value>
           <Value>
-            <ValueLabel>{lengthIn ? lengthIn : 0}</ValueLabel>
+            <ValueLabel>
+              {lengthIn ? lengthIn : 0}
+              <ValueTotal>
+                {" / "}
+                {lengthInTotal}
+              </ValueTotal>
+            </ValueLabel>
             <ValueDisplay>In</ValueDisplay>
           </Value>
           <Value>
-            <ValueLabel>{lengthOut ? lengthOut : 0}</ValueLabel>
+            <ValueLabel>
+              {lengthOut ? lengthOut : 0}
+              <ValueTotal>
+                {" / "}
+                {lengthOutTotal}
+              </ValueTotal>
+            </ValueLabel>
             <ValueDisplay>Out</ValueDisplay>
           </Value>
         </Column>

@@ -63,6 +63,12 @@ export const ValueDisplay = styled.div``
 export const ValueLabel = styled.div`
   font-family: "Oswald";
   padding: 8px 0 4px;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 500;
+`
+
+export const ValueTotal = styled.div`
+  display: inline;
+  font-size: 0.8rem;
+  color: grey;
 `
