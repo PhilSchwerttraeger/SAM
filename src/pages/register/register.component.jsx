@@ -1,11 +1,11 @@
 import React from "react"
-import FormInput from "../form-input/form-input.component"
-import CustomButton from "../custom-button/custom-button.component"
+import FormInput from "../../components/form-input/form-input.component"
+import CustomButton from "../../components/custom-button/custom-button.component"
 import { auth, createUserProfileDocument } from "../../firebase/firebase.util"
 
-import "./sign-up.styles.scss"
+import "./register.styles.scss"
 
-class SignUp extends React.Component {
+class Register extends React.Component {
   constructor(props) {
     super(props)
 
@@ -100,4 +100,4 @@ class SignUp extends React.Component {
   }
 }
 
-export default SignUp
+export default Register

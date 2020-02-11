@@ -1,7 +1,8 @@
 import React from "react"
 import "./App.css"
 import Dashboard from "./pages/dashboard/dashboard.component"
-import SignInAndSignUp from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component"
+import Register from "./pages/register/register.component"
+import Login from "./pages/login/login.component"
 import { Switch, Route, Redirect } from "react-router-dom"
 import Header from "./components/header/header.component"
 import {
@@ -58,14 +59,21 @@ class App extends React.Component {
             exact
             path="/"
             render={() =>
-              this.props.currentUser ? <Dashboard /> : <Redirect to="/signin" />
+              this.props.currentUser ? <Dashboard /> : <Redirect to="/login" />
             }
           />
           <Route
             exact
-            path="/signin"
+            path="/login"
             render={() =>
-              this.props.currentUser ? <Redirect to="/" /> : <SignInAndSignUp />
+              this.props.currentUser ? <Redirect to="/" /> : <Login />
+            }
+          />
+          <Route
+            exact
+            path="/register"
+            render={() =>
+              this.props.currentUser ? <Redirect to="/" /> : <Register />
             }
           />
         </Switch>

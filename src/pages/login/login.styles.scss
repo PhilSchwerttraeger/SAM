@@ -1,0 +1,30 @@
+.login {
+  width: 380px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+
+  .title {
+    margin: 10px 0;
+  }
+
+  .buttons {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+
+  .row {
+    display: grid;
+    text-align: left;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .register {
+    margin-top: 32px;
+  }
+}
