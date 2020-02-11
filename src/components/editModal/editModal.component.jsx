@@ -212,6 +212,7 @@ const EditEntryModal = ({
   const handleDelete = () => {
     console.log("handleDelete ", currentEntry)
     if (currentEntry.id) deleteEntryStartAsync(currentEntry.id)
+    invokeNotification({ msg: "Deletion successful.", type: "success" })
     handleClose()
   }
 
