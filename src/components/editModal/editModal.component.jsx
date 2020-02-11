@@ -10,6 +10,7 @@ import {
 } from "../../redux/entries/entries.actions"
 import { createStructuredSelector } from "reselect"
 import { selectCurrentUser } from "../../redux/user/user.selectors"
+import { invokeNotification } from "../../redux/user/user.actions"
 import {
   selectEntriesMap,
   selectEntriesArray,
@@ -113,6 +114,7 @@ const EditEntryModal = ({
   setEditEntryModalIsOpen,
   selectedEntry,
   editModalIsOpen,
+  invokeNotification,
 }) => {
   const theme = useTheme()
   const classes = useStyles()
@@ -220,11 +222,14 @@ const EditEntryModal = ({
     console.log("handleDuplicate ", entry, currentEntry)
     const newEntry = createEntryStartAsync(currentEntry)
     setCurrentEntry(newEntry)
+    invokeNotification({ msg: "Duplication successful.", type: "success" })
   }
 
   const makeOptions = column => {
     // make array of all values
-    let array = entriesArray ? entriesArray.map(entry => entry[column.name]) : null
+    let array = entriesArray
+      ? entriesArray.map(entry => entry[column.name])
+      : null
 
     // create set (delete duplicates)
     let set = [...new Set(array)]
@@ -488,6 +493,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(setSelectedEntry(entryToSetSelected)),
   setEditEntryModalIsOpen: boolean =>
     dispatch(setEditEntryModalIsOpen(boolean)),
+  invokeNotification: (msg, type) => dispatch(invokeNotification(msg, type)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditEntryModal)
