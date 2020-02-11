@@ -1,9 +1,21 @@
-.sign-up {
+.register {
   display: flex;
-  flex-direction: column;
   width: 380px;
+  margin: auto;
+  flex-direction: column;
+  text-align: center;
 
   .title {
     margin: 10px 0;
+  }
+
+  .login {
+    margin-top: 32px;
+  }
+
+  .loginLink {
+    margin-bottom: "52px";
+    color: rgba(47, 47, 243, 0.705);
+    text-decoration: underline;
   }
 }

@@ -4,6 +4,7 @@ import CustomButton from "../../components/custom-button/custom-button.component
 import "./login.styles.scss"
 import { auth, signInWithGoogle } from "../../firebase/firebase.util"
 import GoogleButton from "react-google-button"
+import { Link } from "react-router-dom"
 
 class Login extends React.Component {
   constructor(props) {
@@ -87,7 +88,9 @@ class Login extends React.Component {
         />
         <div className="register">
           <h2>I don't have an account</h2>
-          <div style={{ marginBottom: "52px" }}>Create a new account</div>
+          <Link to={`/register`}>
+            <span className="registerLink">Create a new account</span>
+          </Link>
         </div>
       </div>
     )

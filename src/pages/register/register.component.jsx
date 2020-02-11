@@ -2,6 +2,7 @@ import React from "react"
 import FormInput from "../../components/form-input/form-input.component"
 import CustomButton from "../../components/custom-button/custom-button.component"
 import { auth, createUserProfileDocument } from "../../firebase/firebase.util"
+import { Link } from "react-router-dom"
 
 import "./register.styles.scss"
 
@@ -54,9 +55,9 @@ class Register extends React.Component {
   render() {
     const { displayName, email, password, confirmPassword } = this.state
     return (
-      <div className="sign-up">
-        <h2 className="title">I do not have an account</h2>
-        <span>Sign up with your email and password</span>
+      <div className="register">
+        <h2 className="title">Register</h2>
+        <span>Register with your email and password</span>
         <form className="sign-up-form" onSubmit={this.handleSubmit}>
           <FormInput
             type="text"
@@ -93,8 +94,16 @@ class Register extends React.Component {
             required
             autoComplete="new-password"
           />
-          <CustomButton type="submit">SIGN UP</CustomButton>
+          <CustomButton type="submit" inverted style={{ width: "100%" }}>
+            Register
+          </CustomButton>
         </form>
+        <div className="login">
+          <h2>I already have an account</h2>
+          <Link to={`/login`}>
+            <span className="loginLink">Login with your account</span>
+          </Link>
+        </div>
       </div>
     )
   }
