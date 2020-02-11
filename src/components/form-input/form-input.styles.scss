@@ -3,26 +3,25 @@ $main-color: black;
 
 // mixing: reusable component in css
 @mixin shrinkLabel {
-  top: -14px;
+  top: -16px;
   font-size: 12px;
   color: $main-color;
 }
 
 .group {
   position: relative;
-  margin: 45px 0;
+  margin: 32px 0;
 
   .form-input {
     background: none;
     background-color: white;
     color: $sub-color;
     font-size: 18px;
-    padding: 10px 10px 10px 5px;
+    padding: 10px 16px 10px 13px;
     display: block;
     width: 100%;
     border: none;
-    border-radius: 0;
-    border-bottom: 1px solid $sub-color;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 2px 4px 0px;
     margin: 25px 0;
 
     &:focus {
@@ -40,6 +39,7 @@ $main-color: black;
 
   .form-input-label {
     color: $sub-color;
+    padding-left: 8px;
     font-size: 16px;
     font-weight: normal;
     position: absolute;

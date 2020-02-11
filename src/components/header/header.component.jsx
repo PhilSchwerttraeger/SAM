@@ -92,11 +92,11 @@ const Header = ({
                 auth.signOut()
               }}
             >
-              Sign out
+              Logout
             </OptionLink>
           </Tooltip>
         ) : (
-          <OptionLink to="/signin">Sign out</OptionLink>
+          <OptionLink to="/signin">Login</OptionLink>
         )}
       </OptionsContainer>
 
