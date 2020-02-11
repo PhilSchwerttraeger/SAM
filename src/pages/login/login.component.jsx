@@ -66,6 +66,11 @@ class Login extends React.Component {
             </CustomButton>
           </div>
         </form>
+        <GoogleButton
+          onClick={signInWithGoogle}
+          type="light"
+          style={{ margin: "16px 0", width: "100%" }}
+        />
         <div className="register">
           <h2>I don't have an account</h2>
           <div style={{ marginBottom: "52px" }}>Create a new account</div>
