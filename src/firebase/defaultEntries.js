@@ -1,24 +1,45 @@
 const defaultEntries = [
   {
     direction: "in",
-    interval: 7,
-    value: 9514.54,
+    interval: 30,
+    value: 875.0,
     start: new Date(),
-    description: "Description text",
+    description: "Index Funds",
   },
   {
     direction: "in",
-    interval: 360,
-    value: 120,
+    interval: 1,
+    value: 5.0,
     start: new Date(),
-    description: "Description text",
+    description: "Passive Income",
+  },
+  {
+    direction: "in",
+    interval: 30,
+    value: 2500.0,
+    start: new Date(),
+    description: "Regular Salary",
+  },
+  {
+    direction: "out",
+    interval: 90,
+    value: 1950.0,
+    start: new Date(),
+    description: "Insurances",
   },
   {
     direction: "out",
     interval: 30,
-    value: 199.99,
+    value: 1550.0,
     start: new Date(),
-    description: "Description text",
+    description: "Rent",
+  },
+  {
+    direction: "out",
+    interval: 180,
+    value: 1410.0,
+    start: new Date(),
+    description: "Leasing",
   },
 ]
 
