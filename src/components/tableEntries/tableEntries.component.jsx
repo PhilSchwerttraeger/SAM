@@ -108,7 +108,11 @@ class Table extends React.Component {
       const visibleDataEntries = visibleDataIndices
         ? visibleDataIndices.map(index => MUIdata[index])
         : null
-      if (visibleDataEntries.length !== visibleEntries.length)
+      if (
+        visibleDataEntries &&
+        visibleEntries &&
+        visibleDataEntries.length !== visibleEntries.length
+      )
         setVisibleEntries(visibleDataEntries)
 
       /*
