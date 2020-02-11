@@ -34,3 +34,8 @@ export const updateCurrentUserAsync = user => {
       .catch(error => updateCurrentUserFailure(error.message))
   }
 }
+
+export const invokeNotification = notification => ({
+  type: UserActionTypes.INVOKE_NOTIFICATION,
+  payload: notification,
+})

@@ -2,6 +2,7 @@ import { UserActionTypes } from "./user.types"
 
 const INITIAL_STATE = {
   currentUser: null,
+  notification: { msg: null, type: null },
 }
 
 const userReducer = (state = INITIAL_STATE, action) => {
@@ -30,6 +31,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
         ...state,
         isStoring: false,
         errorMessage: action.payload,
+      }
+
+    case UserActionTypes.INVOKE_NOTIFICATION:
+      return {
+        ...state,
+        notification: action.payload,
       }
 
     default:

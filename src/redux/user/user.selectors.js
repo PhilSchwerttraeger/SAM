@@ -10,3 +10,8 @@ export const selectCurrentUser = createSelector(
   [selectUser],
   user => user.currentUser,
 )
+
+export const selectNotification = createSelector(
+  [selectUser],
+  user => user.notification,
+)

@@ -5,6 +5,7 @@ import { DashboardPageContainer } from "./dashboard.styles"
 //import TestButtons from "../../components/testButtons/testButtons.component"
 import EditEntryModal from "../../components/editModal/editModal.component"
 import AnalysisContainer from "../../components/analysis/analysisContainer.component"
+import NotificationContainer from "../../components/notification/notificationContainer.component"
 
 class Dashboard extends React.Component {
   render() {
@@ -14,6 +15,7 @@ class Dashboard extends React.Component {
         <TableEntries />
         {/* <TestButtons /> */}
         <EditEntryModal />
+        <NotificationContainer />
       </DashboardPageContainer>
     )
   }
